@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) Alternatives To Git Submodule: Git Subtree | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="Original Post By Nicola Paolucci Developer On May 16, 2013 Update: I wrote a follow up article on the power of Git subtree The Internet is full of articles on why you should not use Git submodules. I">
+<meta name="keywords" content="geek">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) Alternatives To Git Submodule: Git Subtree">
+<meta property="og:url" content="https://athrunsun.github.io/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post By Nicola Paolucci Developer On May 16, 2013 Update: I wrote a follow up article on the power of Git subtree The Internet is full of articles on why you should not use Git submodules. I">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) Alternatives To Git Submodule: Git Subtree">
+<meta name="twitter:description" content="Original Post By Nicola Paolucci Developer On May 16, 2013 Update: I wrote a follow up article on the power of Git subtree The Internet is full of articles on why you should not use Git submodules. I">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) Alternatives To Git Submodule: Git Subtree</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) Alternatives To Git Submodule: Git Subtree</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-02-10T08:48:00.000Z" itemprop="datePublished" class="page-time">
+  2016-02-10
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Git/">Git</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Why-use-subtree-instead-of-submodule"><span class="post-toc-number">1.</span> <span class="post-toc-text">Why use subtree instead of submodule?</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#How-to-use-git-subtree"><span class="post-toc-number">2.</span> <span class="post-toc-text">How to use git subtree?</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#The-quick-and-dirty-way-without-remote-tracking"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">The quick and dirty way without remote tracking</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Adding-the-sub-project-as-a-remote"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Adding the sub-project as a remote</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Contributing-back-to-upstream"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">Contributing back to upstream</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Without-using-the-subtree-command"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">Without using the subtree command</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Conclusions"><span class="post-toc-number">3.</span> <span class="post-toc-text">Conclusions</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-2/alternative_to_git_submodule_git_subtree"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) Alternatives To Git Submodule: Git Subtree</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-02-10 16:48:00" datetime="2016-02-10T08:48:00.000Z"  itemprop="datePublished">2016-02-10</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Git/">Git</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/" target="_blank" rel="external">Original Post</a></p>
+<p>By <a href="http://blogs.atlassian.com/author/npaolucci/" target="_blank" rel="external">Nicola Paolucci</a></p>
+<p><a href="http://blogs.atlassian.com/blog-cat/developer/" target="_blank" rel="external">Developer</a></p>
+<p>On May 16, 2013</p>
+<p>Update: I wrote a follow up <a href="https://developer.atlassian.com/blog/2015/05/the-power-of-git-subtree" target="_blank" rel="external">article on the power of Git subtree</a></p>
+<p>The Internet is full of articles on why you <a href="http://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/" target="_blank" rel="external">should</a> <a href="http://ayende.com/blog/4746/the-problem-with-git-submodules" target="_blank" rel="external">not</a> <a href="http://somethingsinistral.net/blog/git-submodules-are-probably-not-the-answer/" target="_blank" rel="external">use</a> Git submodules. I mostly agree, although I am not so harsh in my evaluation. As I explained in a <a href="http://blogs.atlassian.com/2013/03/git-submodules-workflows-tips/" target="_blank" rel="external">previous post</a>, <code>submodules</code> are useful for a few use cases but have several drawbacks.</p>
+<p>Are there alternatives? The answer is: yes! There are (at least) two tools that can help track the history of software dependencies in your project while allowing you to keep using git:</p>
+<ul>
+<li><a href="https://github.com/git/git/blob/master/contrib/subtree/git-subtree.txt" target="_blank" rel="external">git subtree</a></li>
+<li><a href="https://code.google.com/p/git-repo/" target="_blank" rel="external">google repo</a></li>
+</ul>
+<p>In this post I will be looking at <code>git subtree</code> and show why it is an improvement – albeit not perfect – over <code>git submodule</code>.</p>
+<p>As a working example I run to my usual use case. How do I easily store and keep up to date the vim plugins used in <a href="https://bitbucket.org/durdn/cfg" target="_blank" rel="external">my dotfiles</a>?</p>
+<h3 id="Why-use-subtree-instead-of-submodule"><a href="#Why-use-subtree-instead-of-submodule" class="headerlink" title="Why use subtree instead of submodule?"></a>Why use subtree instead of submodule?</h3><p>There are several reasons why you might find <code>subtree</code> better to use:</p>
+<ul>
+<li>Management of a simple workflow is easy.</li>
+<li>Older version of <code>git</code> are supported (even before <code>v1.5.2</code>).</li>
+<li>The sub-project’s code is available right after the <code>clone</code> of the super project is done.</li>
+<li><code>subtree</code> does not require users of your repository to learn anything new, they can ignore the fact that you are using <code>subtree</code> to manage dependencies.</li>
+<li><code>subtree</code> does not add new metadata files like <code>submodules</code> doe (i.e. <code>.gitmodule</code>).</li>
+<li>Contents of the module can be modified without having a separate repository copy of the dependency somewhere else.</li>
+</ul>
+<p>In my opinion the drawbacks are acceptable:</p>
+<ul>
+<li>You must learn about a new merge strategy (i.e. <code>subtree</code>).</li>
+<li>Contributing code back <code>upstream</code> for the sub-projects is slightly more complicated.</li>
+<li>The responsibility of not mixing super and sub-project code in commits lies with you.</li>
+</ul>
+<h3 id="How-to-use-git-subtree"><a href="#How-to-use-git-subtree" class="headerlink" title="How to use git subtree?"></a>How to use git subtree?</h3><p><code>git subtree</code> is available in stock version of <code>git</code> available since May 2012 – <code>1.7.11</code>+. The version installed by <a href="http://mxcl.github.io/homebrew/" target="_blank" rel="external">homebrew</a> on OSX already has subtree properly wired but on some platforms you might need to follow the <a href="https://github.com/git/git/blob/master/contrib/subtree/INSTALL" target="_blank" rel="external">installation instructions</a>.</p>
+<p>Let me show you the canonical example of tracking a vim plug-in using <code>git subtree</code>.</p>
+<h4 id="The-quick-and-dirty-way-without-remote-tracking"><a href="#The-quick-and-dirty-way-without-remote-tracking" class="headerlink" title="The quick and dirty way without remote tracking"></a>The quick and dirty way without remote tracking</h4><p>If you just want a couple of one liners to cut and paste just read this paragraph.</p>
+<p>First add the <code>subtree</code> at a specified <code>prefix</code> folder:</p>
+<pre><code class="shell">git subtree add --prefix .vim/bundle/tpope-vim-surround https://bitbucket.org/vim-plugins-mirror/vim-surround.git master --squash
+</code></pre>
+<p>(The common practice is to not store the entire history of the sub-project in your main repository, but If you want to preserve it just omit the <code>-squash</code> flag.)</p>
+<p>The above command produces this output:</p>
+<pre><code class="shell">git fetch https://bitbucket.org/vim-plugins-mirror/vim-surround.git master
+warning: no common commits
+remote: Counting objects: 338, done.
+remote: Compressing objects: 100% (145/145), done.
+remote: Total 338 (delta 101), reused 323 (delta 89)
+Receiving objects: 100% (338/338), 71.46 KiB, done.
+Resolving deltas: 100% (101/101), done.
+From https://bitbucket.org/vim-plugins-mirror/vim-surround.git
+* branch            master     -} FETCH_HEAD
+Added dir &#39;.vim/bundle/tpope-vim-surround&#39;
+</code></pre>
+<p>As you can see this records a <code>merge commit</code> by squashing the whole history of the <code>vim-surround</code> repository into a single one:</p>
+<pre><code class="shell">1bda0bd [3 minutes ago] (HEAD, stree) Merge commit &#39;ca1f4da9f0b93346bba9a430c889a95f75dc0a83&#39; as &#39;.vim/bundle/tpope-vim-surround&#39; [Nicola Paolucci]
+ca1f4da [3 minutes ago] Squashed &#39;.vim/bundle/tpope-vim-surround/&#39; content from commit 02199ea [Nicola Paolucci]
+</code></pre>
+<p>If after a while you want to update the code of the plugin from the <code>upstream</code> repository you can just <code>subtree pull</code>:</p>
+<pre><code class="shell">git subtree pull --prefix .vim/bundle/tpope-vim-surround https://bitbucket.org/vim-plugins-mirror/vim-surround.git master --squash
+</code></pre>
+<p>This is very quick and painless but the commands are slightly lengthy and hard to remember. We can make the commands shorter by adding the sub-project as a remote.</p>
+<h4 id="Adding-the-sub-project-as-a-remote"><a href="#Adding-the-sub-project-as-a-remote" class="headerlink" title="Adding the sub-project as a remote"></a>Adding the sub-project as a remote</h4><p>Adding the subtree as a remote allows us to refer to it in shorter form:</p>
+<pre><code class="shell">git remote add -f tpope-vim-surround https://bitbucket.org/vim-plugins-mirror/vim-surround.git
+</code></pre>
+<p>Now we can add the subtree (as before), but now we can refer to the remote in short form:</p>
+<pre><code class="shell">git subtree add --prefix .vim/bundle/tpope-vim-surround tpope-vim-surround master --squash
+</code></pre>
+<p>The command to update the sub-project at a later date becomes:</p>
+<pre><code class="shell">git fetch tpope-vim-surround master
+git subtree pull --prefix .vim/bundle/tpope-vim-surround tpope-vim-surround master --squash
+</code></pre>
+<h4 id="Contributing-back-to-upstream"><a href="#Contributing-back-to-upstream" class="headerlink" title="Contributing back to upstream"></a>Contributing back to upstream</h4><p>We can freely commit our fixes to the sub-project in our local working directory now.</p>
+<p>When it’s time to contribute back to the <code>upstream</code> project we need to fork the project and add it as another remote:</p>
+<pre><code class="shell">git remote add durdn-vim-surround ssh://git@bitbucket.org/durdn/vim-surround.git
+</code></pre>
+<p>Now we can use the <code>subtree push</code> command like the following:</p>
+<pre><code class="shell">git subtree push --prefix=.vim/bundle/tpope-vim-surround/ durdn-vim-surround master
+
+git push using:  durdn-vim-surround master
+Counting objects: 5, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 308 bytes, done.
+Total 3 (delta 2), reused 0 (delta 0)
+To ssh://git@bitbucket.org/durdn/vim-surround.git
+  02199ea..dcacd4b  dcacd4b21fe51c9b5824370b3b224c440b3470cb -} master
+</code></pre>
+<p>After this we’re ready and we can open a <code>pull-request</code> to the maintainer of the package.</p>
+<h4 id="Without-using-the-subtree-command"><a href="#Without-using-the-subtree-command" class="headerlink" title="Without using the subtree command"></a>Without using the subtree command</h4><p><code>git subtree</code> is different from the <a href="https://www.kernel.org/pub/software/scm/git/docs/howto/using-merge-subtree.html" target="_blank" rel="external">subtree merge strategy</a>. You can still use the merge strategy even if for some reason <code>git subtree</code> is not available. Here is how you would go about it:</p>
+<p>Add the dependency as a simple <a href="https://github.com/git/git/blob/master/contrib/subtree/INSTALL" target="_blank" rel="external">git remote</a>:</p>
+<pre><code class="shell">git remote add -f tpope-vim-surround https://bitbucket.org/vim-plugins-mirror/vim-surround.git
+</code></pre>
+<p>Before reading the contents of the dependency into the repository it’s important to record a merge so that we can track the entire tree history of the plug-in up to this point:</p>
+<pre><code class="shell">git merge -s ours --no-commit tpope-vim-surround/master
+</code></pre>
+<p>Which outputs:</p>
+<pre><code class="shell">Automatic merge went well; stopped before committing as requested
+</code></pre>
+<p>We then read the content of the latest tree-object in the plugin repository into our working directory ready to be committed:</p>
+<pre><code class="shell">git read-tree --prefix=.vim/bundle/tpope-vim-surround/ -u tpope-vim-surround/master
+</code></pre>
+<p>Now we can commit (and it will be a merge commit that will preserve the history of the tree we read):</p>
+<pre><code class="shell">git ci -m&quot;[subtree] adding tpope-vim-surround&quot;
+
+[stree 779b094] [subtree] adding tpope-vim-surround
+</code></pre>
+<p>When we want to update the project we can now <code>pull</code> using the <code>subtree</code> merge strategy:</p>
+<pre><code class="shell">git pull -s subtree tpope-vim-surround master
+</code></pre>
+<h3 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h3><p>After having used <code>submodule</code> for a while I appreciate <code>git subtree</code> much more, lots of <code>submodule</code> problems are superseded and solved by <code>subtree</code>. As usual, with all things <code>git</code>, there is a learning curve to make the most of the feature.</p>
+<p>Follow me <a href="http://twitter.com/durdn" target="_blank" rel="external">@durdn</a> for more Git rocking. And check out <a href="http://www.atlassian.com/software/stash/overview" target="_blank" rel="external">Atlassian Stash</a> if you’re looking for a killer tool to manage your Git repos.</p>
+<p><strong>Update: I just wrote a <a href="https://developer.atlassian.com/blog/2015/05/the-power-of-git-subtree" target="_blank" rel="external">new article on the power of Git subtree</a>.</strong></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.502Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/&title=《(Reproduce) Alternatives To Git Submodule: Git Subtree》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/&title=《(Reproduce) Alternatives To Git Submodule: Git Subtree》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Alternatives To Git Submodule: Git Subtree》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/01/22/2016-1/java_spring_classpath_prefix/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Java Spring - &#34;classpath:&#34; and &#34;classpath:*&#34; prefix</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/&title=《(Reproduce) Alternatives To Git Submodule: Git Subtree》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/&title=《(Reproduce) Alternatives To Git Submodule: Git Subtree》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Alternatives To Git Submodule: Git Subtree》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADJ0lEQVR42u3a0W7iUAwE0P7/T7PSvlLozHWQwJw8rbppk2Okuvbcn5/4uv2/Hn39/prfc//15P6LL2xsbOwPYd+eXvfs5w97/qLJE5N3ePSs5OdgY2Njb2U/b1rtPUlp2qLnH0nUgLGxsbG/kp00p6Sl5Q2ypWJjY2Nj580pf93kJfLBJhlysLGxsb+TnQ8DOaN96Uks8cJdGjY2Nvbbs9ug953//cJ8GxsbG/st2bfxNRke8tc9Cw8efhc2Njb2IvbkJdpW1zLOWmnR2LCxsbFXsJP49tpmNlkVtQNJ0bexsbGxP5adL2XaMDg5rFOEsoNd0MMPABsbG3sRuw1r28Hj+f1ngHysiuYwbGxs7I9l17Upx4x2od82wraU2NjY2LvZ+Z/vbcSbt5y8ZHk5sLGxsb+B3Y4Nr4gQ2vLlBf3lKdjY2Nir2YeHYALGJE646n+xsbGx97Fz3tnDriIlTasdabCxsbG3svMBYLIMyo/jtJFzXlZsbGzsHew21m3bSRsJTCKE4h2wsbGx17GTpf9ZaSbNKR9LikUSNjY29jp2zpiMCnkIkR++mayWsLGxsTexzxZJ8+EkH1TaBhmF1tjY2NiL2PNF0rzxnB0JmscY2NjY2DvYya/4swGjHW/OnpV8hr+UFRsbG3sRu+1yLaxtMMn75C3wj9JgY2Njr2C3I0R7yGZyWKflHZ5UwsbGxl7BzgOAPExtl0eTUacOG7CxsbEXsfNFT76mz+85K1wbJzwsEDY2NvYidjsqJCPK2TKoPZSTt1VsbGzs3eyzoDR/QF37o2ihbnjY2NjYi9jtwqiFzWPaeUjwR4mxsbGxV7AnjHZIyBdSyeiSN8UoJMDGxsb+cPZVQe+1rfHaY0PY2NjYm9i38moP01zVfvLlUTSQYGNjYy9inx12aQF5Ec+GislKCxsbG3sHe9K08qVSPhG05cjjh8t2XdjY2NhvyT5rEvmf++3LHXbaWIGNjY2Nfe3oMllI5UEFNjY2NvZZQNv+5LoVnbVVbGxs7HXstiW0hyOTjGISMOeFxsbGxt7HHq1m4kigPeiTxwBXxRjY2NjYH8j+B1kCbfHW97TDAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

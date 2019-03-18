@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="Original Post By Chuan Ji Oct 19, 2011 I have always been curious how rooting actually worked behind the scenes. After recently acquiring a new Eee Pad Slider, a Honeycomb tablet that so far no one ha">
+<meta name="keywords" content="geek">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process">
+<meta property="og:url" content="https://athrunsun.github.io/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post By Chuan Ji Oct 19, 2011 I have always been curious how rooting actually worked behind the scenes. After recently acquiring a new Eee Pad Slider, a Honeycomb tablet that so far no one ha">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process">
+<meta name="twitter:description" content="Original Post By Chuan Ji Oct 19, 2011 I have always been curious how rooting actually worked behind the scenes. After recently acquiring a new Eee Pad Slider, a Honeycomb tablet that so far no one ha">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-02-13T09:28:00.000Z" itemprop="datePublished" class="page-time">
+  2016-02-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#I-The-Goal"><span class="post-toc-number">1.</span> <span class="post-toc-text">I. The Goal</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#II-The-Enemy-Protection-Mechanisms-On-A-Stock-OEM-Android-ROM"><span class="post-toc-number">2.</span> <span class="post-toc-text">II. The Enemy: Protection Mechanisms On A Stock OEM Android ROM</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-Bootloader-and-Recovery"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1. Bootloader and Recovery</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-ADB"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2. ADB</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-Android-UI"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3. Android UI</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#III-Fighting-the-System"><span class="post-toc-number">3.</span> <span class="post-toc-text">III. Fighting the System</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#IV-See-It-In-Action"><span class="post-toc-number">4.</span> <span class="post-toc-text">IV. See It In Action!</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-02-13 17:28:00" datetime="2016-02-13T09:28:00.000Z"  itemprop="datePublished">2016-02-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="http://seasonofcode.com/posts/how-rooting-works-a-technical-explanation-of-the-android-rooting-process.html" target="_blank" rel="external">Original Post</a></p>
+<p>By Chuan Ji</p>
+<p>Oct 19, 2011</p>
+<p>I have always been curious how rooting actually worked behind the scenes. After recently acquiring a new Eee Pad Slider, a Honeycomb tablet that so far no one has been able to root, the frustration of being locked out of this amazing piece of hardware with so much potential led me to finally sit down and figure out what exactly rooting means, what it entails from a technical perspective, and how hackers out in the wild are approaching the rooting of a new device. Although all this information is out there, I have not been able to find a good article that had both the level of technical detail that I wanted and an appropriate introduction to the big picture, and so I decided to write my own.</p>
+<p>This is NOT a noob-friendly guide to rooting a particular Android device. Rather, it is a general explanation of how stock Android ROMs try to prevent unprivileged access, how hackers attack this problem and how rooting software leverage various exploits to defeat these security mechanisms.</p>
+<h3 id="I-The-Goal"><a href="#I-The-Goal" class="headerlink" title="I. The Goal"></a>I. The Goal</h3><p>Let us first take a step back and consider <em>exactly</em> what we mean by rooting. Forget flashing custom ROMs, enabling WiFi tethering or installing Superuser.apk; fundamentally, rooting is about obtaining root access to the underlying Linux system beneath Android and thus gaining absolute control over the software that is running on the device. Things that require root access on a typical Linux system — mounting and unmounting file systems, starting your favorite SSH or HTTP or DHCP or DNS or proxy servers, killing system processes, chroot-ing, etc., — require root access on Android as well. Being able to run arbitrary commands as the root user allows you to do absolutely <em>anything</em> on a Linux / Android system, and this is real goal of rooting.</p>
+<p>Stock OEM Android builds typically do not allow users to execute arbitrary code as root. This essentially means that you as a user are granted only limited control over your own device; you can make your device do task X only if the manufacturer explicitly decided to allow it and shipped a program to do it. You will not be able to use third-party apps to accomplish a task that your manufacturer does not wish you to do. WiFi tethering is a good example of this. Cell phone carriers obviously do not want you to tether your phone without paying them additional charges. Therefore, many phones come pre-packaged with their own proprietary WiFi tethering apps that demand extraneous fees. But without root access, you will not be able to install a free alternative like <a href="http://code.google.com/p/android-wifi-tether/" target="_blank" rel="external">Wireless Tether For Root Users</a>. Why this is accepted practice in the industry is a mystery to me. The only difference between cell phones, tablets and computers is their form factor; but while a PC vendor would fail spectacularly if they tried to prevent users from running arbitrary programs on their machines, cell phone vendors are clearly not judged along the same lines. But such arguments would belong to another article.</p>
+<h3 id="II-The-Enemy-Protection-Mechanisms-On-A-Stock-OEM-Android-ROM"><a href="#II-The-Enemy-Protection-Mechanisms-On-A-Stock-OEM-Android-ROM" class="headerlink" title="II. The Enemy: Protection Mechanisms On A Stock OEM Android ROM"></a>II. The Enemy: Protection Mechanisms On A Stock OEM Android ROM</h3><h4 id="1-Bootloader-and-Recovery"><a href="#1-Bootloader-and-Recovery" class="headerlink" title="1. Bootloader and Recovery"></a>1. Bootloader and Recovery</h4><p>The bootloader, the first piece of code executed when your device is powered on, is responsible for loading the Android OS and the recovery system and flashing a new ROM. People refer to some bootloaders as “unlocked” if a user can flash and boot arbitrary ROMs without hacking; unfortunately, many Android devices have locked bootloaders that you would have to hack around in order to make them do anything other than boot the stock ROM. A Samsung smartphone I had used some months ago had an unlocked bootloader; I could press a certain combination of hardware keys on the phone, connect it to my computer, and flash any custom ROM onto it using Samsung’s utilities without having to circumvent any protection mechanisms. The same is not true for my Motorola Droid 2 Global; the bootloader, as far as I know, cannot be hacked. The Eee Pad Slider, on the other hand, is an interesting beast; as with other nVidia Tegra 2 based devices, its bootloader is controllable through the <code>nvflash</code> utility, but only if you know the <em>secure boot key</em> (SBK) of the device. (The SBK is a private AES key used to encrypt the commands sent to the bootloader; the bootloader will only accept the command if it has been encrypted by the particular key of the device.) Currently, as the SBK of the Eee Pad Slider is not publicly known, the bootloader remains inaccessible.</p>
+<p>System recovery is the second piece of low-level code on board any Android device. It is separate from the Android userland and is typically located on its own partition; it is usually booted by the bootloader when you press a certain combination of hardware keys. It is important to understand that it is a totally independent program; Linux and the Android userland is not loaded when you boot into recovery, and any high-level concept such as root does not exist here. It is simple program that really is a very primitive OS, and it has absolute control over the system and will do anything you want as long as the code to do it is built in. Stock recovery varies with the manufacturer, but often includes functionalities like reformatting the <code>/data</code> partition (factory reset) and flashing an update ROM (<code>update.zip</code>, located at the root of the external microSD card) signed by the manufacturer. Note I said signed by the manufacturer; typically it is not possible to flash custom update files unless you obtain the private key of the manufacturer and sign your custom update with it, which is both impossible for most and illegal under certain jurisdictions. However, since recovery is stored in a partition just like <code>/system</code>, <code>/data</code> and <code>/cache</code> (more about that later), you can replace it with a custom recovery if you have root access in Linux / Android. Most people do just that upon rooting their device; <a href="http://www.clockworkmod.com/" target="_blank" rel="external">ClockworkMod Recovery</a> is a popular third-party recovery image, and allows you to flash arbitrary ROMs, backup and restore partitions, and lots of other magic.</p>
+<h4 id="2-ADB"><a href="#2-ADB" class="headerlink" title="2. ADB"></a>2. ADB</h4><p>ADB (see <a href="http://developer.android.com/guide/developing/tools/adb.html" target="_blank" rel="external">the official documentation for ADB</a>) allows a PC or a Mac to connect to an Android device and perform certain operations. One such operation is to launch a simple shell on the device, using the command <code>adb shell</code>. The real question is what user do the commands executed by that shell process run as. It turns out that it depends on the value of an Android system property, named <code>ro.secure</code>. (You can view the value of this property by typing <code>getprop ro.secure</code> either through an ADB shell or on a terminal emulator on the device.) If <code>ro.secure=0</code>, an ADB shell will run commands as the root user on the device. But if <code>ro.secure=1</code>, an ADB shell will run commands as an unprivileged user on the device. Guess what <code>ro.secure</code> is set to on almost every stock OEM Android build. But can we change the value of <code>ro.secure</code> on a system? The answer is no, as implied by the <code>ro</code> in the name of the property. The value of this property is set at boot time from the <code>default.prop</code> file in the root directory. The contents of the root directory are essentially <em>copied</em> from a partition in the internal storage on boot, but you cannot write to the partition if you are not already root. In other words, this property denies root access via ADB, and the only way you could change it is by gaining root access in the first place. Thus, it is secure.</p>
+<h4 id="3-Android-UI"><a href="#3-Android-UI" class="headerlink" title="3. Android UI"></a>3. Android UI</h4><p>On an Android system, all Android applications that you can see or interact with directly are running as _un_privileged users in sandboxes. Logically, a program running as an unprivileged user cannot start another program that is run as the privileged user; otherwise any program can simply start another copy of itself in privileged mode and gain privileged access to everything. On the other hand, a program running as root can start another program as root or as an unprivileged user. On Linux, privilege escalation is usually accomplished via the <code>su</code> and <code>sudo</code> programs; they are often the only programs in the system that are able to execute the system call <code>setuid(0)</code> that changes the current program from running as an unprivileged user to running as root. Apps that label themselves as requiring root are in reality just executing other programs (often just native binaries packaged with the app) through <code>su</code>. Unsurprisingly, stock OEM ROMs never come with these <code>su</code>. You cannot just download it or copy it over either; it needs to have its SUID bit set, which indicates to the system that the programs this allowed to escalate its runtime privileges to root. But of course, if you are not root, you cannot set the SUID bit on a program. To summarize, what this means is that any program that you can interact with on Android (and hence running in unprivileged mode) is unable to either<br>1) gain privileged access and execute in privileged mode, or<br>2) start another program that executes in privileged mode. If this holds, the Android system by itself is pretty much immune to privilege escalation attempts.</p>
+<p>We will see the loophole exploited by on-device rooting applications in the next section.</p>
+<h3 id="III-Fighting-the-System"><a href="#III-Fighting-the-System" class="headerlink" title="III. Fighting the System"></a>III. Fighting the System</h3><p>So how the hell do you root an Android? Well, from the security mechanisms described above, we can figure out how to attack each component in turn.</p>
+<p>If your device happens to have an unlocked bootloader, you’re pretty much done. An example is the Samsung phone that I had had. Since the bootloader allowed the flashing of arbitrary ROMs, somebody essentially pulled the stock ROM from the phone (using <code>dd</code>), added <code>su</code>, and repackaged it into a modified ROM. All I as a user needed to do was to power off the phone, press a certain combination of hardware keys to start the phone in flashing mode, and use Samsung’s utilities to flash the modified ROM onto the phone.</p>
+<p>Believe it or not, certain manufacturers don’t actually set <code>ro.secure</code> to 1. If that is the case, rooting is even easier; just plug the phone into your computer and run ADB, and you now have a shell that can execute any program as root. You can then mount <code>/system as</code> read-write, install <code>su</code> and all your dreams have come true.</p>
+<p>But many other Android devices have locked bootloaders and <code>ro.secure</code> set. As explained above, they should not be root-able because you can only interact with unprivileged programs on the system and they cannot help you execute any privileged code. So what’s the solution?</p>
+<p>We know that a number of important programs, including low-level system services, must run as root even on Android in order to access hardware resources. Typing <code>ps</code> on an Android shell (either via ADB or a terminal emulator on the device) will give you an idea. These programs are started by the <code>init</code> process, the first process started by the kernel (I often feel that the kernel and the <code>init</code> process are kind of analogous to Adam and Eve — the kernel spawns <code>init</code> in a particular fashion, and <code>init</code> then goes on and spawns all other processes) which has to run as root because it needs to start other privileged system processes.</p>
+<p>Now here’s the key insight: if you can hack / trick one of these system processes running in privileged mode to execute your arbitrary code, you have just gained privileged access to the system. This how all one-click-root methods work, including z4root, gingerbreak, and so on. If you are truly curious, I highly recommend <a href="http://jon.oberheide.org/files/bsides11-dontrootrobots.pdf" target="_blank" rel="external">this excellent presentation on the various exploits used by current rooting tools</a>, but the details are not as relevant here as the simple idea behind them. That idea is that there are vulnerabilities in the system processes running as root in the background that, if exploited, will allow us to execute arbitrary code as root. Well, that “arbitrary code” is most certainly a piece of code that mounts <code>/system</code> in read-write mode and installs a copy of <code>su</code> permanently on the system, so that from then on we don’t need to jump through the hoops to run the programs we really wanted to run in the first place.</p>
+<p>Since Android is open source as is Linux, what people have done is to scrutinize and reason about the source code of the various system services until they find a security hole they can leverage. This becomes increasingly hard as Google and the maintainers of the various pieces of code fix those particular vulnerabilities when they are discovered and published, which means that the exploits will eventually become obsolete with newer devices. But the good news is that manufacturers are not stupid enough to push OTA updates to fix a vulnerability just to prevent rooting as it is very expensive for them; in addition, devices in the market are always lagging behind the newest software releases. Thus, it takes quite some time before these rooting tools are rendered useless by new patches, and by then hopefully other exploits would have been discovered.</p>
+<h3 id="IV-See-It-In-Action"><a href="#IV-See-It-In-Action" class="headerlink" title="IV. See It In Action!"></a>IV. See It In Action!</h3><p>To see all of this in action, you are invited to check out my follow-up article: <a href="http://seasonofcode.com/posts/android-rooting-a-developers-guide.html" target="_blank" rel="external">Android Rooting: A Developer’s Guide</a>, which explains how I applied this stuff to figure out how to root an actual device.</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.502Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/&title=《(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/&title=《(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/02/13/2016-2/android_rooting_a_developers_guide/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) Android Rooting: A Developer&#39;s Guide</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/02/10/2016-2/alternative_to_git_submodule_git_subtree/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) Alternatives To Git Submodule: Git Subtree</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/&title=《(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/&title=《(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD80lEQVR42u3awW7bQAwEUP//T6dATi0aWTPkKmmB51PgyCvp6TAil69X/Pn4/My+//jtc/Wrq2P+/r5d4fXEBwcOHDhwBLd69WmXTm7p/d/J9eTr5PeIAwcOHDjOcmxu7P0KyfHJrebXkD9OHDhw4MDxsxw5TVs+zeJ2FsM4cODAgePf4WgDLCqZFm3K96vhwIEDB46f5WgjbdOqa4mT9uLs+nHgwIEDxxMcm3j7X/5+cL4DBw4cOHDEEdtu8yQr50E7KxdXd4cDBw4cONYcyTBBcuI2ufJftcfkZeTl+jhw4MCBY8HRDqi1zbi8LMxbivsgP3BBOHDgwIFjFGyzQM2/aTeWonGE+KHiwIEDB47nOPJYbS+uDeB8M2m2BVW8FuDAgQMHjhFHHkKbQYFNaZc/pPzB3Gw44cCBAweOhznyMilvzM3KqmS1zcgFDhw4cOA4xTFrFOYl1j6G89ubfYMDBw4cOE5x5Hsus+jKW3UbuFODEThw4MCB4yzHrOWXtBRnm0+bVuCqRYgDBw4cOA7ttmwaf3mItq29WWOxDftIEQcOHDhwBBxRAo8isA3X9mHsm4lfrIkDBw4cONYcSdsuH1ZrS6/8XWB/rmLcAQcOHDhwLDjaoN1sTbXrt2ffxPmwhMOBAwcOHBdHti22pLiaNRnryYs4novHgAMHDhw4DnFs2nBJKTj7bXv2dpzu5u0DBw4cOHCUHHm7bXOaliwvC3OgKIZx4MCBA8chjrbU2SC2JdksqoftRRw4cODAcYgjH2Vo24Vt63B2TB7wNw8JBw4cOHCsOU5tEeUo+S7PZmOsfYQ4cODAgeMsR94+y1uBz43E7TfJbq4NBw4cOHCsOdqiK4nkNkTbAiwv/9pSEwcOHDhw7Dn2I2tt6OalV15eHnj+OHDgwIHjAY5ZHG4Cctbma8+ePHgcOHDgwHGKI28I5tGYxPksYtt12rEMHDhw4MCx4UiGz/JGYV7OtaVgPlrRbp798Q0OHDhw4DjEsRkCyAukvEXYNgRnfJdBiwMHDhw41hxJ+TTbzsmLq02gtqMMq1YgDhw4cOAIONpG4X5jqY3MU83Hm3vHgQMHDhxrjvxC88s6NrIWx200mhC/XuDAgQMHjg3HsTmI9c3sn2o7JPEFIg4cOHDgWHNs2nxtadQ2+NqqKv8vDhw4cOB4miNvAs4ai20MzzaiZscXYw04cODAgaPkmI0j5M3E9jbaDaTN+q/2TQEHDhw4cBzimJVw7bhD2wTMKSM+HDhw4MDx7Rz5hlCOmI9EtOFdvyLgwIEDB45DHKfGBdpSMLnt54q3y6DFgQMHDhwLjrMDDbOoa8uzHDHfysKBAwcOHGuOXxrWNDa8bbQVAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

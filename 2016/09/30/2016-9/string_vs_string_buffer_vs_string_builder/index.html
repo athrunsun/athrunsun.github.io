@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) String、StringBuffer与StringBuilder之间区别 | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java,String">
+    <meta name="description" content="Original Post Reproduced from here 这两天在看Java编程的书，看到String的时候将之前没有弄懂的都理清了一遍，本来想将String之间的区别记录下来的，在找资料的时候发现这位网友整理的很不错，值得借鉴。我就在这个上面添一点自己的理解了。原文地址在上面。 关于这三个类在字符串处理中的位置不言而喻，那么他们到底有什么优缺点，到底什么时候该用谁呢？下面我们从以下几">
+<meta name="keywords" content="Java,String">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) String、StringBuffer与StringBuilder之间区别">
+<meta property="og:url" content="https://athrunsun.github.io/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post Reproduced from here 这两天在看Java编程的书，看到String的时候将之前没有弄懂的都理清了一遍，本来想将String之间的区别记录下来的，在找资料的时候发现这位网友整理的很不错，值得借鉴。我就在这个上面添一点自己的理解了。原文地址在上面。 关于这三个类在字符串处理中的位置不言而喻，那么他们到底有什么优缺点，到底什么时候该用谁呢？下面我们从以下几">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) String、StringBuffer与StringBuilder之间区别">
+<meta name="twitter:description" content="Original Post Reproduced from here 这两天在看Java编程的书，看到String的时候将之前没有弄懂的都理清了一遍，本来想将String之间的区别记录下来的，在找资料的时候发现这位网友整理的很不错，值得借鉴。我就在这个上面添一点自己的理解了。原文地址在上面。 关于这三个类在字符串处理中的位置不言而喻，那么他们到底有什么优缺点，到底什么时候该用谁呢？下面我们从以下几">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) String、StringBuffer与StringBuilder之间区别</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) String、StringBuffer与StringBuilder之间区别</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-09-30T05:47:00.000Z" itemprop="datePublished" class="page-time">
+  2016-09-30
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+
+<article id="post-2016-9/string_vs_string_buffer_vs_string_builder"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) String、StringBuffer与StringBuilder之间区别</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-09-30 13:47:00" datetime="2016-09-30T05:47:00.000Z"  itemprop="datePublished">2016-09-30</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="http://silencewt.github.io/2015/05/11/【转载】String、StringBuffer与StringBuilder之间区别/" target="_blank" rel="external">Original Post</a></p>
+<p>Reproduced from <a href="http://www.cnblogs.com/A_ming/archive/2010/04/13/1711395.html" target="_blank" rel="external">here</a></p>
+<p>这两天在看Java编程的书，看到<code>String</code>的时候将之前没有弄懂的都理清了一遍，本来想将<code>String</code>之间的区别记录下来的，在找资料的时候发现这位网友整理的很不错，值得借鉴。我就在这个上面添一点自己的理解了。原文地址在上面。</p>
+<p>关于这三个类在字符串处理中的位置不言而喻，那么他们到底有什么优缺点，到底什么时候该用谁呢？下面我们从以下几点说明一下:</p>
+<p>1.三者在执行速度方面的比较：<code>StringBuilder</code> &gt; <code>StringBuffer</code> &gt; <code>String</code></p>
+<p>2.<code>String</code> &lt; (<code>StringBuffer</code>，<code>StringBuilder</code>)的原因</p>
+<pre><code>String：字符串常量
+StringBuffer：字符串变量
+StringBuilder：字符串变量
+</code></pre><p>从上面的名字可以看到，<code>String</code>是“字符串常量”，也就是不可改变的对象。对于这句话的理解你可能会产生这样一个疑问，比如这段代码：</p>
+<pre><code class="java">String s = &quot;abcd&quot;;
+s = s + 1;
+System.out.print(s);// result: abcd1
+</code></pre>
+<p>我们明明就是改变了<code>String</code>型的变量s的，为什么说是没有改变呢? 其实这是一种欺骗，JVM是这样解析这段代码的：首先创建对象s，赋予一个abcd，然后再创建一个新的对象s用来执行第二行代码，也就是说我们之前对象s并没有变化，所以我们说<code>String</code>类型是不可改变的对象了，由于这种机制，每当用<code>String</code>操作字符串时，实际上是在不断的创建新的对象，而原来的对象就会变为垃圾被ＧＣ回收掉，可想而知这样执行效率会有多底。<code>String</code>类中每一个看起来会修改<code>String</code>值的方法，实际上都是创建一个全新的<code>String</code>对象，已包含修改后的字符串，而最初的<code>String</code>对象则丝毫未动。</p>
+<p>而<code>StringBuffer</code>与<code>StringBuilder</code>就不一样了，他们是字符串变量，是可改变的对象，每当我们用它们对字符串做操作时，实际上是在一个对象上操作的，这样就不会像String一样创建一些而外的对象进行操作了，当然速度就快了。<code>StringBuffer</code>和<code>String</code>有很多相似之处，但是其内部的实现却有很大的差别，<code>StringBuffer</code>其实是一个分装一个字符数组，同时提供了对这个字符数组的相关操作。<code>StringBuffer()</code>构造一个字符缓冲区，其初始容量为16个字符。</p>
+<p>3.一个特殊的例子：</p>
+<pre><code class="java">String str = &quot;This is only a&quot; + &quot;simple&quot; + &quot;test&quot;;
+StringBuffer builder = new StringBuilder(&quot;This is only a&quot;).append(&quot;simple&quot;).append(&quot;test&quot;);
+</code></pre>
+<p>你会很惊讶的发现，生成str对象的速度简直太快了，而这个时候<code>StringBuffer</code>居然速度上根本一点都不占优势。其实这是JVM的一个把戏，实际上<code>String str = &quot;This is only a&quot; + &quot; simple&quot; + &quot;test&quot;;</code>其实就是<code>String str = &quot;This is only a simple test&quot;;</code></p>
+<p>所以不需要太多的时间了。但大家这里要注意的是，如果你的字符串是来自另外的<code>String</code>对象的话，速度就没那么快了，譬如：</p>
+<pre><code class="java">String str2 = &quot;This is only a&quot;;
+String str3 = &quot;simple&quot;;
+String str4 = &quot;test&quot;;
+String str1 = str2 +str3 + str4;
+</code></pre>
+<p>这时候JVM会规规矩矩的按照原来的方式去做。</p>
+<p>4.<code>StringBuilder</code>与<code>StringBuffer</code></p>
+<pre><code>StringBuilder：线程非安全的
+StringBuffer：线程安全的
+</code></pre><p>当我们在字符串缓冲区被多个线程使用时，JVM不能保证<code>StringBuilder</code>的操作是安全的，虽然他的速度最快，但是可以保证<code>StringBuffer</code>是可以正确操作的。当然大多数情况下就是我们是在单线程下进行的操作，所以大多数情况下是建议用<code>StringBuilder</code>而不用<code>StringBuffer</code>的，就是速度的原因。</p>
+<p>对于三者使用的总结：</p>
+<blockquote>
+<p>1.如果要操作少量的数据用 = String</p>
+<p>2.单线程操作字符串缓冲区下操作大量数据 = StringBuilder</p>
+<p>3.多线程操作字符串缓冲区下操作大量数据 = StringBuffer.</p>
+</blockquote>
+<p>关于三者的速度，自己写了个测试代码：</p>
+<pre><code class="java">package com.wt.others;
+
+public class StringCompare {
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        String text = &quot;&quot;;
+        long beginTime = 0l;
+        long endTime = 0l;
+        StringBuffer buffer = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
+        beginTime = System.currentTimeMillis();
+        for(int i=0; i&lt;20000; i++){
+            buffer.append(String.valueOf(i));
+        }
+        endTime = System.currentTimeMillis();
+        System.out.println(&quot;StringBuffer time is : &quot;+ (endTime - beginTime));
+
+        beginTime = System.currentTimeMillis();
+        for(int i=0; i&lt;20000; i++){
+            builder.append(String.valueOf(i));
+        }
+        endTime = System.currentTimeMillis();
+        System.out.println(&quot;StringBuilder time is : &quot;+ (endTime - beginTime));
+
+        beginTime = System.currentTimeMillis();
+        for(int i=0; i&lt;20000; i++){
+            text = text + i;
+        }
+        endTime = System.currentTimeMillis();
+        System.out.println(&quot;String time is : &quot;+ (endTime - beginTime));
+    }
+}
+</code></pre>
+<p>运行结果可以直观的看出：</p>
+<pre><code>StringBuffer time is : 5
+StringBuilder time is : 3
+String time is : 1550
+</code></pre><p>如果将20000改为100，结果为：</p>
+<pre><code>StringBuffer time is : 1
+StringBuilder time is : 0
+String time is : 1
+</code></pre><p>还是可以直观看出在单线程使用时，<code>StringBuilder</code>速度很快。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.502Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/String/">String</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/&title=《(Reproduce) String、StringBuffer与StringBuilder之间区别》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/&title=《(Reproduce) String、StringBuffer与StringBuilder之间区别》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) String、StringBuffer与StringBuilder之间区别》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/10/03/2016-10/git_reset_checkout_revert/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) Reset, Checkout, and Revert</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/09/30/2016-9/software_testing_google_approach/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) 《Google软件测试之道》摘录</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/&title=《(Reproduce) String、StringBuffer与StringBuilder之间区别》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/&title=《(Reproduce) String、StringBuffer与StringBuilder之间区别》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) String、StringBuffer与StringBuilder之间区别》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADMklEQVR42u3aQW7jMBAEQP//0w6wpwUS2d1DGZDo0ilIZIs1OYzYw8cjvp7/rv9//n39/uvR97z+bHv/0bNOuLCxsbFvwn6+vI4W1Bbo6J7kzqOVvC7EkQUbGxt7V3YCmDWklcaTFC5fJzY2NjZ2u81oS5Zve7CxsbGx1xvYrCjtdiVpddjY2NjYeZNoCzEr38q/5CNZGjY2Nvbl2bPQ/5o/f3y+jY2NjX0x9nPhag/ozLYQybakXjk2Njb2Rux27JoclMmP5uSfyocKRWPDxsbG3ojdxv15ZDP7fT7KTQKpN4XAxsbG3og9a11to1ovVv5t+ZYJGxsb++7sZFCabxJW3vzzGKsdFWNjY2Pvyk5e3/NGNQuPZo2tPbIzZGBjY2Nfnt02rTbQyVtdW9C8HNjY2Nh7s9eP2nxi49EWKH86NjY29n7sfKHtcZmVjUr73GSsG/VwbGxs7Nuy8yZxbqXz0WweOeUlw8bGxt6Dnbyst8dikk+1UX4+Qo5GBdjY2NgbsVei+faeNgyahUfF92BjY2NvxE4ev77NyMfDbcPLx8/Y2NjYe7NnS88b4VngduP0poliY2Njb8GeBf3Drhi3sXxrkawHGxsbe1d2Hve3A9r1AUMbOWFjY2N/M7sdAyQtJF/EyuGePGb6o2NjY2Njfw074c0Klx+XbFvgm4EBNjY29tbslWFqEj/lsVR70LOIrrCxsbG3Zs8eOVvEbEgwKxA2Njb2ruw8vp9tA9oIKV/JrFiH/3NsbGzs27LbkCiv5frIIWlUbUQ1zMawsbGxL8wuIvXyYUnMlLe0WbT05tuwsbGxN2Kf1ajWNyE5YNbeHtHZTGxsbOx7s1vketiU/GY2bF66sLGxsW/IXt9ItO3n3GipHS1jY2Nj78F+llfyop8fwVy5fzYexsbGxt6PvfLGngwMZsPgNh6aBVvY2NjYO7HzEexZIVResraJFscxsbGxsbdjt82mDZvqlOukUOnNSSVsbGzsr2SvB/RnbVryYAsbGxsbe2W428b9s9ZVp2jY2NjY27GThc42G20AlAdbbWiFjY2NvSv7rE1F+/izGlJ+AGhpvo2NjY19RfYPEV6Bpd2fuvYAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

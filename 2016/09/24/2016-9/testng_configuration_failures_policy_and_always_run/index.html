@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Testing,TestNG">
+    <meta name="description" content="Original Post TestNG Listeners are fundamental in setting up and managing our integration with Selenium driver behind the scenes of a test. The issue we may run into from time to time is the driver in">
+<meta name="keywords" content="Testing,TestNG">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun">
+<meta property="og:url" content="https://athrunsun.github.io/2016/09/24/2016-9/testng_configuration_failures_policy_and_always_run/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post TestNG Listeners are fundamental in setting up and managing our integration with Selenium driver behind the scenes of a test. The issue we may run into from time to time is the driver in">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun">
+<meta name="twitter:description" content="Original Post TestNG Listeners are fundamental in setting up and managing our integration with Selenium driver behind the scenes of a test. The issue we may run into from time to time is the driver in">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-09-24T06:00:00.000Z" itemprop="datePublished" class="page-time">
+  2016-09-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Testing/">Testing</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#alwaysRun"><span class="post-toc-number">1.</span> <span class="post-toc-text">alwaysRun</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Should-you-add-alwaysRun-to-your-before-listeners"><span class="post-toc-number">2.</span> <span class="post-toc-text">Should you add alwaysRun to your before listeners?</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#configFailurePolicy"><span class="post-toc-number">3.</span> <span class="post-toc-text">configFailurePolicy</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-9/testng_configuration_failures_policy_and_always_run"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-09-24 14:00:00" datetime="2016-09-24T06:00:00.000Z"  itemprop="datePublished">2016-09-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Testing/">Testing</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="https://community.perfectomobile.com/posts/1094590-testng-configuration-failures-policy-and-alwaysrun" target="_blank" rel="external">Original Post</a></p>
+<p>TestNG Listeners are fundamental in setting up and managing our integration with Selenium driver behind the scenes of a test. The issue we may run into from time to time is the driver initialization may fail and unless you suppress the exception this will cause a configuration failure in testNG.</p>
+<p>Below I will attempt to explain some things you can do to overcome the configuration failure and help you better handle it in your framework.</p>
+<h1 id="alwaysRun"><a href="#alwaysRun" class="headerlink" title="alwaysRun"></a>alwaysRun</h1><p>When configuration failures occur testNG’s default behavior is to then skip every <strong>after</strong> listener down the line. For instance if your exception occurred in <code>beforeClass</code> or <code>beforeMethod</code> then <code>afterMethod</code> and <code>afterClass</code> will be skipped. You can solve the issue of subsequent <strong>after</strong> listeners not being executed by adding the attribute <code>alwaysRun=true</code> to the annotation of the listeners. This could be useful if you are collecting reporting information during your execution and your rely on these listeners to set some data for your reporting.</p>
+<p>Remember to create flags to verify if any additional cleanup should be performed in the event that the <strong>before</strong> listeners DID fail. For instance if the driver was never created calling driver quit could throw another exception in your <code>afterMethod</code> execution.</p>
+<pre><code class="java">@AfterMethod(alwaysRun = true)
+    public void afterMethod(Method method) {
+</code></pre>
+<h1 id="Should-you-add-alwaysRun-to-your-before-listeners"><a href="#Should-you-add-alwaysRun-to-your-before-listeners" class="headerlink" title="Should you add alwaysRun to your before listeners?"></a>Should you add <code>alwaysRun</code> to your <strong>before</strong> listeners?</h1><p>If you are adding group names to your methods you probably should but that is entirely up to you. When adding <code>alwaysRun</code> to <strong>before</strong> listeners it tells the listener that it is ok to run even if it doesn’t contain the group name for the test specified in your <code>testng.xml</code> suite.</p>
+<pre><code class="java">@BeforeMethod(alwaysRun = true)
+    public void beforeMethod(Method method)
+</code></pre>
+<p>If you wish to have a different set of <strong>before</strong> listeners which perform different behaviors based on the group name then you shouldn’t use <code>alwaysRun</code>.</p>
+<h1 id="configFailurePolicy"><a href="#configFailurePolicy" class="headerlink" title="configFailurePolicy"></a>configFailurePolicy</h1><p>The default behavior of the <code>configFailurePolicy</code> setting has changed, purposely or not, from the behavior of “continue” to the behavior of “skip” over time. What this controls is whether the test methods should attempt to be ran regardless of a configuration failure. When set to skip the methods are skipped, when set to continue the methods attempt to run anyways.</p>
+<p>In general you likely want your tests to skip because there is no need to attempt to run them if the driver has failed to initialize, to do so would only lead to additional failures and waste additional execution time. To force the setting of skip add the <code>configfailurepolicy=&quot;skip&quot;</code> to the the suite tag of your <code>testng.xml</code>.</p>
+<p>However if you wish to have the execution continue on for some reason you can change this to <code>configfailurepolicy=&quot;continue&quot;</code>.</p>
+<p>As of this writing the most current version of testNG is 6.9.10 and its default configfailurepolicy (what happens when this attribute is omitted from your testng.xml) is set to skip.</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE suite SYSTEM &quot;http://testng.org/testng-1.0.dtd&quot;&gt;
+&lt;suite name=&quot;Suite&quot; parallel=&quot;tests&quot; thread-count=&quot;10&quot; verbose=&quot;10&quot; configfailurepolicy=&quot;skip&quot;&gt;
+  &lt;listeners&gt;
+    &lt;listener class-name=&quot;org.uncommons.reportng.HTMLReporter&quot;/&gt;
+    &lt;listener class-name=&quot;org.uncommons.reportng.JUnitXMLReporter&quot;/&gt;
+    &lt;listener class-name=&quot;utilities.TestListener&quot; /&gt;
+  &lt;/listeners&gt;
+  &lt;test name=&quot;Test Chrome implicitNotVisible&quot;&gt;
+  &lt;parameter name=&quot;targetEnvironment&quot; value=&quot;Chrome&quot; /&gt;
+    &lt;parameter name=&quot;network&quot; value=&quot;&quot; /&gt;
+    &lt;parameter name=&quot;networkLatency&quot; value=&quot;&quot; /&gt;
+    &lt;classes&gt;
+      &lt;class name=&quot;AmazonTesting.SleepTestSystem&quot;&gt;
+        &lt;methods&gt;
+          &lt;include name=&quot;implicitNotVisible&quot; /&gt;
+        &lt;/methods&gt;
+      &lt;/class&gt;
+    &lt;/classes&gt;
+  &lt;/test&gt;
+&lt;/suite&gt;
+</code></pre>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.502Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TestNG/">TestNG</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Testing/">Testing</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/09/24/2016-9/testng_configuration_failures_policy_and_always_run/&title=《(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/09/24/2016-9/testng_configuration_failures_policy_and_always_run/&title=《(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/09/24/2016-9/testng_configuration_failures_policy_and_always_run/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/09/24/2016-9/testng_configuration_failures_policy_and_always_run/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/09/24/2016-9/testng_configuration_failures_policy_and_always_run/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/09/30/2016-9/java_is_pass_by_value/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) Java is Pass-by-Value, Dammit!</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/03/24/2016-3/git_multiple_working_trees/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Checkout multiple git working trees</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/09/24/2016-9/testng_configuration_failures_policy_and_always_run/&title=《(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/09/24/2016-9/testng_configuration_failures_policy_and_always_run/&title=《(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/09/24/2016-9/testng_configuration_failures_policy_and_always_run/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) TestNG Configuration Failures, Policy, and alwaysRun》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/09/24/2016-9/testng_configuration_failures_policy_and_always_run/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/09/24/2016-9/testng_configuration_failures_policy_and_always_run/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADK0lEQVR42u3aS27bQBAFQN//0gqQVYJE8nvdFCCOiyuDkoZTw0W7P19f8fX4ff1758/7j5dXvuaz9ZNfXXxhY2Nj34SdbLflJceU7yrZc3302NjY2MexXweYPCAlj2yDUILMLdjY2Ng/mZ1sJT++dg+vDxcbGxsbuw1gCWAT6pJ12idiY2Njn81ONtGmFglj883N68HGxsY+id02ej/57zf2t7GxsbE/kv0or7bYlBeDNmM6tQIbGxv7IHbbdm0HaGYhcFaWalfAxsbGPoOdl2xaUpIezDadJx5P18HGxsY+iD1rlBaxsTyUq1oFUUqDjY2NfRB7Nl7TIvMSUvLc5Cl1WoKNjY19Q/ZstCV5QF7ET44v79hGYRgbGxv7IHbSJHiNnN3fNIPbxvA362BjY2PfnN2Wh/aN4Xyjs+ZE8YaxsbGxj2ZvCvGbTeejk6unY2NjYx/Ezq+2cNOO3SRBaMZb4bGxsbE/nt1usS0G7Qd92oJUFIaxsbGxD2JHJZjR8E1bTtqUmYbNY2xsbOyj2ZtFZ8GsHdaZtSuKJgE2Njb2TdjtP/ev/062lZelckab3mBjY2OfzZ4VcWbhZ9b6nR1HHWmxsbGxb8LelI3y7nGS5GyOZrYTbGxs7PPYbRqQlI3aMNlGmcuego2NjX1bdrJE8mlyZO3ITh6o2heAjY2NfRJ7U5ppk4HkCFbpRPlKsLGxsc9gXzVG0wanzVhP+5K+ec/Y2NjYN2dveqD5Yc3KT/ke2uIXNjY29qnsJPwkW9+nMZsQm6+MjY2NfQb7UV77wtMszZi1n5++KmxsbOyD2LPg0Zaf2l/l+8nDMDY2Nvap7CSpyO/k5aF8i2/MurCxsbEPYs/+9d+P17Rlo83Kf93BxsbGPo49KyrNkpMkWM6aEKsONjY2NvZt2fmVb3cT8JJv5sWm/OCwsbGx786+akRy9mmShORrFokNNjY29nHsttyzaRK0gfMthSdsbGzsH8luy/p5GSgvYM1Sl//8FhsbGxt7NILTNhiSUZ5hkMPGxsY+jp0v1A7o7APhtetjY2Njn8duG72z7+ct3jZA7od+sLGxsW/L/gUBMzntKFZYcQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

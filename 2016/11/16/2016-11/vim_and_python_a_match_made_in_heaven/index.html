@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) VIM and Python - a Match Made in Heaven | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Vim,Python">
+    <meta name="description" content="Original Post It has come to my attention that somebody ‘round these parts has been preaching the gospel of Sublime Text 3. Well, as the resident senior developer (err, old fogey), I feel it’s my duty">
+<meta name="keywords" content="Vim,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) VIM and Python - a Match Made in Heaven">
+<meta property="og:url" content="https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post It has come to my attention that somebody ‘round these parts has been preaching the gospel of Sublime Text 3. Well, as the resident senior developer (err, old fogey), I feel it’s my duty">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/vim_as_python_ide_overview.png">
+<meta property="og:image" content="https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/installing_plugins.png">
+<meta property="og:image" content="https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/split_layouts.png">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) VIM and Python - a Match Made in Heaven">
+<meta name="twitter:description" content="Original Post It has come to my attention that somebody ‘round these parts has been preaching the gospel of Sublime Text 3. Well, as the resident senior developer (err, old fogey), I feel it’s my duty">
+<meta name="twitter:image" content="https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/vim_as_python_ide_overview.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) VIM and Python - a Match Made in Heaven</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) VIM and Python - a Match Made in Heaven</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-16T02:09:00.000Z" itemprop="datePublished" class="page-time">
+  2016-11-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Vim/">Vim</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Installing"><span class="post-toc-number">1.</span> <span class="post-toc-text">Installing</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#OSX"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">OSX</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#NIX"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">*NIX</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Windows"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">Windows</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Verifying-the-Install"><span class="post-toc-number">2.</span> <span class="post-toc-text">Verifying the Install</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#VIM-Extensions"><span class="post-toc-number">3.</span> <span class="post-toc-text">VIM Extensions</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Vundle"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">Vundle</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Let’s-make-an-IDE"><span class="post-toc-number">4.</span> <span class="post-toc-text">Let’s make an IDE</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Ditch-the-Mouse"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">Ditch the Mouse</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Split-Layouts"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">Split Layouts</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Buffers"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">Buffers</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Code-Folding"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">Code Folding</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Python-Indentation"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">Python Indentation</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PEP8"><span class="post-toc-number">4.5.1.</span> <span class="post-toc-text">PEP8</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Auto-Indentation"><span class="post-toc-number">4.5.2.</span> <span class="post-toc-text">Auto-Indentation</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Flagging-Unnecessary-Whitespace"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">Flagging Unnecessary Whitespace</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#UTF8-Support"><span class="post-toc-number">4.7.</span> <span class="post-toc-text">UTF8 Support</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Auto-complete"><span class="post-toc-number">4.8.</span> <span class="post-toc-text">Auto-complete</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Virtualenv-Support"><span class="post-toc-number">4.9.</span> <span class="post-toc-text">Virtualenv Support</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Syntax-Checking-Highlighting"><span class="post-toc-number">4.10.</span> <span class="post-toc-text">Syntax Checking/Highlighting</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Color-Schemes"><span class="post-toc-number">4.11.</span> <span class="post-toc-text">Color Schemes</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#File-Browsing"><span class="post-toc-number">4.12.</span> <span class="post-toc-text">File Browsing</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Super-Searching"><span class="post-toc-number">4.13.</span> <span class="post-toc-text">Super Searching</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Line-Numbering"><span class="post-toc-number">4.14.</span> <span class="post-toc-text">Line Numbering</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Git-Integration"><span class="post-toc-number">4.15.</span> <span class="post-toc-text">Git Integration</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Powerline"><span class="post-toc-number">4.16.</span> <span class="post-toc-text">Powerline</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#System-clipboard"><span class="post-toc-number">4.17.</span> <span class="post-toc-text">System clipboard</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#VIM-in-the-Shell"><span class="post-toc-number">4.18.</span> <span class="post-toc-text">VIM in the Shell</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Conclusion"><span class="post-toc-number">5.</span> <span class="post-toc-text">Conclusion</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Resources"><span class="post-toc-number">6.</span> <span class="post-toc-text">Resources</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-11/vim_and_python_a_match_made_in_heaven"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) VIM and Python - a Match Made in Heaven</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-16 10:09:00" datetime="2016-11-16T02:09:00.000Z"  itemprop="datePublished">2016-11-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Vim/">Vim</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/" target="_blank" rel="external">Original Post</a></p>
+<p>It has come to my attention that somebody ‘round these parts has been preaching the gospel of <a href="https://realpython.com/blog/python/setting-up-sublime-text-3-for-full-stack-python-development/" target="_blank" rel="external">Sublime Text 3</a>. Well, as the resident senior developer (err, old fogey), I feel it’s my duty to provide a counterexample by way of the only TRUE Python development environment you will ever need – and that environment is of course <a href="http://www.vim.org/" target="_blank" rel="external">VIM</a>. That’s right. VIM is ubiquitous, fast, and never crashes. And it can do just about anything!</p>
+<p>On the down side though, VIM can be a pain to configure, but fear not – <strong>This article will show you how to get a powerful VIM environment setup, geared towards wrangling Python day in and day out.</strong></p>
+<img src="/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/vim_as_python_ide_overview.png" alt="VIM as python IDE overview" title="VIM as python IDE overview">
+<blockquote>
+<p>To get the most out of this article you should have at least a basic understanding on how to use VIM and its command modes. If you’re just getting started, check out <a href="http://vim-adventures.com/" target="_blank" rel="external">this resource</a> or <a href="http://www.openvim.com/" target="_blank" rel="external">this one</a>. Spend some time with it before moving on.</p>
+</blockquote>
+<h1 id="Installing"><a href="#Installing" class="headerlink" title="Installing"></a>Installing</h1><p>Since VIM comes pre-installed on a number of <a href="https://en.wikipedia.org/wiki/Unix-like" target="_blank" rel="external">*nix</a> systems, let’s first and foremost check to see if it’s installed:</p>
+<pre><code class="shell">vim --version
+</code></pre>
+<p>If installed, you should see something like:</p>
+<pre><code>VIM - Vi IMproved 7.3 (2010 Aug 15, compiled Nov  5 2014 21:00:28)
+Compiled by root@apple.com
+Normal version without GUI.  Features included (+) or not (-):
+-arabic +autocmd -balloon_eval -browse +builtin_terms +byte_offset +cindent
+-clientserver -clipboard +cmdline_compl +cmdline_hist +cmdline_info +comments
+-conceal +cryptv +cscope +cursorbind +cursorshape +dialog_con +diff +digraphs
+-dnd -ebcdic -emacs_tags +eval +ex_extra +extra_search -farsi +file_in_path
++find_in_path +float +folding -footer +fork() -gettext -hangul_input +iconv
++insert_expand +jumplist -keymap -langmap +libcall +linebreak +lispindent
++listcmds +localmap -lua +menu +mksession +modify_fname +mouse -mouseshape
+-mouse_dec -mouse_gpm -mouse_jsbterm -mouse_netterm -mouse_sysmouse
++mouse_xterm +multi_byte +multi_lang -mzscheme +netbeans_intg -osfiletype
++path_extra -perl +persistent_undo +postscript +printer -profile +python/dyn
+-python3 +quickfix +reltime -rightleft +ruby/dyn +scrollbind +signs
++smartindent -sniff +startuptime +statusline -sun_workshop +syntax +tag_binary
++tag_old_static -tag_any_white -tcl +terminfo +termresponse +textobjects +title
+ -toolbar +user_commands +vertsplit +virtualedit +visual +visualextra +viminfo
++vreplace +wildignore +wildmenu +windows +writebackup -X11 -xfontset -xim -xsmp
+ -xterm_clipboard -xterm_save
+   system vimrc file: &quot;$VIM/vimrc&quot;
+     user vimrc file: &quot;$HOME/.vimrc&quot;
+      user exrc file: &quot;$HOME/.exrc&quot;
+  fall-back for $VIM: &quot;/usr/share/vim&quot;
+Compilation: gcc -c -I. -D_FORTIFY_SOURCE=0 -Iproto -DHAVE_CONFIG_H -arch i386 -arch x86_64 -g -Os -pipe
+Linking: gcc -arch i386 -arch x86_64 -o vim -lncurses
+</code></pre><p>At this point, you want to look for two things-</p>
+<ol>
+<li><em>The VIM version.</em> This should be &gt; 7.3.</li>
+<li><em>Python Support.</em> Under the list of features, make sure you see <code>+python</code>.</li>
+</ol>
+<p>If you have both of these, then move right along to <a href="https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/#vim-extensions" target="_blank" rel="external">VIM Extensions</a>. If not, it’s time to <a href="http://www.vim.org/download.php" target="_blank" rel="external">install/upgrade</a>.</p>
+<h2 id="OSX"><a href="#OSX" class="headerlink" title="OSX"></a>OSX</h2><p>Grab <a href="http://brew.sh/" target="_blank" rel="external">Homebrew</a>, if you don’t already have it, and run:</p>
+<pre><code class="shell">$ brew update
+$ brew install vim
+</code></pre>
+<h2 id="NIX"><a href="#NIX" class="headerlink" title="*NIX"></a>*NIX</h2><p>For Debian or Ubuntu you can try:</p>
+<pre><code class="shell">$ sudo apt-get remove vim-tiny
+$ sudo apt-get update
+$ sudo apt-get install vim
+</code></pre>
+<p>For other flavors of Linux check the docs from your package manager. Here is a link to get you started: <a href="http://oss.sgi.com/LDP/HOWTO/Vim-HOWTO/introduction.html" target="_blank" rel="external">Install Vim</a></p>
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><p>There are many different ways to install VIM on Windows. Start with the <a href="http://www.vim.org/download.php#pc" target="_blank" rel="external">official docs</a>.</p>
+<h1 id="Verifying-the-Install"><a href="#Verifying-the-Install" class="headerlink" title="Verifying the Install"></a>Verifying the Install</h1><p>Make sure you have installed VIM &gt; 7.3 with Python support. Again, run <code>vim --version</code> to verify this. If you want to check the specific version of Python used in VIM, run <code>:python import sys; print(sys.version)</code> from within VIM:</p>
+<pre><code>2.7.6 (default, Sep  9 2014, 15:04:36)
+[GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.39)]
+</code></pre><p>This should output your current version of Python. If you get an error, then you don’t have Python support and you either need to reinstall or recompile if you’re building from source.</p>
+<p>With VIM installed, let’s look at how to customize VIM for Python development.</p>
+<h1 id="VIM-Extensions"><a href="#VIM-Extensions" class="headerlink" title="VIM Extensions"></a>VIM Extensions</h1><p>VIM can do a lot of what developers need right out of the box. However, VIM is also massively extensible and there are some pretty killer extensions that make VIM behave more like a “modern” IDE. So, the very first thing you need is a good extension manager.</p>
+<blockquote>
+<p>Extensions in VIM are often referred to as bundles or <a href="http://vimdoc.sourceforge.net/htmldoc/usr_05.html#plugin" target="_blank" rel="external">plugins</a>.</p>
+</blockquote>
+<h2 id="Vundle"><a href="#Vundle" class="headerlink" title="Vundle"></a>Vundle</h2><p>VIM has several extension managers, but the one we strongly recommend is <a href="https://github.com/gmarik/Vundle.vim" target="_blank" rel="external">Vundle</a>. Think of it as pip for VIM. It makes installing and updating packages trivial.</p>
+<p>Let’s get Vundle installed:</p>
+<pre><code class="shell">$ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+</code></pre>
+<p>This command downloads the Vundle plugin manager and chucks it in your VIM bundles directory. Now you can manage all your extensions from the <code>.vimrc</code> <a href="https://github.com/amix/vimrc" target="_blank" rel="external">configuration file</a>.</p>
+<p>Add the file to your user’s home directory:</p>
+<pre><code class="shell">$ touch ~/.vimrc
+</code></pre>
+<p>Now set up Vundle in your <code>.vimrc</code> by adding the following to the <em>top</em> of the file:</p>
+<pre><code>set nocompatible              &quot; required
+filetype off                  &quot; required
+
+&quot; set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+&quot; alternatively, pass a path where Vundle should install plugins
+&quot;call vundle#begin(&#39;~/some/path/here&#39;)
+
+&quot; let Vundle manage Vundle, required
+Plugin &#39;gmarik/Vundle.vim&#39;
+
+&quot; Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
+
+
+&quot; All of your Plugins must be added before the following line
+call vundle#end()            &quot; required
+filetype plugin indent on    &quot; required
+</code></pre><p>That’s it. You’re now set up to use Vundle. Afterward you can add the plugins you want to install, then fire up VIM and run:</p>
+<pre><code>:PluginInstall
+</code></pre><p>This command tells Vundle to work its magic – downloading all the plugins and installing/updating them for you.</p>
+<img src="/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/installing_plugins.png" alt="Installing plugins" title="Installing plugins">
+<blockquote>
+<p>For Windows users, check out the <a href="https://github.com/gmarik/Vundle.vim/wiki/Vundle-for-Windows" target="_blank" rel="external">Windows Installation Instructions</a>.</p>
+</blockquote>
+<h1 id="Let’s-make-an-IDE"><a href="#Let’s-make-an-IDE" class="headerlink" title="Let’s make an IDE"></a>Let’s make an IDE</h1><p>We couldn’t possibly list all the VIM features, but let’s look at a quick list of some of the powerful out-of-the-box features perfect for Python development.</p>
+<h2 id="Ditch-the-Mouse"><a href="#Ditch-the-Mouse" class="headerlink" title="Ditch the Mouse"></a>Ditch the Mouse</h2><p>Probably the <em>MOST</em> important feature of VIM is that it doesn’t require a mouse (except for the graphical variants of VIM). At first this may seem like a horrible idea, but after you invest the time – and it does take time – to learn the <a href="http://stackoverflow.com/a/5400978/1799408" target="_blank" rel="external">key combinations</a>, you will speed up your overall workflow!</p>
+<h2 id="Split-Layouts"><a href="#Split-Layouts" class="headerlink" title="Split Layouts"></a>Split Layouts</h2><p>Open a file with <code>:sv &lt;filename&gt;</code> and you split the layout vertically (e.g., the new file opens below the current file) or reverse the keys to <code>:vs &lt;filename&gt;</code> and you get a horizontal split (e.g., the new file opens to the right of your current file).</p>
+<img src="/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/split_layouts.png" alt="Split layouts" title="Split layouts">
+<p>You can nest splits as well, so you can have splits inside of splits, horizontal and vertical, to your heart’s content. As we all know we often need to look at several files at once when developing.</p>
+<p><strong>Pro Tip:</strong> Make sure to utilize tab completion to find files after typing <code>:sv</code>.</p>
+<p><strong>Pro Tip:</strong> You can also specify different areas of the screen where the splits should occur by adding the following lines to the <em>.vimrc</em> file:</p>
+<pre><code>set splitbelow
+set splitright
+</code></pre><p><strong>Pro Tip:</strong> Want to move between the splits without using the mouse? Simply add the following to <em>.vimrc</em> and you can jump between splits with just one key combination:</p>
+<pre><code>&quot;split navigations
+nnoremap &lt;C-J&gt; &lt;C-W&gt;&lt;C-J&gt;
+nnoremap &lt;C-K&gt; &lt;C-W&gt;&lt;C-K&gt;
+nnoremap &lt;C-L&gt; &lt;C-W&gt;&lt;C-L&gt;
+nnoremap &lt;C-H&gt; &lt;C-W&gt;&lt;C-H&gt;
+</code></pre><p>Key combos:</p>
+<ul>
+<li>Ctrl-j move to the split below</li>
+<li>Ctrl-k move to the split above</li>
+<li>Ctrl-l move to the split to the right</li>
+<li>Ctrl-h move to the split to the left</li>
+</ul>
+<p>In other words, press <code>Ctrl</code> plus the standard VIM movement key to move to a specific pane.</p>
+<blockquote>
+<p>But wait what is the <code>nnoremap</code> thing? – in a nutshell <code>nnoremap</code> remaps one key combination to another; the no part means remap the key in normal mode as opposed to visual mode. Basically <code>nnoremap &lt;C-J&gt; &lt;C-W&gt;&lt;C-j&gt;</code> says in normal mode when I hit <code>&lt;C-J&gt;</code> do <code>&lt;C-W&gt;&lt;C-j&gt;</code> instead. More info can be found <a href="http://stackoverflow.com/questions/3776117/what-is-the-difference-between-the-remap-noremap-nnoremap-and-vnoremap-mapping" target="_blank" rel="external">here</a>.</p>
+</blockquote>
+<h2 id="Buffers"><a href="#Buffers" class="headerlink" title="Buffers"></a>Buffers</h2><p>While VIM can do tabs, many prefer <a href="http://vim.wikia.com/wiki/Vim_buffer_FAQ" target="_blank" rel="external">buffers</a> and splits. You can think of a <a href="http://stackoverflow.com/questions/26708822/why-do-vim-experts-prefer-buffers-over-tabs" target="_blank" rel="external">buffer</a> as a recently opened file. VIM provides easy access to recent buffers, just type <code>:b &lt;buffer name or number&gt;</code> to switch to an open buffer (autocomplete works here as well). You can also use <code>:ls</code> to list all buffers.</p>
+<p><strong>Pro Tip:</strong> At the end of the <code>:ls</code> output, VIM will prompt with <code>Hit enter to continue</code>. You can instead type <code>:b &lt;buffer number&gt;</code> and pick the buffer immediately while you still have the list displayed (which saves a keystroke and having to remember the buffer number).</p>
+<h2 id="Code-Folding"><a href="#Code-Folding" class="headerlink" title="Code Folding"></a>Code Folding</h2><p>Most “modern” IDEs provide a way to collapse (or <a href="http://vim.wikia.com/wiki/Folding" target="_blank" rel="external">fold</a>) methods and classes, showing you just the class/method definition lines instead of all the code.</p>
+<p>You can enable that in <em>.vimrc</em> with the following lines:</p>
+<pre><code>&quot; Enable folding
+set foldmethod=indent
+set foldlevel=99
+</code></pre><p>This works all right, but you have to type <code>za</code> to fold (and unfold). The space key would be much better. So add this line to your <em>.vimrc</em> file as well:</p>
+<pre><code>&quot; Enable folding with the spacebar
+nnoremap &lt;space&gt; za
+</code></pre><p>Now you can easily hide portions of your code that you’re not currently working on.</p>
+<p>The initial command, <code>set foldmethod=indent</code>, creates folds based upon line indents. This however often creates more folds that you really want. But have no fear! There are several extensions that attempt to rectify that. We recommend <a href="https://github.com/tmhedberg/SimpylFold" target="_blank" rel="external">SimpylFold</a>. Install it with Vundle by adding the following line to <code>.vimrc</code></p>
+<pre><code>Plugin &#39;tmhedberg/SimpylFold&#39;
+</code></pre><blockquote>
+<p>Don’t forget to install the plugin – <code>:PluginInstall</code>.</p>
+</blockquote>
+<p><strong>Pro Tip:</strong> Want to see the docstrings for folded code?</p>
+<pre><code>let g:SimpylFold_docstring_preview=1
+</code></pre><h2 id="Python-Indentation"><a href="#Python-Indentation" class="headerlink" title="Python Indentation"></a>Python Indentation</h2><p>Of course for code folding to work based on indentations, you want your indents to be correct. Again VIM falls short a bit out of the box because it doesn’t handle auto-indent after a function definition. Two things can be done with indentation:</p>
+<ol>
+<li>The first is to get indentation to follow PEP8 standards.</li>
+<li>The second part is to better handle auto-indentation.</li>
+</ol>
+<h3 id="PEP8"><a href="#PEP8" class="headerlink" title="PEP8"></a>PEP8</h3><p>To add the proper PEP8 indentation, add the following to your <em>.vimrc</em>:</p>
+<pre><code>au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=79
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
+</code></pre><p>This will give you the standard four spaces when you hit tab, ensure your line length doesn’t go beyond 80 characters, and store the file in a unix format so you don’t get a bunch of conversion issues when checking into GitHub and/or sharing with other users.</p>
+<p>And for <em>full stack development</em> you can use another <code>au</code> command for each filetype:</p>
+<pre><code>au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
+</code></pre><p>This way you can have different settings for different filetypes. There is also a plugin called <a href="http://vim.wikia.com/wiki/Keep_your_vimrc_file_clean" target="_blank" rel="external">ftypes</a> which will allow you to have a separate file for each filetype you want to maintain settings for, so use that if you see fit.</p>
+<h3 id="Auto-Indentation"><a href="#Auto-Indentation" class="headerlink" title="Auto-Indentation"></a>Auto-Indentation</h3><p>Autoindent will help but in some cases (like when a function signature spans multiple lines), it doesn’t always do what you want, especially when it comes to conforming to PEP8 standards. To fix that, we can use the <a href="https://github.com/vim-scripts/indentpython.vim" target="_blank" rel="external">indentpython.vim</a> extension:</p>
+<pre><code>Plugin &#39;vim-scripts/indentpython.vim&#39;
+</code></pre><h2 id="Flagging-Unnecessary-Whitespace"><a href="#Flagging-Unnecessary-Whitespace" class="headerlink" title="Flagging Unnecessary Whitespace"></a>Flagging Unnecessary Whitespace</h2><p>We also want to avoid extraneous whitespace. We can have VIM flag that for us so that it’s easy to spot – and then remove.</p>
+<pre><code>au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+</code></pre><p>This will mark extra whitespace as bad, and probably color it red.</p>
+<h2 id="UTF8-Support"><a href="#UTF8-Support" class="headerlink" title="UTF8 Support"></a>UTF8 Support</h2><p>For the most part, you should be using UTF8 when working with Python, especially if you’re working with Python 3. Make sure VIM knows that with the following line:</p>
+<pre><code>set encoding=utf-8
+</code></pre><h2 id="Auto-complete"><a href="#Auto-complete" class="headerlink" title="Auto-complete"></a>Auto-complete</h2><p>The best plugin for Python auto-complete is <a href="https://github.com/Valloric/YouCompleteMe" target="_blank" rel="external">YouCompleteMe</a>. Again, use Vundle to install:</p>
+<pre><code>Bundle &#39;Valloric/YouCompleteMe&#39;
+</code></pre><p>Under the hood YouCompleteMe uses a few different auto-completers (including <a href="https://github.com/davidhalter/jedi" target="_blank" rel="external">Jedi</a> for Python), and it needs some C libraries to be installed for it to work correctly. The docs have very good <a href="https://github.com/Valloric/YouCompleteMe#mac-os-x-super-quick-installation" target="_blank" rel="external">installation instructions</a> so I won’t repeat them here, but be sure you follow them.</p>
+<p>It works out of the box pretty well, but let’s add a few customizations:</p>
+<pre><code>let g:ycm_autoclose_preview_window_after_completion=1
+map &lt;leader&gt;g  :YcmCompleter GoToDefinitionElseDeclaration&lt;CR&gt;
+</code></pre><p>The former line ensures that the autocomplete window goes away when you’re done with it, and the latter defines a shortcut for goto definition.</p>
+<blockquote>
+<p>My leader key is mapped to space, so <code>space-g</code> will goto definition of whatever I’m currently on. Helpful when exploring new code.</p>
+</blockquote>
+<h2 id="Virtualenv-Support"><a href="#Virtualenv-Support" class="headerlink" title="Virtualenv Support"></a>Virtualenv Support</h2><p>One issue with the goto definition above is that VIM by default doesn’t know anything about virtualenv, so you have to make VIM and YouCompleteMe aware of your virtualenv by adding the following lines of code to <em>.vimrc</em>:</p>
+<pre><code>&quot;python with virtualenv support
+py &lt;&lt; EOF
+import os
+import sys
+if &#39;VIRTUAL_ENV&#39; in os.environ:
+  project_base_dir = os.environ[&#39;VIRTUAL_ENV&#39;]
+  activate_this = os.path.join(project_base_dir, &#39;bin/activate_this.py&#39;)
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
+</code></pre><p>This determines if you are running inside a virtualenv, and then switches to that specific virtualenv and sets up your system path so that YouCompleteMe will find the appropriate site packages.</p>
+<h2 id="Syntax-Checking-Highlighting"><a href="#Syntax-Checking-Highlighting" class="headerlink" title="Syntax Checking/Highlighting"></a>Syntax Checking/Highlighting</h2><p>You can have VIM check your syntax on each save with the <a href="https://github.com/scrooloose/syntastic" target="_blank" rel="external">syntastic</a> extension:</p>
+<pre><code>Plugin &#39;scrooloose/syntastic&#39;
+</code></pre><p>Also add PEP8 checking with this nifty little plugin:</p>
+<pre><code>Plugin &#39;nvie/vim-flake8&#39;
+</code></pre><p>Finally, make your code look pretty:</p>
+<pre><code>let python_highlight_all=1
+syntax on
+</code></pre><h2 id="Color-Schemes"><a href="#Color-Schemes" class="headerlink" title="Color Schemes"></a>Color Schemes</h2><p>Color schemes work in conjunction with the basic color scheme that you are using. Check out <a href="https://github.com/altercation/vim-colors-solarized" target="_blank" rel="external">solarized</a> for GUI mode, and <a href="https://github.com/jnurmine/Zenburn" target="_blank" rel="external">Zenburn</a> for terminal mode:</p>
+<pre><code>Plugin &#39;jnurmine/Zenburn&#39;
+Plugin &#39;altercation/vim-colors-solarized&#39;
+</code></pre><p>Then just add a bit of logic to define which scheme to use based upon the VIM mode:</p>
+<pre><code>if has(&#39;gui_running&#39;)
+  set background=dark
+  colorscheme solarized
+else
+  colorscheme zenburn
+endif
+</code></pre><p>Solarized also ships with a dark and light theme. To make switching between them very easy (by pressing F5) add:</p>
+<pre><code>call togglebg#map(&quot;&lt;F5&gt;&quot;)
+</code></pre><h2 id="File-Browsing"><a href="#File-Browsing" class="headerlink" title="File Browsing"></a>File Browsing</h2><p>If you want a proper file tree then <a href="https://github.com/scrooloose/nerdtree" target="_blank" rel="external">NERDTree</a> is the way to go.</p>
+<pre><code>Plugin &#39;scrooloose/nerdtree&#39;
+</code></pre><p>And if you want to use tabs, utilize <a href="https://github.com/jistr/vim-nerdtree-tabs" target="_blank" rel="external">vim-nerdtree-tabs</a>:</p>
+<pre><code>Plugin &#39;jistr/vim-nerdtree-tabs&#39;
+</code></pre><p>Want to hide <code>.pyc</code> files? Then add the following line:</p>
+<pre><code>let NERDTreeIgnore=[&#39;\.pyc$&#39;, &#39;\~$&#39;] &quot;ignore files in NERDTree
+</code></pre><h2 id="Super-Searching"><a href="#Super-Searching" class="headerlink" title="Super Searching"></a>Super Searching</h2><p>Want to search for basically anything from VIM? Check out <a href="https://github.com/kien/ctrlp.vim" target="_blank" rel="external">ctrlP</a>:</p>
+<pre><code>Plugin &#39;kien/ctrlp.vim&#39;
+</code></pre><p>As expected, press <code>Ctrl-P</code> to enable the search and then just start typing. If your search matches anything close to the file you’re looking for, it will find it. Oh – and it’s not just files; it will find tags as well! For more, check out this <a href="http://www.youtube.com/watch?v=9XrHk3xjYsw" target="_blank" rel="external">YouTube video</a>.</p>
+<h2 id="Line-Numbering"><a href="#Line-Numbering" class="headerlink" title="Line Numbering"></a>Line Numbering</h2><p>Turn on line numbers on the side of the screen with:</p>
+<pre><code>set nu
+</code></pre><h2 id="Git-Integration"><a href="#Git-Integration" class="headerlink" title="Git Integration"></a>Git Integration</h2><p>Want to perform basic git commands without leaving the comfort of VIM? Then <a href="https://github.com/tpope/vim-fugitive" target="_blank" rel="external">vim-fugitive</a> is the way to go:</p>
+<pre><code>Plugin &#39;tpope/vim-fugitive&#39;
+</code></pre><p>See it in action on VIMcasts.</p>
+<h2 id="Powerline"><a href="#Powerline" class="headerlink" title="Powerline"></a>Powerline</h2><p><a href="https://github.com/powerline/powerline" target="_blank" rel="external">Powerline</a> is a status bar that displays things like the current virtualenv, git branch, files being edited, and much more.</p>
+<p>It’s written in Python, and it supports a number of other environments like zsh, bash, tmux, and IPython.</p>
+<pre><code>Plugin &#39;Lokaltog/powerline&#39;, {&#39;rtp&#39;: &#39;powerline/bindings/vim/&#39;}
+</code></pre><p>Take a look at the <a href="http://powerline.readthedocs.org/en/latest/" target="_blank" rel="external">official docs</a> for all the configuration options.</p>
+<h2 id="System-clipboard"><a href="#System-clipboard" class="headerlink" title="System clipboard"></a>System clipboard</h2><p>Vim usually has its own clipboard and ignores the system keyboards, but sometimes you might want to cut, copy, and/or paste to/from other applications outside of VIM. On OSX, you can access your system clipboard with this line:</p>
+<pre><code>set clipboard=unnamed
+</code></pre><h2 id="VIM-in-the-Shell"><a href="#VIM-in-the-Shell" class="headerlink" title="VIM in the Shell"></a>VIM in the Shell</h2><p>And finally, once you’ve mastered VIM and its keyboard shortcuts, you’ll often find yourself getting annoyed with the lack of those same shortcuts in the shell. Fear not, most shells have a VI mode. To turn it on for your shell, add the following line to <code>~/.inputrc</code>:</p>
+<pre><code>set editing-mode vi
+</code></pre><p>Now you will not only be able to use VIM key combos in the shell, but also in the Python interpreter and any other tool that uses GNU Readline (i.e., most database shells). Now you have VIM everywhere!</p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>That’s more or less it (for Python development, at least). There are a ton of other extensions that you can use, as well as alternatives to everything detailed in this post. What are some of your favorite extensions? How have you configured VIM to match your personality?</p>
+<p>Here is a link to my current <a href="https://github.com/j1z0/vim-config/blob/master/vimrc" target="_blank" rel="external">VIM config</a>. Got one of your own? Please share!</p>
+<p>Thanks for reading!</p>
+<h1 id="Resources"><a href="#Resources" class="headerlink" title="Resources"></a>Resources</h1><ol>
+<li><a href="http://linuxcommand.org/man_pages/vimtutor1.html" target="_blank" rel="external">VIM Tutor</a> comes with VIM, so once VIM is install just type <code>vimtutor</code> from the command line and the program will teach you how to use VIM by, well, using VIM.</li>
+<li><a href="http://vimcasts.org/" target="_blank" rel="external">VIMcasts</a> are advanced tutorial videos describing how to use many of VIM’s features.</li>
+<li><a href="http://vimdoc.sourceforge.net/" target="_blank" rel="external">Official VIM docs</a></li>
+<li><a href="http://www.openvim.com/" target="_blank" rel="external">Open Vim</a></li>
+<li><a href="http://learnvimscriptthehardway.stevelosh.com/" target="_blank" rel="external">Learn Vimscript the Hard Way</a> is perfect for learning vimscript.</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.498Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/&title=《(Reproduce) VIM and Python - a Match Made in Heaven》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/&title=《(Reproduce) VIM and Python - a Match Made in Heaven》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) VIM and Python - a Match Made in Heaven》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/11/16/2016-11/setting_up_vim_for_javascript_development/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/10/09/2016-10/update_github_pages_with_travis_ci/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Update personal blog hosted on github pages automatically with Travis CI</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/&title=《(Reproduce) VIM and Python - a Match Made in Heaven》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/&title=《(Reproduce) VIM and Python - a Match Made in Heaven》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) VIM and Python - a Match Made in Heaven》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADKUlEQVR42u3awW7iQBAE0Pz/T7PXRLt4q3qMBJ3nEzIQ+42lNF09X1/x8fh2/H3m+/n8u88+8+wqyedvPrCxsbE/hP24PJ7d6PX59iot7/p18pexsbGx97GvSW2Jmi1Kcub6k8XjwcbGxv717KTkzM4URQgbGxsbu2TnJe3kW22DhI2NjY19foE8irq+rTfN0rCxsbHfnt2GPu/8+iXzbWxsbOw3Zj/KY1ZyZoxZ5BQpsLGxsRexT7bsnPzQb8OmpO25fhj/uAo2Njb2CnbyobzMtGPXV0RI0f1jY2NjL2Kfh/vtxprZFp/2YUT3ho2Njb2C3d5uHtnc1d7ky1EMNrCxsbEXsfO3XxEh5YPbPITKCyo2Njb2DvZsBNuG+LNy2BbC5JH8qNvY2NjYi9hJQWqjonwh8ivORhH/uDo2Njb2OnZ7uyeB/r2h0rC9wcbGxl7EbpuQ8wvfG07NQjFsbGzsfew2BjrZRpMXy1nz07ZS2NjY2DvYbdBzflt5c5Jcd3gn2NjY2IvYbawzaxLaUW67iPlQARsbG3sTOwlo7mWcF6obihw2Njb2IvYN49LgW7OY6a7FKqYi2NjY2B/InoX419S2/Jxs6GnjKmxsbOx97JzXvjvb+tNuysk3EkVTbmxsbOwPZOehUgueHflfaNOhYZaGjY2N/VHs8zLTFqS87cnboWGKho2Njf2x7Pyffk6dBU/t1duhxdNnjo2Njb2CPRsDtO+2iztbxFnJxMbGxv5cdjuUnYU+yWINpxllBPZjPICNjY29gt1GRedBz6ydmC36fx4GNjY29iL27Fd6UpBesSXoJFrCxsbG3srOW462AcjP541KUrSKuo2NjY29iJ0XknyB8mJzMvQdbgPCxsbGXsF+lEd+i+2AYYYfbgPCxsbGXsRuC0BeTvKxQR7in7Q02NjY2LvZJ0PTpHicjApmYVM0fsDGxsZex04Kw6zZaLfyHDUPeViGjY2N/YvZJ2faAXM+WqjHEtjY2NjYcYFJyl4LO4/DsLGxsfex81DppBmYxUP5YhXFEhsbG3sROwfkQ9ZkQdtxQju1vm3LDjY2Nvb7sv8AfrACXTxAOYIAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) Lessons learned from a connection leak in production | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java,HttpClient">
+    <meta name="description" content="Original Post We recently encountered a connection leak with one of our services in production.  Here’s what happened, what we did and the lessons learned… Tests and Monitoring detected the issue (sil">
+<meta name="keywords" content="Java,HttpClient">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) Lessons learned from a connection leak in production">
+<meta property="og:url" content="https://athrunsun.github.io/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post We recently encountered a connection leak with one of our services in production.  Here’s what happened, what we did and the lessons learned… Tests and Monitoring detected the issue (sil">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) Lessons learned from a connection leak in production">
+<meta name="twitter:description" content="Original Post We recently encountered a connection leak with one of our services in production.  Here’s what happened, what we did and the lessons learned… Tests and Monitoring detected the issue (sil">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) Lessons learned from a connection leak in production</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) Lessons learned from a connection leak in production</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-21T01:17:00.000Z" itemprop="datePublished" class="page-time">
+  2016-11-21
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Tests-and-Monitoring-detected-the-issue-silently"><span class="post-toc-number">1.</span> <span class="post-toc-text">Tests and Monitoring detected the issue (silently)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#The-alarm-is-raised"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">The alarm is raised</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#We-see-the-same-thing-happening-in-our-Test-environment…-Great"><span class="post-toc-number">2.</span> <span class="post-toc-text">We see the same thing happening in our Test environment… Great!</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Now-we-can-monitor-our-leak"><span class="post-toc-number">3.</span> <span class="post-toc-text">Now we can monitor our leak</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#What-caused-the-leak"><span class="post-toc-number">4.</span> <span class="post-toc-text">What caused the leak?</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#For-every-bug-there’s-a-missing-test"><span class="post-toc-number">5.</span> <span class="post-toc-text">For every bug, there’s a missing test</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Lessons-Learned"><span class="post-toc-number">6.</span> <span class="post-toc-text">Lessons Learned</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Make-sure-your-alerts-alert"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">Make sure your alerts alert</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#A-connection-pool-almost-exhausted-should-fire-an-alert"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">A connection pool almost exhausted should fire an alert</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Learn-your-tools"><span class="post-toc-number">6.3.</span> <span class="post-toc-text">Learn your tools</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Other-Lessons"><span class="post-toc-number">6.4.</span> <span class="post-toc-text">Other Lessons?</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-11/lessons_learned_from_a_connection_leak_in_production"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) Lessons learned from a connection leak in production</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-21 09:17:00" datetime="2016-11-21T01:17:00.000Z"  itemprop="datePublished">2016-11-21</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="http://phillbarber.blogspot.com/2014/02/lessons-learned-from-connection-leak-in.html" target="_blank" rel="external">Original Post</a></p>
+<p>We recently encountered a connection leak with one of our services in production.  Here’s what happened, what we did and the lessons learned…</p>
+<h1 id="Tests-and-Monitoring-detected-the-issue-silently"><a href="#Tests-and-Monitoring-detected-the-issue-silently" class="headerlink" title="Tests and Monitoring detected the issue (silently)"></a>Tests and Monitoring detected the issue (silently)</h1><p>Our automated tests (which run in production for this service) started failing soon after the incident occurred.  We didn’t immediately realise since they just went red on the dashboard and we just carried on about our business.  Our monitoring detected the issue immediately and also went red but crucially didn’t email us due to an environment specific config issue.</p>
+<h2 id="The-alarm-is-raised"><a href="#The-alarm-is-raised" class="headerlink" title="The alarm is raised"></a>The alarm is raised</h2><p>A tester on the team realises that the tests had been failing for some time (some time being 4 hours… eek!) and gets us to start investigating.</p>
+<p>Myself and another dev quickly looked into what was going on with our poorly <a href="http://dropwizard.codahale.com/" target="_blank" rel="external">dropwizard</a> app.  We could see from the monitoring dashboard that the application’s health check page was in error.  Viewing the page showed us that a downstream service (being called over http) was resulting in the following exception…</p>
+<pre><code>com.sun.jersey.api.client.ClientHandlerException:
+org.apache.http.conn.ConnectionPoolTimeoutException: Timeout waiting for connection from pool
+</code></pre><p>My gut reaction was that this was a timeout issue (since it usually is) and connections were not being released back to the connection pool after either slow connections or responses.  We saved the <a href="http://dropwizard.codahale.com/manual/core/#metrics" target="_blank" rel="external">metrics</a> info from the application and performed the classic <code>java kill -3</code> to get a thread dump for later reading.  We tried checking connectivity from the application’s host to the downstream service with telnet which revealed no issue.  We also tried simulating a http request with <code>wget</code> which (after a bit of confusion trying to suppress ssl certificate checking) also revealed no issues.  With no more debug ideas immediately coming to mind, restoring service had to be the priority.  A restart was performed and everything went green again.</p>
+<p>Looking in the code revealed no obvious problems.  We had set our timeouts like good boy scouts and just couldn’t figure out what was wrong.  It clearly needed more investigation.</p>
+<h1 id="We-see-the-same-thing-happening-in-our-Test-environment…-Great"><a href="#We-see-the-same-thing-happening-in-our-Test-environment…-Great" class="headerlink" title="We see the same thing happening in our Test environment… Great!"></a>We see the same thing happening in our Test environment… Great!</h1><p>With a lot more time to debug (what seemed like) the exact same issue we came up with the idea of looking at the current connections on the box….</p>
+<pre><code>netstat -a
+</code></pre><p>This revealed a lot of connections in the CLOSE_WAIT state.</p>
+<p>A simple word count….</p>
+<pre><code>netstat -a  | grep CLOSE_WAIT | wc -l
+</code></pre><p>…gave us 1024 which just so happened to be the exact maximum size of our connection pool.  The connection pool was exhausted.  Restarting the application bought this down to zero and restored service as it did in production.</p>
+<h1 id="Now-we-can-monitor-our-leak"><a href="#Now-we-can-monitor-our-leak" class="headerlink" title="Now we can monitor our leak"></a>Now we can monitor our leak</h1><p>With the command above, we were able to establish how many connections in the pool were in the CLOSE_WAIT state.  The closer it gets to 1024, the closer we are to another outage.  We then had the great idea of piping this command into mailx and spamming the team with the number every few hours.</p>
+<p>Until we fix the connection leak - we need to keep an eye on these emails and restart the application before the bucket over fills (i.e. the connection pool is exhausted).  </p>
+<h1 id="What-caused-the-leak"><a href="#What-caused-the-leak" class="headerlink" title="What caused the leak?"></a>What caused the leak?</h1><p>We were using Jersey which in-turn was using HttpComponents4 to send a http request to another service.  The service being called was very simple and did not return any response body, just a status code which was all we were interested in.  If the status code was 200, the user was logged in, anything else we treat as unauthorised.</p>
+<p>The code below shows our mistake….</p>
+<pre><code>public boolean isSessionActive(HttpServletRequest httpRequest) {
+   ClientResponse response = jerseyClient
+      .resource(url)
+      .type(APPLICATION_JSON_TYPE)
+      .header(&quot;Cookie&quot;, httpRequest.getHeader(&quot;Cookie&quot;))
+      .get(ClientResponse.class);
+  return response.getStatus() == 200;
+}
+</code></pre><p>We were not calling <code>close()</code> on the <code>ClientResponse</code> object which meant that the response’s input stream was not being closed, which meant that the connection was not released back into the pool.  This was a silly oversight on our part.  However, there’s a twist…</p>
+<p>We had run performance tests which in turn executed this method a million times (far more invocations than connections in the pool) without us ever hitting any issues.  The question was, if the code was wrong, why was it not failing all the time?  </p>
+<h1 id="For-every-bug-there’s-a-missing-test"><a href="#For-every-bug-there’s-a-missing-test" class="headerlink" title="For every bug, there’s a missing test"></a>For every bug, there’s a missing test</h1><p>The task of creating a test which would fail reliably each time due to this issue was 99% of the effort in understanding what was going on.  Before we identified the above culprit, a tester on our team, amazingly, found the exact scenario which caused the leased connections to increase.  It seemed that each time the service responded with a 403, the number of leased connections would increase by one.</p>
+<p>Our component tests mocked the service being called in the above code with a great tool called <a href="http://wiremock.org/" target="_blank" rel="external">wiremock</a> which allows you to fully mock a web service by sending http requests to a server under your control.  When we examined the number of leased connections after the mocked 403 response, frustratingly it did not increase.  There was something different from our mocked 403 response and the actual 403 response.</p>
+<p>The issue was, in a deployed environment, we called the webservice through a http load balancer that was configured to give an html error page if the response was 4xx.  This scenario created an input stream on the <code>ClientResponse</code> object which needed to be closed.</p>
+<p>As soon as we adjusted our wiremock config to return a response body, we observed the same connection leak as in our deployed environment.  Now we could write a test that would fail due to the bug.  Rather than stop there, we concluded that there was no point in us checking the status after the one test alone as next time it could fail in a different place.  We added the following methods and annotations to our test base class:</p>
+<pre><code>@Before
+public void initialiseLeasedConnectionsCount() throws Exception{
+   leasedConnectionCounts = getLeasedConnections();
+}
+
+@After
+public void checkLeasedConnectionsHasNotIncremented() throws Exception{
+   int leasedConnectionsAfter = getLeasedConnections();
+   if (leasedConnectionCounts != leasedConnectionsAfter){
+      fail(&quot;Expected to see leasedConnections stay the same but increased from : &quot; + leasedConnectionCounts + &quot; to: &quot; + leasedConnectionsAfter);
+   }
+}
+</code></pre><p>If we hit another connection leak, we’ll know the exact scenario and it shouldn’t get anywhere near production this time.  Now we have a failing test, lets make it pass by fixing the connection leak….</p>
+<pre><code>public boolean isSessionActive(HttpServletRequest httpRequest) {
+   ClientResponse response = null;
+   try{
+      response = jerseyClient
+         .resource(url)
+         .type(APPLICATION_JSON_TYPE)
+         .header(&quot;Cookie&quot;, httpRequest.getHeader(&quot;Cookie&quot;))
+         .get(ClientResponse.class);
+      return response.getStatus() == SC_OK;
+   }
+   finally {
+      if (response != null){
+         response.close();
+      }
+   }
+}
+</code></pre><h1 id="Lessons-Learned"><a href="#Lessons-Learned" class="headerlink" title="Lessons Learned"></a>Lessons Learned</h1><h2 id="Make-sure-your-alerts-alert"><a href="#Make-sure-your-alerts-alert" class="headerlink" title="Make sure your alerts alert"></a>Make sure your alerts alert</h2><p>Until you have proven you are actually getting emails to your inbox, all your wonderfully clever monitoring/alerting may be useless.  We lost 4 hours of availability this way!<br>I think that this is so important that I’m tempted to say it’s worth causing an incident when everyone is paying attention just to prove you have all the bases covered. <a href="http://techblog.netflix.com/2012/07/chaos-monkey-released-into-wild.html" target="_blank" rel="external">Netflix do this as routine</a> and at random times too.</p>
+<h2 id="A-connection-pool-almost-exhausted-should-fire-an-alert"><a href="#A-connection-pool-almost-exhausted-should-fire-an-alert" class="headerlink" title="A connection pool almost exhausted should fire an alert"></a>A connection pool almost exhausted should fire an alert</h2><p>If we had received an alert when the connection pool was at around 75% capacity, we would have investigated, our connection leak before it caused an outage.  This has also been mentioned by bitly <a href="http://word.bitly.com/post/74839060954/ten-things-to-monitor" target="_blank" rel="external">here</a>.  I will endeavour to get this in place ASAP.</p>
+<h2 id="Learn-your-tools"><a href="#Learn-your-tools" class="headerlink" title="Learn your tools"></a>Learn your tools</h2><p>Getting a thread dump by sending your java process the SIGQUIT (i.e. kill -3 [java process id]) is fine but it relies on you having access to the box and permissions to run it.  In our case (using <a href="http://dropwizard.codahale.com/" target="_blank" rel="external">dropwizard</a> and <a href="http://dropwizard.codahale.com/manual/core/#metrics" target="_blank" rel="external">metrics</a>) all I needed to do was go to this url /metrics/threads on the admin port for exactly the same data formatted in json.</p>
+<h2 id="Other-Lessons"><a href="#Other-Lessons" class="headerlink" title="Other Lessons?"></a>Other Lessons?</h2><p>If you can spot any other lessons learned from this, feel free to comment.</p>
+<p>EDIT: <a href="http://phillbarber.blogspot.co.uk/2015/02/how-to-test-for-connection-leaks.html" target="_blank" rel="external">See here for a more detailed explanation of how to test for connection leaks and this time with all the code!</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.498Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HttpClient/">HttpClient</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/&title=《(Reproduce) Lessons learned from a connection leak in production》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/&title=《(Reproduce) Lessons learned from a connection leak in production》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Lessons learned from a connection leak in production》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/12/19/2016-12/merging_vs_rebasing/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) Merging vs. Rebasing</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/11/16/2016-11/setting_up_vim_for_javascript_development/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/&title=《(Reproduce) Lessons learned from a connection leak in production》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/&title=《(Reproduce) Lessons learned from a connection leak in production》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Lessons learned from a connection leak in production》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADL0lEQVR42u3a0W7aUBAE0Pz/T1Oprwkws+tI+Ob4qYKE3mOkTnfHX1/x9fh/fX/l+5V8zveff/ZK+1sXX9jY2Ng3YT9eXs/Yz27K/na8Jr1+JbFgY2Njn8pOMFeFUx6Trz85Pyc2NjY2djIqJAH2+ha0n4+NjY2NPQuwJE7ymEluxGsYNjY2Nna+VGpfT46Vvzv7Si7YpWFjY2N/PLstej/5z7/Yb2NjY2N/JPuxuNraYHP0fPiJTo6NjY19ELstYvdlcF4hzG5icR5sbGzsQ9lJPMzebV/fDyRFgGFjY2Pflt0y9gNAW9wW314eb9jY2NjHsYdLmXIASErizRqrqISxsbGxD2K3C6b86Pmg0g4V7SNEUSRjY2Nj35ad17SbEWW24t/87ptwxcbGxj6IfdWjM/mSaDbwzKrlNz+JjY2NfQQ7AeQHmg0Ss8ph9sjOD7s0bGxs7Juz82DY16ubI+YjShuu2NjY2Gewf6NYncVee4ZNsYGNjY19HrsdMGY1cBts7WNA+bvY2NjYZ7Db/9bvy+DZcr9dV735fGxsbOyD2PmwMYuiKD/X66cktIpRBBsbG/tW7LZqzQMmj7HVN1YOJNjY2NjnsfNBoh0bZqv/2diTjyXY2NjY57Hbf/o38ZZ8A21Yto/yDBMPGxsb++PZswX9ZlRIIu0XhyJsbGzso9mbqEiutjxObnq+unqzS8PGxsa+IXv2EE+7Kkpq43aNNasHho/vYGNjY388uz3uZnmUL5VmI0dxa7CxsbGPYLehMlvrt6XsJqKis2FjY2MfxG5HhTyuimV9GV37WgIbGxv7L7Dbv6Bd+uSrqPznh7s0bGxs7IPYmxogOdAmtNoFVl57YGNjY5/E3i9uEmQCvipEo9USNjY29s3Zj/K6ars+GznaEH36LjY2NvZB7HYxlPNaWFsMJ6NIUfdiY2Nj35zdMjahNRt18vohD0tsbGzs89htMMzCpi0krqqZf5BiY2Nj/2H2pmqdBdVmCfX0E7CxsbH/JDupb/OyNo+lhFEXA9jY2NjHsdsydVPf5vVATs0rBGxsbOzz2O1qJgmY/VHaGrhdfmFjY2Mfwf4HKEJPAjF31O8AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

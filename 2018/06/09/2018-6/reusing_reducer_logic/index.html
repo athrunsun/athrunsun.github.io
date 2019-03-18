@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Reusing Reducer Logic | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="React,Redux">
+    <meta name="description" content="Reference Reusing Reducer Logic having multiple instance of same reusable redux react components on the same page/route  The problem descriptionSay in a web app, we have a lot of data tables on differ">
+<meta name="keywords" content="React,Redux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Reusing Reducer Logic">
+<meta property="og:url" content="https://athrunsun.github.io/2018/06/09/2018-6/reusing_reducer_logic/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Reference Reusing Reducer Logic having multiple instance of same reusable redux react components on the same page/route  The problem descriptionSay in a web app, we have a lot of data tables on differ">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Reusing Reducer Logic">
+<meta name="twitter:description" content="Reference Reusing Reducer Logic having multiple instance of same reusable redux react components on the same page/route  The problem descriptionSay in a web app, we have a lot of data tables on differ">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Reusing Reducer Logic</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Reusing Reducer Logic</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-06-09T09:48:00.000Z" itemprop="datePublished" class="page-time">
+  2018-06-09
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Frontend/">Frontend</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Reference"><span class="post-toc-number">1.</span> <span class="post-toc-text">Reference</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#The-problem-description"><span class="post-toc-number">2.</span> <span class="post-toc-text">The problem description</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Namespace-to-the-rescue"><span class="post-toc-number">3.</span> <span class="post-toc-text">Namespace to the rescue</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Make-it-more-universal"><span class="post-toc-number">4.</span> <span class="post-toc-text">Make it more universal</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Summary"><span class="post-toc-number">5.</span> <span class="post-toc-text">Summary</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2018-6/reusing_reducer_logic"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Reusing Reducer Logic</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-06-09 17:48:00" datetime="2018-06-09T09:48:00.000Z"  itemprop="datePublished">2018-06-09</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Frontend/">Frontend</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="https://redux.js.org/recipes/structuring-reducers/reusing-reducer-logic" target="_blank" rel="external">Reusing Reducer Logic</a></li>
+<li><a href="https://stackoverflow.com/questions/42906358/" target="_blank" rel="external">having multiple instance of same reusable redux react components on the same page/route</a></li>
+</ul>
+<h1 id="The-problem-description"><a href="#The-problem-description" class="headerlink" title="The problem description"></a>The problem description</h1><p>Say in a web app, we have a lot of data tables on different pages, every table has a pagination component.</p>
+<p>How do we setup current page index and current page size for each table? At first thought we might want to setup action creators and reducers for each of the page with the same methods and state inside, just with different module names.</p>
+<pre><code class="javascript">// Action creator
+const setPageIndex = pageIndex =&gt; ({
+    type: &#39;SET_PAGE_INDEX&#39;,
+    payload: pageIndex,
+});
+
+// Reducer
+const createInitialState = () =&gt; ({
+    pageIndex: 0,
+});
+
+const paginationReducer = (state = createInitialState(), action) =&gt; {
+    switch (action.type) {
+        case &#39;SET_PAGE_INDEX&#39;:
+            return Object.assign({}, state, { pageIndex: action.payload });
+        default:
+            return state;
+    }
+};
+</code></pre>
+<p>But this way we’ll get a lot of duplicate code!</p>
+<h1 id="Namespace-to-the-rescue"><a href="#Namespace-to-the-rescue" class="headerlink" title="Namespace to the rescue"></a>Namespace to the rescue</h1><p>All these action creators and reducers share the same logic, just with different names, so in order to reuse the same logic, we should instead build action factory and reducer factory like the following.</p>
+<p>Action creator <code>actions/paginationActions.js</code>:</p>
+<pre><code class="javascript">const ACTION_TYPES = {
+    SET_PAGE_INDEX: &#39;SET_PAGE_INDEX&#39;,
+};
+
+const setPageIndexFactory = namespace =&gt; pageIndex =&gt; ({
+    type: `${namespace}/${ACTION_TYPES.SET_PAGE_INDEX}`,
+    payload: pageIndex,
+});
+
+const actionsFactory = namespace =&gt; ({
+    setPageIndex: setPageIndexFactory(namespace),
+});
+
+export { ACTION_TYPES, actionsFactory };
+</code></pre>
+<p>Reducer <code>reducers/paginationReducer.js</code>:</p>
+<pre><code class="javascript">import { ACTION_TYPES } from &#39;actions/paginationActions&#39;;
+
+const createInitialState = () =&gt; ({
+    pageIndex: 0,
+});
+
+const paginationReducerFactory = namespace =&gt; (state = createInitialState(), action) =&gt; {
+    switch (action.type) {
+        case `${namespace}/${ACTION_TYPES.SET_PAGE_INDEX}`:
+            return Object.assign({}, state, { pageIndex: action.payload });
+        default:
+            return state;
+    }
+};
+
+export default paginationReducerFactory;
+</code></pre>
+<p>Say the namespace of one of our web pages is <code>DOCUMENT/DETAILS</code>, which is defined in <code>constants.js</code>:</p>
+<pre><code class="javascript">const NAMESPACE = {
+    DOCUMENT_DETAILS: &#39;DOCUMENT/DETAILS&#39;,
+};
+
+export { NAMESPACE };
+</code></pre>
+<p>In our <code>reducers/index.js</code>, define rootReducer as the following:</p>
+<pre><code class="javascript">import { NAMESPACE } from &#39;constants&#39;;
+import paginationReducerFactory from &#39;reducers/paginationReducer&#39;;
+
+export default {
+    [`pagination_${NAMESPACE.DOCUMENT_DETAILS}`]: paginationReducerFactory(NAMESPACE.DOCUMENT_DETAILS),
+};
+</code></pre>
+<p>And here is how to use it in our components:</p>
+<pre><code class="javascript">import React, { Component } from &#39;react&#39;;
+import { bindActionCreators } from &#39;redux&#39;;
+import { connect } from &#39;react-redux&#39;;
+
+import { NAMESPACE } from &#39;constants&#39;;
+
+import { actionsFactory as allPaginationActionsFactory } from &#39;actions/paginationActions&#39;;
+
+const MODULE_NAMESPACE = NAMESPACE.DOCUMENT_DETAILS;
+
+class DocumentDetails extends Component {
+    render() {
+        const { pageIndex, paginationActions } = this.props;
+
+        return (
+            &lt;DataTable pageIndex={pageIndex} onPageIndexChangeHandler={paginationActions.setPageIndex} /&gt;
+        );
+    }
+}
+
+const mapStateToProps = state =&gt; ({
+    pagination: state[`pagination_${MODULE_NAMESPACE}`],
+});
+
+const mapDispatchToProps = dispatch =&gt; ({
+    paginationActions: bindActionCreators(allPaginationActionsFactory(MODULE_NAMESPACE), dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DocumentDetails);
+</code></pre>
+<h1 id="Make-it-more-universal"><a href="#Make-it-more-universal" class="headerlink" title="Make it more universal"></a>Make it more universal</h1><p>Say our data table component is universal, here is how to define it in a universal way:</p>
+<pre><code class="javascript">import React, { Component } from &#39;react&#39;;
+import { bindActionCreators } from &#39;redux&#39;;
+import { connect } from &#39;react-redux&#39;;
+
+import { actionsFactory as allPaginationActionsFactory } from &#39;actions/paginationActions&#39;;
+
+class CommonDataTable extends Component {
+    render() {
+        const { pageIndex, paginationActions } = this.props;
+
+        return (
+            ...
+        );
+    }
+}
+
+const mapStateToProps = (state, ownProps) =&gt; ({
+    pagination: state[`pagination_${ownProps.namespace}`],
+});
+
+const mapDispatchToProps = (dispatch, ownProps) =&gt; ({
+    paginationActions: bindActionCreators(allPaginationActionsFactory(ownProps.namespace), dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommonDataTable);
+</code></pre>
+<p>So in our <code>DocumentDetails</code> page we shall use it like this:</p>
+<pre><code class="javascript">import { NAMESPACE } from &#39;constants&#39;;
+
+const MODULE_NAMESPACE = NAMESPACE.DOCUMENT_DETAILS;
+
+class DocumentDetails extends Component {
+    render() {
+        return (
+            &lt;CommonDataTable namespace={MODULE_NAMESPACE} /&gt;
+        );
+    }
+}
+</code></pre>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><p>Official Redux documentation express a different way but I feel the above approach is more comprehensive to me.</p>
+<p>At last, reusing reducer logic is IMPORTANT simply because “DO NOT REPEAT YOURSELF” is IMPORTANT.</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.502Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redux/">Redux</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2018/06/09/2018-6/reusing_reducer_logic/&title=《Reusing Reducer Logic》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2018/06/09/2018-6/reusing_reducer_logic/&title=《Reusing Reducer Logic》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2018/06/09/2018-6/reusing_reducer_logic/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Reusing Reducer Logic》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2018/06/09/2018-6/reusing_reducer_logic/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2018/06/09/2018-6/reusing_reducer_logic/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/12/20/2016-12/refs_and_the_reflog/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) Refs and the Reflog</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2018/06/09/2018-6/reusing_reducer_logic/&title=《Reusing Reducer Logic》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2018/06/09/2018-6/reusing_reducer_logic/&title=《Reusing Reducer Logic》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2018/06/09/2018-6/reusing_reducer_logic/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Reusing Reducer Logic》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2018/06/09/2018-6/reusing_reducer_logic/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2018/06/09/2018-6/reusing_reducer_logic/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsklEQVR42u3awW4bMQwE0P7/T6dAr806M6Rkt8Dbk2E7Xj0dlsqQv37F19ef6+md5NO/v/P0t/kajl14eHh4o6U/XU/fyZf+Gv/0zad38jXj4eHh3ea9fhC3sGRBr7c4wUfFAw8PD++jvPbs2haVvMDg4eHh/V+8/HVSSGZhBB4eHt6/wEvCiDZuSDZiv33HshY8PDy8mLd5KH/q9cX+Hh4eHt6iq55Eq+2v5Wtoi8E3v4CHh4d3gZfErLMicSrebaOK6D8GPDw8vDWvHXuaPazzDWq3KdpoPDw8vEO8vBicetLuU5P8wI2Hh4f3KV7S3EoWnR/Q8/Lzw73w8PDw3sjLfyIvBnlJyAvVKoDAw8PDG/Fmnffksf76nRkmL0sRGA8PD2/Ey1tf+VBUOyKQH83boAQPDw/vBi8pAPlw1ewcm8cT+REcDw8P7z28zbL2A1XtQbx4Hw8PD+8ybx/Ibg7K+SYWzTY8PDy8o7z8cNyOFOzDi1lZehy6wsPDwzvKS2LWNtidHb6TI3WxNjw8PLwLvLbBnze32rGqdnOLdeLh4eG9ndfGCm04mw9d1UdqPDw8vAu8Tcu/PUbngPaY/kOMi4eHh3eUt49lZ4trGfuIGQ8PD+8Gbz+A1Ta6NgHH7Dfx8PDwzvI2ty+Sj1FpmQXBeHh4eDd4+9vnge8mXJgh8fDw8G7zZmNSm8hg336LZsrw8PDwjvJmi8i3oMUca3e1X8XDw8OLeV/l1RaGKAVZB7uPW4aHh4d3gTf7tz8PXhPqJs7Aw8PD+xSvLQY5bHZc3oS/33yKh4eHd43X3iZv8LfhxaY9Fs1E4OHh4b2RNxuKyovH5i7FNBkeHh7e23n1ofZQ62s4voCHh4d3jTcLI/JoNWlxtYyoCOHh4eFd4G0aYG1LbBbUzqIQPDw8vAu837yExTrrpw7kAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

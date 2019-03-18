@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) Merging vs. Rebasing | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Git">
+    <meta name="description" content="Original Post  Merging vs. RebasingThe git rebase command has a reputation for being magical Git voodoo that beginners should stay away from, but it can actually make life much easier for a developmen">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) Merging vs. Rebasing">
+<meta property="og:url" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post  Merging vs. RebasingThe git rebase command has a reputation for being magical Git voodoo that beginners should stay away from, but it can actually make life much easier for a developmen">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/header.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/a_forked_commit_history.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/merging_master_into_the_feature_branch.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/rebasing_the_feature_branch_onto_master.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/squashing_a_commit_with_an_interactive_rebase.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/rebasing_the_master_branch.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/developing_a_feature_in_a_dedicated_branch.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/rebasing_onto_head_3.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/collaborating_on_the_same_feature_branch.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/merging_vs_rebasing_onto_a_remote_branch.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/integrating_a_feature_into_master_with_and_without_a_rebase.svg">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) Merging vs. Rebasing">
+<meta name="twitter:description" content="Original Post  Merging vs. RebasingThe git rebase command has a reputation for being magical Git voodoo that beginners should stay away from, but it can actually make life much easier for a developmen">
+<meta name="twitter:image" content="https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/header.svg">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) Merging vs. Rebasing</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) Merging vs. Rebasing</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-12-19T08:00:00.000Z" itemprop="datePublished" class="page-time">
+  2016-12-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Git/">Git</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Merging-vs-Rebasing"><span class="post-toc-number">1.</span> <span class="post-toc-text">Merging vs. Rebasing</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Conceptual-Overview"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">Conceptual Overview</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#The-Merge-Option"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">The Merge Option</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#The-Rebase-Option"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">The Rebase Option</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Interactive-Rebasing"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">Interactive Rebasing</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#The-Golden-Rule-of-Rebasing"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">The Golden Rule of Rebasing</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Force-Pushing"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">Force-Pushing</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Workflow-Walkthrough"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">Workflow Walkthrough</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Local-Cleanup"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">Local Cleanup</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Incorporating-Upstream-Changes-Into-a-Feature"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">Incorporating Upstream Changes Into a Feature</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Reviewing-a-Feature-With-a-Pull-Request"><span class="post-toc-number">1.3.3.</span> <span class="post-toc-text">Reviewing a Feature With a Pull Request</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Integrating-an-Approved-Feature"><span class="post-toc-number">1.3.4.</span> <span class="post-toc-text">Integrating an Approved Feature</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Summary"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">Summary</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-12/merging_vs_rebasing"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) Merging vs. Rebasing</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-12-19 16:00:00" datetime="2016-12-19T08:00:00.000Z"  itemprop="datePublished">2016-12-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Git/">Git</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing" target="_blank" rel="external">Original Post</a></p>
+<img src="/2016/12/19/2016-12/merging_vs_rebasing/header.svg" alt="Header" title="Header">
+<h1 id="Merging-vs-Rebasing"><a href="#Merging-vs-Rebasing" class="headerlink" title="Merging vs. Rebasing"></a>Merging vs. Rebasing</h1><p>The <code>git rebase</code> command has a reputation for being magical Git voodoo that beginners should stay away from, but it can actually make life much easier for a development team when used with care. In this article, we’ll compare <code>git rebase</code> with the related <code>git merge</code> command and identify all of the potential opportunities to incorporate rebasing into the typical Git workflow.</p>
+<h2 id="Conceptual-Overview"><a href="#Conceptual-Overview" class="headerlink" title="Conceptual Overview"></a>Conceptual Overview</h2><p>The first thing to understand about <code>git rebase</code> is that it solves the same problem as <code>git merge</code>. Both of these commands are designed to integrate changes from one branch into another branch—they just do it in very different ways.</p>
+<p>Consider what happens when you start working on a new feature in a dedicated branch, then another team member updates the master branch with new commits. This results in a forked history, which should be familiar to anyone who has used Git as a collaboration tool.</p>
+<img src="/2016/12/19/2016-12/merging_vs_rebasing/a_forked_commit_history.svg" alt="A forked commit history" title="A forked commit history">
+<p>Now, let’s say that the new commits in <code>master</code> are relevant to the feature that you’re working on. To incorporate the new commits into your <code>feature</code> branch, you have two options: merging or rebasing.</p>
+<h3 id="The-Merge-Option"><a href="#The-Merge-Option" class="headerlink" title="The Merge Option"></a>The Merge Option</h3><p>The easiest option is to merge the <code>master</code> branch into the feature branch using something like the following:</p>
+<pre><code class="shell">git checkout feature
+git merge master
+</code></pre>
+<p>Or, you can condense this to a one-liner:</p>
+<pre><code class="shell">git merge master feature
+</code></pre>
+<p>This creates a new “merge commit” in the <code>feature</code> branch that ties together the histories of both branches, giving you a branch structure that looks like this:</p>
+<img src="/2016/12/19/2016-12/merging_vs_rebasing/merging_master_into_the_feature_branch.svg" alt="Merging master into the feature branch" title="Merging master into the feature branch">
+<p>Merging is nice because it’s a <em>non-destructive</em> operation. The existing branches are not changed in any way. This avoids all of the potential pitfalls of rebasing (discussed below).</p>
+<p>On the other hand, this also means that the <code>feature</code> branch will have an extraneous merge commit every time you need to incorporate upstream changes. If <code>master</code> is very active, this can pollute your feature branch’s history quite a bit. While it’s possible to mitigate this issue with advanced <code>git log</code> options, it can make it hard for other developers to understand the history of the project.</p>
+<h3 id="The-Rebase-Option"><a href="#The-Rebase-Option" class="headerlink" title="The Rebase Option"></a>The Rebase Option</h3><p>As an alternative to merging, you can rebase the <code>feature</code> branch onto <code>master</code> branch using the following commands:</p>
+<pre><code class="shell">git checkout feature
+git rebase master
+</code></pre>
+<p>This moves the entire <code>feature</code> branch to begin on the tip of the <code>master</code> branch, effectively incorporating all of the new commits in <code>master</code>. But, instead of using a merge commit, rebasing <em>re-writes</em> the project history by creating brand new commits for each commit in the original branch.</p>
+<img src="/2016/12/19/2016-12/merging_vs_rebasing/rebasing_the_feature_branch_onto_master.svg" alt="Rebasing the feature branch onto master" title="Rebasing the feature branch onto master">
+<p>The major benefit of rebasing is that you get a much cleaner project history. First, it eliminates the unnecessary merge commits required by <code>git merge</code>. Second, as you can see in the above diagram, rebasing also results in a perfectly linear project history—you can follow the tip of <code>feature</code> all the way to the beginning of the project without any forks. This makes it easier to navigate your project with commands like <code>git log</code>, <code>git bisect</code>, and <code>gitk</code>.</p>
+<p>But, there are two trade-offs for this pristine commit history: safety and traceability. If you don’t follow the <a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview#the-golden-rule-of-rebasing" target="_blank" rel="external">Golden Rule of Rebasing</a>, re-writing project history can be potentially catastrophic for your collaboration workflow. And, less importantly, rebasing loses the context provided by a merge commit—you can’t see when upstream changes were incorporated into the feature.</p>
+<h3 id="Interactive-Rebasing"><a href="#Interactive-Rebasing" class="headerlink" title="Interactive Rebasing"></a>Interactive Rebasing</h3><p>Interactive rebasing gives you the opportunity to alter commits as they are moved to the new branch. This is even more powerful than an automated rebase, since it offers complete control over the branch’s commit history. Typically, this is used to clean up a messy history before merging a feature branch into <code>master</code>.</p>
+<p>To begin an interactive rebasing session, pass the <code>i</code> option to the <code>git rebase</code> command:</p>
+<pre><code class="shell">git checkout feature
+git rebase -i master
+</code></pre>
+<p>This will open a text editor listing all of the commits that are about to be moved:</p>
+<pre><code>pick 33d5b7a Message for commit #1
+pick 9480b3d Message for commit #2
+pick 5c67e61 Message for commit #3
+</code></pre><p>This listing defines exactly what the branch will look like after the rebase is performed. By changing the <code>pick</code> command and/or re-ordering the entries, you can make the branch’s history look like whatever you want. For example, if the 2nd commit fixes a small problem in the 1st commit, you can condense them into a single commit with the <code>fixup</code> command:</p>
+<pre><code>pick 33d5b7a Message for commit #1
+fixup 9480b3d Message for commit #2
+pick 5c67e61 Message for commit #3
+</code></pre><p>When you save and close the file, Git will perform the rebase according to your instructions, resulting in project history that looks like the following:</p>
+<img src="/2016/12/19/2016-12/merging_vs_rebasing/squashing_a_commit_with_an_interactive_rebase.svg" alt="Squashing a commit with an interactive rebase" title="Squashing a commit with an interactive rebase">
+<p>Eliminating insignificant commits like this makes your feature’s history much easier to understand. This is something that <code>git merge</code> simply cannot do.</p>
+<h2 id="The-Golden-Rule-of-Rebasing"><a href="#The-Golden-Rule-of-Rebasing" class="headerlink" title="The Golden Rule of Rebasing"></a>The Golden Rule of Rebasing</h2><p>Once you understand what rebasing is, the most important thing to learn is when not to do it. The golden rule of <code>git rebase</code> is to never use it on <em>public</em> branches.</p>
+<p>For example, think about what would happen if you rebased <code>master</code> onto your <code>feature</code> branch:</p>
+<img src="/2016/12/19/2016-12/merging_vs_rebasing/rebasing_the_master_branch.svg" alt="Rebasing the master branch" title="Rebasing the master branch">
+<p>The rebase moves all of the commits in <code>master</code> onto the tip of <code>feature</code>. The problem is that this only happened in your repository. All of the other developers are still working with the original <code>master</code>. Since rebasing results in brand new commits, Git will think that your <code>master</code> branch’s history has diverged from everybody else’s.</p>
+<p>The only way to synchronize the two <code>master</code> branches is to merge them back together, resulting in an extra merge commit and two sets of commits that contain the same changes (the original ones, and the ones from your rebased branch). Needless to say, this is a very confusing situation.</p>
+<p>So, before you run <code>git rebase</code>, always ask yourself, “Is anyone else looking at this branch?” If the answer is yes, take your hands off the keyboard and start thinking about a non-destructive way to make your changes (e.g., the <code>git revert</code> command). Otherwise, you’re safe to re-write history as much as you like.</p>
+<h3 id="Force-Pushing"><a href="#Force-Pushing" class="headerlink" title="Force-Pushing"></a>Force-Pushing</h3><p>If you try to push the rebased <code>master</code> branch back to a remote repository, Git will prevent you from doing so because it conflicts with the remote <code>master</code> branch. But, you can force the push to go through by passing the <code>--force</code> flag, like so:</p>
+<pre><code class="shell"># Be very careful with this command!
+git push --force
+</code></pre>
+<p>This overwrites the remote <code>master</code> branch to match the rebased one from your repository and makes things very confusing for the rest of your team. So, be very careful to use this command only when you know exactly what you’re doing.</p>
+<p>One of the only times you should be force-pushing is when you’ve performed a local cleanup after you’ve pushed a private feature branch to a remote repository (e.g., for backup purposes). This is like saying, “Oops, I didn’t really want to push that original version of the feature branch. Take the current one instead.” Again, it’s important that nobody is working off of the commits from the original version of the feature branch.</p>
+<h2 id="Workflow-Walkthrough"><a href="#Workflow-Walkthrough" class="headerlink" title="Workflow Walkthrough"></a>Workflow Walkthrough</h2><p>Rebasing can be incorporated into your existing Git workflow as much or as little as your team is comfortable with. In this section, we’ll take a look at the benefits that rebasing can offer at the various stages of a feature’s development.</p>
+<p>The first step in any workflow that leverages <code>git rebase</code> is to create a dedicated branch for each feature. This gives you the necessary branch structure to safely utilize rebasing:</p>
+<img src="/2016/12/19/2016-12/merging_vs_rebasing/developing_a_feature_in_a_dedicated_branch.svg" alt="Developing a feature in a dedicated branch" title="Developing a feature in a dedicated branch">
+<h3 id="Local-Cleanup"><a href="#Local-Cleanup" class="headerlink" title="Local Cleanup"></a>Local Cleanup</h3><p>One of the best ways to incorporate rebasing into your workflow is to clean up local, in-progress features. By periodically performing an interactive rebase, you can make sure each commit in your feature is focused and meaningful. This lets you write your code without worrying about breaking it up into isolated commits—you can fix it up after the fact.</p>
+<p>When calling <code>git rebase</code>, you have two options for the new base: The feature’s parent branch (e.g., <code>master</code>), or an earlier commit in your feature. We saw an example of the first option in the Interactive Rebasing section. The latter option is nice when you only need to fix up the last few commits. For example, the following command begins an interactive rebase of only the last 3 commits.</p>
+<pre><code class="shell">git checkout feature
+git rebase -i HEAD~3
+</code></pre>
+<p>By specifying <code>HEAD~3</code> as the new base, you’re not actually moving the branch—you’re just interactively re-writing the 3 commits that follow it. Note that this will not incorporate upstream changes into the <code>feature</code> branch.</p>
+<img src="/2016/12/19/2016-12/merging_vs_rebasing/rebasing_onto_head_3.svg" alt="Rebasing onto HEAD~3" title="Rebasing onto HEAD~3">
+<p>If you want to re-write the entire feature using this method, the <code>git merge-base</code> command can be useful to find the original base of the <code>feature</code> branch. The following returns the commit ID of the original base, which you can then pass to <code>git rebase</code>:</p>
+<pre><code class="shell">git merge-base feature master
+</code></pre>
+<p>This use of interactive rebasing is a great way to introduce <code>git rebase</code> into your workflow, as it only affects local branches. The only thing other developers will see is your finished product, which should be a clean, easy-to-follow feature branch history.</p>
+<p>But again, this only works for <em>private</em> feature branches. If you’re collaborating with other developers via the same feature branch, that branch is <em>public</em>, and you’re not allowed to re-write its history.</p>
+<p>There is no <code>git merge</code> alternative for cleaning up local commits with an interactive rebase.</p>
+<h3 id="Incorporating-Upstream-Changes-Into-a-Feature"><a href="#Incorporating-Upstream-Changes-Into-a-Feature" class="headerlink" title="Incorporating Upstream Changes Into a Feature"></a>Incorporating Upstream Changes Into a Feature</h3><p>In the <em>Conceptual Overview</em> section, we saw how a feature branch can incorporate upstream changes from <code>master</code> using either <code>git merge</code> or <code>git rebase</code>. Merging is a safe option that preserves the entire history of your repository, while rebasing creates a linear history by moving your feature branch onto the tip of <code>master</code>.</p>
+<p>This use of <code>git rebase</code> is similar to a local cleanup (and can be performed simultaneously), but in the process it incorporates those upstream commits from <code>master</code>.</p>
+<p>Keep in mind that it’s perfectly legal to rebase onto a remote branch instead of <code>master</code>. This can happen when collaborating on the same feature with another developer and you need to incorporate their changes into your repository.</p>
+<p>For example, if you and another developer named John added commits to the <code>feature</code> branch, your repository might look like the following after fetching the remote <code>feature</code> branch from John’s repository:</p>
+<img src="/2016/12/19/2016-12/merging_vs_rebasing/collaborating_on_the_same_feature_branch.svg" alt="Collaborating on the same feature branch" title="Collaborating on the same feature branch">
+<p>You can resolve this fork the exact same way as you integrate upstream changes from <code>master</code>: either merge your local <code>feature</code> with <code>john/feature</code>, or rebase your local <code>feature</code> onto the tip of <code>john/feature</code>.</p>
+<img src="/2016/12/19/2016-12/merging_vs_rebasing/merging_vs_rebasing_onto_a_remote_branch.svg" alt="Merging vs. rebasing onto a remote branch" title="Merging vs. rebasing onto a remote branch">
+<p>Note that this rebase doesn’t violate the Golden Rule of Rebasing because only your local <code>feature</code> commits are being moved—everything before that is untouched. This is like saying, “add my changes to what John has already done.” In most circumstances, this is more intuitive than synchronizing with the remote branch via a merge commit.</p>
+<p>By default, the <code>git pull</code> command performs a merge, but you can force it to integrate the remote branch with a rebase by passing it the <code>--rebase</code> option.</p>
+<h3 id="Reviewing-a-Feature-With-a-Pull-Request"><a href="#Reviewing-a-Feature-With-a-Pull-Request" class="headerlink" title="Reviewing a Feature With a Pull Request"></a>Reviewing a Feature With a Pull Request</h3><p>If you use pull requests as part of your code review process, you need to avoid using <code>git rebase</code> after creating the pull request. As soon as you make the pull request, other developers will be looking at your commits, which means that it’s a public branch. Re-writing its history will make it impossible for Git and your teammates to track any follow-up commits added to the feature.</p>
+<p>Any changes from other developers need to be incorporated with <code>git merge</code> instead of <code>git rebase</code>.</p>
+<p>For this reason, it’s usually a good idea to clean up your code with an interactive rebase <em>before</em> submitting your pull request.</p>
+<h3 id="Integrating-an-Approved-Feature"><a href="#Integrating-an-Approved-Feature" class="headerlink" title="Integrating an Approved Feature"></a>Integrating an Approved Feature</h3><p>After a feature has been approved by your team, you have the option of rebasing the feature onto the tip of the <code>master</code> branch before using <code>git merge</code> to integrate the feature into the main code base.</p>
+<p>This is a similar situation to incorporating upstream changes into a feature branch, but since you’re not allowed to re-write commits in the <code>master</code> branch, you have to eventually use <code>git merge</code> to integrate the feature. However, by performing a rebase before the merge, you’re assured that the merge will be fast-forwarded, resulting in a perfectly linear history. This also gives you the chance to squash any follow-up commits added during a pull request.</p>
+<img src="/2016/12/19/2016-12/merging_vs_rebasing/integrating_a_feature_into_master_with_and_without_a_rebase.svg" alt="Integrating a feature into master with and without a rebase" title="Integrating a feature into master with and without a rebase">
+<p>If you’re not entirely comfortable with <code>git rebase</code>, you can always perform the rebase in a temporary branch. That way, if you accidentally mess up your feature’s history, you can check out the original branch and try again. For example:</p>
+<pre><code class="shell">git checkout feature
+git checkout -b temporary-branch
+git rebase -i master
+# [Clean up the history]
+git checkout master
+git merge temporary-branch
+</code></pre>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>And that’s all you really need to know to start rebasing your branches. If you would prefer a clean, linear history free of unnecessary merge commits, you should reach for <code>git rebase</code> instead of <code>git merge</code> when integrating changes from another branch.</p>
+<p>On the other hand, if you want to preserve the complete history of your project and avoid the risk of re-writing public commits, you can stick with <code>git merge</code>. Either option is perfectly valid, but at least now you have the option of leveraging the benefits of <code>git rebase</code>.</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.502Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/&title=《(Reproduce) Merging vs. Rebasing》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/&title=《(Reproduce) Merging vs. Rebasing》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Merging vs. Rebasing》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/12/20/2016-12/refs_and_the_reflog/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) Refs and the Reflog</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) Lessons learned from a connection leak in production</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/&title=《(Reproduce) Merging vs. Rebasing》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/&title=《(Reproduce) Merging vs. Rebasing》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Merging vs. Rebasing》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/12/19/2016-12/merging_vs_rebasing/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvklEQVR42u3a0W7iQAwFUP7/p7vPqzZwr52h7OrMEyqQzBmk2LX9eMTr69u6evfqu1evv383eX3zwsPDw1tv/eqWzz9ztYnkOJ5fMzmay+/i4eHhHePlD/Rko5uwsQkSeHh4eJ/Pq28Wv4uHh4f3P/FmKXKeQLdFCjw8PLzf4iUbylPqNi1uixpHai14eHh4MS/vIn3O6yP9PTw8PLx1V71thiV3af++WXh4eHgneG05Nd9om+be+xk8PDy807y2MLEJAPmV80Mskm88PDy8W3l5Wpw3qPLibJ6a18EADw8P7xivHQJo0+tkK5vgUfyGeHh4eAteOyY1S3Dbgao8UEX/H+Dh4eEd4OWNrk3CnQ8iJIEnOiw8PDy8w7zkgbtpa20GEfIj+yGlxsPDwzvAa5tJ7fjUI1h5ql2UcfHw8PDewmsLrJvmWX7fthjxV0qNh4eHdyuvLQ3krbLkxnmhYTV0hYeHh3crb3Yes8ZVexBJEj8cscLDw8Nb8PJt5e2xWQutTdzb1BwPDw/vnbxN2r0JS7PAEJV08fDw8Na8r2Dlja72OvkYwXBEDA8PD+8Arx0myKPNsK5cBokopcbDw8O7ldcWFNoHd77aw0oCBh4eHt69vFmBdVbGHTauFr0tPDw8vBO8zYbyje5DSzuG9WKmDA8PD+8mXvv43qTdybG2wemGPhseHh7eqHQ7Y7TJd9JCy0u9L34ePDw8vMO8/AGdN8/yysAmcb/8PB4eHt6tvE2DKi83tPjZWNUP18fDw8M7wGsfuPuw0ZZi21R72GDDw8PDK3n3BoMc2ZYV8sCAh4eH9x5eXlyYpeB5YNgMXb2oteDh4eF9AO/5dYrH92iQCw8PD+/f4uVbbMu+bWL9IrTg4eHhHeNtmk9tQTY/jrzddXkXPDw8vAO8WQo7S7LzQnB7r9XCw8PDS3l/AC7nc6jQDe//AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

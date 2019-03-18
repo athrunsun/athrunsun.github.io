@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) Advanced Git log | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Git">
+    <meta name="description" content="Original Post The purpose of any version control system is to record changes to your code. This gives you the power to go back into your project history to see who contributed what, figure out where b">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) Advanced Git log">
+<meta property="og:url" content="https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post The purpose of any version control system is to record changes to your code. This gives you the power to go back into your project history to see who contributed what, figure out where b">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/1.svg">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) Advanced Git log">
+<meta name="twitter:description" content="Original Post The purpose of any version control system is to record changes to your code. This gives you the power to go back into your project history to see who contributed what, figure out where b">
+<meta name="twitter:image" content="https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/1.svg">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) Advanced Git log</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) Advanced Git log</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-10-03T15:45:00.000Z" itemprop="datePublished" class="page-time">
+  2016-10-03
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Git/">Git</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Formatting-Log-Output"><span class="post-toc-number">1.</span> <span class="post-toc-text">Formatting Log Output</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Oneline"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">Oneline</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Decorating"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Decorating</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Diffs"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">Diffs</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#The-Shortlog"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">The Shortlog</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Graphs"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">Graphs</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Custom-Formatting"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">Custom Formatting</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Filtering-the-Commit-History"><span class="post-toc-number">2.</span> <span class="post-toc-text">Filtering the Commit History</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#By-Amount"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">By Amount</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#By-Date"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">By Date</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#By-Author"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">By Author</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#By-Message"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">By Message</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#By-File"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">By File</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#By-Content"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">By Content</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#By-Range"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">By Range</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Filtering-Merge-Commits"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">Filtering Merge Commits</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Summary"><span class="post-toc-number">3.</span> <span class="post-toc-text">Summary</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-10/advanced_git_log"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) Advanced Git log</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-10-03 23:45:00" datetime="2016-10-03T15:45:00.000Z"  itemprop="datePublished">2016-10-03</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Git/">Git</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="https://www.atlassian.com/git/tutorials/git-log/" target="_blank" rel="external">Original Post</a></p>
+<p>The purpose of any version control system is to record changes to your code. This gives you the power to go back into your project history to see who contributed what, figure out where bugs were introduced, and revert problematic changes. But, having all of this history available is useless if you don’t know how to navigate it. That’s where the git log command comes in.</p>
+<p>By now, you should already know the basic git log command for displaying commits. But, you can alter this output by passing many different parameters to git log.</p>
+<p>The advanced features of git log can be split into two categories: formatting how each commit is displayed, and filtering which commits are included in the output. Together, these two skills give you the power to go back into your project and find any information that you could possibly need.</p>
+<h1 id="Formatting-Log-Output"><a href="#Formatting-Log-Output" class="headerlink" title="Formatting Log Output"></a>Formatting Log Output</h1><p>First, this article will take a look at the many ways in which <code>git log</code>’s output can be formatted. Most of these come in the form of flags that let you request more or less information from <code>git log</code>.</p>
+<p>If you don’t like the default <code>git log</code> format, you can use <code>git config</code>’s aliasing functionality to create a shortcut for any of the formatting options discussed below. Please see in <a href="https://www.atlassian.com/git/tutorials/setting-up-a-repository/config" target="_blank" rel="external">The git config Command</a> for how to set up an alias.</p>
+<h2 id="Oneline"><a href="#Oneline" class="headerlink" title="Oneline"></a>Oneline</h2><p>The <code>--oneline</code> flag condenses each commit to a single line. By default, it displays only the commit ID and the first line of the commit message. Your typical <code>git log --oneline</code> output will look something like this:</p>
+<pre><code>0e25143 Merge branch &#39;feature&#39;
+ad8621a Fix a bug in the feature
+16b36c6 Add a new feature
+23ad9ad Add the initial code base
+</code></pre><p>This is very useful for getting a high-level overview of your project.</p>
+<h2 id="Decorating"><a href="#Decorating" class="headerlink" title="Decorating"></a>Decorating</h2><p>Many times it’s useful to know which branch or tag each commit is associated with. The <code>--decorate</code> flag makes <code>git log</code> display all of the references (e.g., branches, tags, etc) that point to each commit.</p>
+<p>This can be combined with other configuration options. For example, running <code>git log --oneline --decorate</code> will format the commit history like so:</p>
+<pre><code>0e25143 (HEAD, master) Merge branch &#39;feature&#39;
+ad8621a (feature) Fix a bug in the feature
+16b36c6 Add a new feature
+23ad9ad (tag: v0.9) Add the initial code base
+</code></pre><p>This lets you know that the top commit is also checked out (denoted by <code>HEAD</code>) and that it is also the tip of the <code>master</code> branch. The second commit has another branch pointing to it called <code>feature</code>, and finally the 4th commit is tagged as <code>v0.9</code>.</p>
+<p>Branches, tags, <code>HEAD</code>, and the commit history are almost all of the information contained in your Git repository, so this gives you a more complete view of the logical structure of your repository.</p>
+<h2 id="Diffs"><a href="#Diffs" class="headerlink" title="Diffs"></a>Diffs</h2><p>The <code>git log</code> command includes many options for displaying diffs with each commit. Two of the most common options are <code>--stat</code> and <code>-p</code>.</p>
+<p>The <code>--stat</code> option displays the number of insertions and deletions to each file altered by each commit (note that modifying a line is represented as 1 insertion and 1 deletion). This is useful when you want a brief summary of the changes introduced by each commit. For example, the following commit added 67 lines to the <code>hello.py</code> file and removed 38 lines:</p>
+<pre><code>commit f2a238924e89ca1d4947662928218a06d39068c3
+Author: John &lt;john@example.com&gt;
+Date:   Fri Jun 25 17:30:28 2014 -0500
+
+    Add a new feature
+
+ hello.py | 105 ++++++++++++++++++++++++-----------------
+ 1 file changed, 67 insertion(+), 38 deletions(-)
+</code></pre><p>The amount of <code>+</code> and <code>-</code> signs next to the file name show the relative number of changes to each file altered by the commit. This gives you an idea of where the changes for each commit can be found.</p>
+<p>If you want to see the actual changes introduced by each commit, you can pass the <code>-p</code> option to <code>git log</code>. This outputs the entire patch representing that commit:</p>
+<pre><code>commit 16b36c697eb2d24302f89aa22d9170dfe609855b
+Author: Mary &lt;mary@example.com&gt;
+Date:   Fri Jun 25 17:31:57 2014 -0500
+
+    Fix a bug in the feature
+
+diff --git a/hello.py b/hello.py
+index 18ca709..c673b40 100644
+--- a/hello.py
++++ b/hello.py
+@@ -13,14 +13,14 @@ B
+-print(&quot;Hello, World!&quot;)
++print(&quot;Hello, Git!&quot;)
+</code></pre><p>For commits with a lot of changes, the resulting output can become quite long and unwieldy. More often than not, if you’re displaying a full patch, you’re probably searching for a specific change. For this, you want to use the pickaxe option.</p>
+<h2 id="The-Shortlog"><a href="#The-Shortlog" class="headerlink" title="The Shortlog"></a>The Shortlog</h2><p>The <code>git shortlog</code> command is a special version of <code>git log</code> intended for creating release announcements. It groups each commit by author and displays the first line of each commit message. This is an easy way to see who’s been working on what.</p>
+<p>For example, if two developers have contributed 5 commits to a project, the <code>git shortlog</code> output might look like the following:</p>
+<pre><code>Mary (2):
+      Fix a bug in the feature
+      Fix a serious security hole in our framework
+
+John (3):
+      Add the initial code base
+      Add a new feature
+      Merge branch &#39;feature&#39;
+</code></pre><p>By default, <code>git shortlog</code> sorts the output by author name, but you can also pass the <code>-n</code> option to sort by the number of commits per author.</p>
+<h2 id="Graphs"><a href="#Graphs" class="headerlink" title="Graphs"></a>Graphs</h2><p>The <code>--graph</code> option draws an ASCII graph representing the branch structure of the commit history. This is commonly used in conjunction with the <code>--oneline</code> and <code>--decorate</code> commands to make it easier to see which commit belongs to which branch:</p>
+<pre><code class="shell">git log --graph --oneline --decorate
+</code></pre>
+<p>For a simple repository with just 2 branches, this will produce the following:</p>
+<pre><code>*   0e25143 (HEAD, master) Merge branch &#39;feature&#39;
+|\
+| * 16b36c6 Fix a bug in the new feature
+| * 23ad9ad Start a new feature
+* | ad8621a Fix a critical security issue
+|/
+* 400e4b7 Fix typos in the documentation
+* 160e224 Add the initial code base
+</code></pre><p>The asterisk shows which branch the commit was on, so the above graph tells us that the <code>23ad9ad</code> and <code>16b36c6</code> commits are on a topic branch and the rest are on the <code>master</code> branch.</p>
+<p>While this is a nice option for simple repositories, you’re probably better off with a more full-featured visualization tool like <code>gitk</code> or <a href="https://www.atlassian.com/software/sourcetree/overview" target="_blank" rel="external">SourceTree</a> for projects that are heavily branched.</p>
+<h2 id="Custom-Formatting"><a href="#Custom-Formatting" class="headerlink" title="Custom Formatting"></a>Custom Formatting</h2><p>For all of your other <code>git log</code> formatting needs, you can use the <code>--pretty=format:&quot;&lt;string&gt;&quot;</code> option. This lets you display each commit however you want using <code>printf</code>-style placeholders.</p>
+<p>For example, the <code>%cn</code>, <code>%h</code> and <code>%cd</code> characters in the following command are replaced with the committer name, abbreviated commit hash, and the committer date, respectively.</p>
+<pre><code class="shell">git log --pretty=format:&quot;%cn committed %h on %cd&quot;
+</code></pre>
+<p>This results in the following format for each commit:</p>
+<pre><code>John committed 400e4b7 on Fri Jun 24 12:30:04 2014 -0500
+John committed 89ab2cf on Thu Jun 23 17:09:42 2014 -0500
+Mary committed 180e223 on Wed Jun 22 17:21:19 2014 -0500
+John committed f12ca28 on Wed Jun 22 13:50:31 2014 -0500
+</code></pre><p>The complete list of placeholders can be found in the <a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html#_pretty_formats" target="_blank" rel="external">Pretty Formats</a> section of the <code>git log</code> manual page.</p>
+<p>Aside from letting you view only the information that you’re interested in, the <code>--pretty=format:&quot;&lt;string&gt;&quot;</code> option is particularly useful when you’re trying to pipe <code>git log</code> output into another command.</p>
+<h1 id="Filtering-the-Commit-History"><a href="#Filtering-the-Commit-History" class="headerlink" title="Filtering the Commit History"></a>Filtering the Commit History</h1><p>Formatting how each commit gets displayed is only half the battle of learning <code>git log</code>. The other half is understanding how to navigate the commit history. The rest of this article introduces some of the advanced ways to pick out specific commits in your project history using <code>git log</code>. All of these can be combined with any of the formatting options discussed above.</p>
+<h2 id="By-Amount"><a href="#By-Amount" class="headerlink" title="By Amount"></a>By Amount</h2><p>The most basic filtering option for <code>git log</code> is to limit the number of commits that are displayed. When you’re only interested in the last few commits, this saves you the trouble of viewing all the commits in a pager.</p>
+<p>You can limit git log’s output by including the <code>-&lt;n&gt;</code> option. For example, the following command will display only the 3 most recent commits.</p>
+<pre><code class="shell">git log -3
+</code></pre>
+<h2 id="By-Date"><a href="#By-Date" class="headerlink" title="By Date"></a>By Date</h2><p>If you’re looking for a commit from a specific time frame, you can use the <code>--after</code> or -<code>-before</code> flags for filtering commits by date. These both accept a variety of date formats as a parameter. For example, the following command only shows commits that were created <em>after</em> July 1st, 2014 (inclusive):</p>
+<pre><code class="shell">git log --after=&quot;2014-7-1&quot;
+</code></pre>
+<p>You can also pass in relative references like <code>&quot;1 week ago&quot;</code> and <code>&quot;yesterday&quot;</code>:</p>
+<pre><code class="shell">get log --after=&quot;yesterday&quot;
+</code></pre>
+<p>To search for a commits that were created between two dates, you can provide both a <code>--before</code> and <code>--after</code> date. For instance, to display all the commits added between July 1st, 2014 and July 4th, 2014, you would use the following:</p>
+<pre><code class="shell">git log --after=&quot;2014-7-1&quot; --before=&quot;2014-7-4&quot;
+</code></pre>
+<p>Note that the <code>--since</code> and <code>--until</code> flags are synonymous with <code>--after</code> and <code>--before</code>, respectively.</p>
+<h2 id="By-Author"><a href="#By-Author" class="headerlink" title="By Author"></a>By Author</h2><p>When you’re only looking for commits created by a particular user, use the <code>--author</code> flag. This accepts a regular expression, and returns all commits whose author matches that pattern. If you know exactly who you’re looking for, you can use a plain old string instead of a regular expression:</p>
+<pre><code class="shell">git log --author=&quot;John&quot;
+</code></pre>
+<p>This displays all commits whose author includes the name <em>John</em>. The author name doesn’t need to be an <em>exact</em> match — it just needs to <em>contain</em> the specified phrase.</p>
+<p>You can also use regular expressions to create more complex searches. For example, the following command searches for commits by either <em>Mary</em> or <em>John</em>.</p>
+<pre><code class="shell">git log --author=&quot;John\|Mary&quot;
+</code></pre>
+<p>Note that the author’s email is also included with the author’s name, so you can use this option to search by email, too.</p>
+<p>If your workflow separates committers from authors, the <code>--committer</code> flag operates in the same fashion.</p>
+<h2 id="By-Message"><a href="#By-Message" class="headerlink" title="By Message"></a>By Message</h2><p>To filter commits by their commit message, use the <code>--grep</code> flag. This works just like the <code>--author</code> flag discussed above, but it matches against the commit message instead of the author.</p>
+<p>For example, if your team includes relevant issue numbers in each commit message, you can use something like the following to pull out all of the commits related to that issue:</p>
+<pre><code class="shell">git log --grep=&quot;JRA-224:&quot;
+</code></pre>
+<p>You can also pass in the <code>-i</code> parameter to <code>git log</code> to make it ignore case differences while pattern matching.</p>
+<h2 id="By-File"><a href="#By-File" class="headerlink" title="By File"></a>By File</h2><p>Many times, you’re only interested in changes that happened to a particular file. To show the history related to a file, all you have to do is pass in the file path. For example, the following returns all commits that affected either the <code>foo.py</code> or the <code>bar.py</code> file:</p>
+<pre><code class="shell">git log -- foo.py bar.py
+</code></pre>
+<p>The <code>--</code> parameter is used to tell <code>git log</code> that subsequent arguments are file paths and not branch names. If there’s no chance of mixing it up with a branch, you can omit the <code>--</code>.</p>
+<h2 id="By-Content"><a href="#By-Content" class="headerlink" title="By Content"></a>By Content</h2><p>It’s also possible to search for commits that introduce or remove a particular line of source code. This is called a <em>pickaxe</em>, and it takes the form of <code>-S&quot;&lt;string&gt;&quot;</code>. For example, if you want to know when the string <code>Hello, World!</code> was added to any file in the project, you would use the following command:</p>
+<pre><code class="shell">git log -S&quot;Hello, World!&quot;
+</code></pre>
+<p>If you want to search using a regular expression instead of a string, you can use the <code>-G&quot;&lt;regex&gt;&quot;</code> flag instead.</p>
+<p>This is a very powerful debugging tool, as it lets you locate all of the commits that affect a particular line of code. It can even show you when a line was copied or moved to another file.</p>
+<h2 id="By-Range"><a href="#By-Range" class="headerlink" title="By Range"></a>By Range</h2><p>You can pass a range of commits to <code>git log</code> to show only the commits contained in that range. The range is specified in the following format, where <code>&lt;since&gt;</code> and <code>&lt;until&gt;</code> are commit references:</p>
+<pre><code class="shell">git log &lt;since&gt;..&lt;until&gt;
+</code></pre>
+<p>This command is particularly useful when you use branch references as the parameters. It’s a simple way to show the differences between 2 branches. Consider the following command:</p>
+<pre><code class="shell">git log master..feature
+</code></pre>
+<p>The <code>master..feature</code> range contains all of the commits that are in the <code>feature</code> branch, but aren’t in the <code>master</code> branch. In other words, this is how far <code>feature</code> has progressed since it forked off of <code>master</code>. You can visualize this as follows:</p>
+<img src="/2016/10/03/2016-10/advanced_git_log/1.svg" alt="Dectecting a fork in the history using ranges" title="Dectecting a fork in the history using ranges">
+<p>Note that if you switch the order of the range (<code>feature..master</code>), you will get all of the commits in <code>master</code>, but not in <code>feature</code>. If <code>git log</code> outputs commits for both versions, this tells you that your history has diverged.</p>
+<h2 id="Filtering-Merge-Commits"><a href="#Filtering-Merge-Commits" class="headerlink" title="Filtering Merge Commits"></a>Filtering Merge Commits</h2><p>By default, <code>git log</code> includes merge commits in its output. But, if your team has an always-merge policy (that is, you merge upstream changes into topic branches instead of rebasing the topic branch onto the upstream branch), you’ll have a lot of extraneous merge commits in your project history.</p>
+<p>You can prevent <code>git log</code> from displaying these merge commits by passing the <code>--no-merges</code> flag:</p>
+<pre><code class="shell">git log --no-merges
+</code></pre>
+<p>On the other hand, if you’re <em>only</em> interested in the merge commits, you can use the <code>--merges</code> flag:</p>
+<pre><code class="shell">git log --merges
+</code></pre>
+<p>This returns all commits that have at least two parents.</p>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><p>You should now be fairly comfortable using <code>git log</code>’s advanced parameters to format its output and select which commits you want to display. This gives you the power to pull out exactly what you need from your project history.</p>
+<p>These new skills are an important part of your Git toolkit, but remember that <code>git log</code> is often used in conjunction other Git commands. Once you’ve found the commit you’re looking for, you typically pass it off to <code>git checkout</code>, <code>git revert</code>, or some other tool for manipulating your commit history. So, be sure to keep on learning about Git’s advanced features.</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.498Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/&title=《(Reproduce) Advanced Git log》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/&title=《(Reproduce) Advanced Git log》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Advanced Git log》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/10/03/2016-10/git_reset_checkout_revert/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) Reset, Checkout, and Revert</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/&title=《(Reproduce) Advanced Git log》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/&title=《(Reproduce) Advanced Git log》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Advanced Git log》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/10/03/2016-10/advanced_git_log/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACpUlEQVR42u3aQU7DQAwF0N7/0mULQkm/7TgE6WWFStLxG6SJsf16xdf72/X78/wb8k/eB9dr48LDw8MbhH70decLn2/E0c/JRuQxHG4BHh4e3hqvusxkO5I78y37YMHDw8N7AC9PiJPUPF8dDw8P7z/yqsd9nhyfp/jV7cPDw8O7h1cNt8dIihp/VmvBw8PDi3nV9tUTfl7p7+Hh4eGNu+qT1Hby2zx9/xAtHh4e3gKv19CapM694aoklT+8Hw8PD+9SXs7ohdvD98a88PDw8O7hJf/F9woW1SGDZMW8VVYoUuDh4eFdyuuNCOQL5y+PaoUWDw8Pb49XDau6W9X0ulp6wMPDw7uf1xtmyksD+T15a638LB4eHt4CLznE5y3/863pJd+FAgoeHh7eAm9e0s1DrybH+UBD+cLDw8Mb8KrF2d7n85dN8qoolCTw8PDwirzqcTw5sq/9huhZPDw8vGXevNVUTal79+fjXHh4eHjbvMnyva3pDS6UJyPw8PDwlnnnzfjz5fPiQq+8Wy5e4OHh4a3x5q2sHrgXdP5nwMPDw9vg5YXUasI9aapVm2QfRhzw8PDw1nh5UWBy0PfS997LAw8PD2+PlwSXHNzXPtVroR2ugoeHh3cpr3d8T8YCct4FZV88PDy8NV6vxTVJvpNSRRLheZx4eHh4e7ykMDpPrHvDXhHjKCo8PDy8NV7+cBL6K7jydfMLDw8Pb5v3Ll6T8muvJFF9nfx4Fg8PD2+BVz1wqyXa3pjUVeNceHh4eHu8PPRquytvieUvoWoJGA8PD2+PN0+Xey+PZhIcJ+J4eHh4T+Alye6EelXajYeHh/ccXjXJrm7ZZPsWU2o8PDy8cTGiNyKQr1JNwQ+jwsPDw1vgNWe1gpS3GsqkwYaHh4d3C+8LTOKD0NhfCYgAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

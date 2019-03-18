@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) Exception Wrapping | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java,Exception">
+    <meta name="description" content="Original Post What is Exception Wrapping?Exception wrapping is wrapping is when you catch an exception, wrap it in a different exception and throw that exception. Here is an example: try{     dao.read">
+<meta name="keywords" content="Java,Exception">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) Exception Wrapping">
+<meta property="og:url" content="https://athrunsun.github.io/2016/09/30/2016-9/exception_wrapping/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post What is Exception Wrapping?Exception wrapping is wrapping is when you catch an exception, wrap it in a different exception and throw that exception. Here is an example: try{     dao.read">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) Exception Wrapping">
+<meta name="twitter:description" content="Original Post What is Exception Wrapping?Exception wrapping is wrapping is when you catch an exception, wrap it in a different exception and throw that exception. Here is an example: try{     dao.read">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) Exception Wrapping</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) Exception Wrapping</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-09-30T05:38:00.000Z" itemprop="datePublished" class="page-time">
+  2016-09-30
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#What-is-Exception-Wrapping"><span class="post-toc-number">1.</span> <span class="post-toc-text">What is Exception Wrapping?</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Why-Use-Exception-Wrapping"><span class="post-toc-number">2.</span> <span class="post-toc-text">Why Use Exception Wrapping?</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-9/exception_wrapping"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) Exception Wrapping</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-09-30 13:38:00" datetime="2016-09-30T05:38:00.000Z"  itemprop="datePublished">2016-09-30</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="http://tutorials.jenkov.com/java-exception-handling/exception-wrapping.html" target="_blank" rel="external">Original Post</a></p>
+<h1 id="What-is-Exception-Wrapping"><a href="#What-is-Exception-Wrapping" class="headerlink" title="What is Exception Wrapping?"></a>What is Exception Wrapping?</h1><p>Exception wrapping is wrapping is when you catch an exception, wrap it in a different exception and throw that exception. Here is an example:</p>
+<pre><code class="java">try{
+    dao.readPerson();
+} catch (SQLException sqlException) {
+    throw new MyException(&quot;error text&quot;, sqlException);
+}
+</code></pre>
+<p>The method dao.readPerson() can throw an SQLException. If it does, the SQLException is caught and wrapped in a MyException. Notice how the SQLException (the sqlException variable) is passed to the MyException’s constructor as the last parameter.</p>
+<p>Exception wrapping is a standard feature in Java since JDK 1.4. Most (if not all) of Java’s built-in exceptions has constructors that can take a “cause” parameter. They also have a getCause() method that will return the wrapped exception.</p>
+<h1 id="Why-Use-Exception-Wrapping"><a href="#Why-Use-Exception-Wrapping" class="headerlink" title="Why Use Exception Wrapping?"></a>Why Use Exception Wrapping?</h1><p>The main reason one would use exception wrapping is to prevent the code further up the call stack from having to know about every possible exception in the system. There are two main reasons for this.</p>
+<p>The first reason is, that declared exceptions aggregate towards the top of the call stack. If you do not wrap exceptions, but instead pass them on by declaring your methods to throw them, you may end up with top level methods that declare many different exceptions. Declaring all these exceptions in each method back up the call stack becomes tedious.</p>
+<p>The second reason is that you may not want your top level components to know anything about the bottom level components, nor the exceptions they throw. For instance, the purpose of DAO interfaces and implementations is to abstract the details of data access away from the rest of the application. Now, if your DAO methods throw SQLException’s then the code using the DAO’s will have to catch them. What if you change to an implementation that reads the data from a web service instead of from a database? Then you DAO methods will have to throw both RemoteException and SQLException. And, if you have a DAO that reads data from a file, you will need to throw IOException too. That is three different exceptions, each bound to their own DAO implementation.</p>
+<p>To avoid this your DAO interface methods can throw DaoException. In each implementation of the DAO interface (database, file, web service) you will catch the specific exceptions (SQLException, IOException, RemoteException), wrap it in a DaoException, and throw the DaoException. Then code using the DAO interface will only have to deal with DaoException’s. It does not need to know anything about what data access technology is used in the various implementations.</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.502Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Exception/">Exception</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/09/30/2016-9/exception_wrapping/&title=《(Reproduce) Exception Wrapping》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/09/30/2016-9/exception_wrapping/&title=《(Reproduce) Exception Wrapping》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/09/30/2016-9/exception_wrapping/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Exception Wrapping》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/09/30/2016-9/exception_wrapping/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/09/30/2016-9/exception_wrapping/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/09/30/2016-9/software_testing_google_approach/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) 《Google软件测试之道》摘录</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/09/30/2016-9/java_is_pass_by_value/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) Java is Pass-by-Value, Dammit!</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/09/30/2016-9/exception_wrapping/&title=《(Reproduce) Exception Wrapping》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/09/30/2016-9/exception_wrapping/&title=《(Reproduce) Exception Wrapping》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/09/30/2016-9/exception_wrapping/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Exception Wrapping》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/09/30/2016-9/exception_wrapping/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/09/30/2016-9/exception_wrapping/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvElEQVR42u3a0W7jMAwEwP7/T98BxT2e1V1RSlJg/FTYsaJRAVEh+fUVX3++r6f7ybUe7Wn89jObFx4eHt7W1NfTSu4kU0+WaT2rfM54eHh4t3nrjXjy9e3W//RWvkx4eHh4n8NLAsDkfhs28PDw8H4Lb/33PDGRJCPw8PDwPoGXHJHzTOkkYZEv8eFcCx4eHl7Mm2zK7/r7Yn0PDw8Pb1BVn6Rok216vdFPjuz/3sLDw8O7wMuH3gseSdksf7ctnuHh4eHd4CXJgr22qjbdkKcV8rCEh4eH93re+n4yifyQnY9WHPfx8PDwrvHa82e7xSfb+oGkw1NgwMPDwzvKmyQj5umDSXNVnizGw8PDO8trN/H2uNyGmWRpigQKHh4e3jVeHiT2Nv12nHa5o18MeHh4eEd5k/apPJ2xl/Atyl1JlhoPDw9vzEtK+3kDwYR9Kng8zg0PDw/vEC8vZbXp2r1gsLcceHh4eK/nJYX5fBM/O9F2uR9/MeDh4eEd4rXJ0/qcHid5k0m3y4eHh4d3g5e8nCca8neT6U5Gw8PDw7vNa8NAHgDa0eYtBXh4eHi3efPj7+Rpm/Jo54mHh4d3j5ds3PPWqPa78sLbD3g8PDy8o7x2i29LYu2SbbYItI/x8PDwBry9Fqi9ktVe2awND/95ioeHh3eU1x5S14fmvbLWZl4k+Wfg4eHhXebNj9F7qY22raoIQnh4eHgXePlv9rZFYHMrHweMIqWLh4eHd6iqvr7a5G8eACbp3ceR8fDw8C7wJvGkPV7vAdYj4+Hh4b2LlweD9ulemNlLczwuHx4eHt413rzcladu27atUa4FDw8P7628eQjJwXlL1g+fx8PDw/sYXpsUSFISe00Mx47UeHh4eCWv3e7b1oFki88LY/lxHw8PD+8Gb1IAa5sA8tAyCTD1hYeHh5fy/gITb7tgseUiWQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

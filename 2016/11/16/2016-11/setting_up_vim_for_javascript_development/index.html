@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Vim,JavaScript">
+    <meta name="description" content="Original Post Installing pluginsI recommend using vim-plug to install plugins. It’s simple, works on both Vim and Neovim, and can perform operations asynchronously.  vim-plug  SyntaxVim comes with a J">
+<meta name="keywords" content="Vim,JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins">
+<meta property="og:url" content="https://athrunsun.github.io/2016/11/16/2016-11/setting_up_vim_for_javascript_development/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post Installing pluginsI recommend using vim-plug to install plugins. It’s simple, works on both Vim and Neovim, and can perform operations asynchronously.  vim-plug  SyntaxVim comes with a J">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins">
+<meta name="twitter:description" content="Original Post Installing pluginsI recommend using vim-plug to install plugins. It’s simple, works on both Vim and Neovim, and can perform operations asynchronously.  vim-plug  SyntaxVim comes with a J">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-16T06:12:00.000Z" itemprop="datePublished" class="page-time">
+  2016-11-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Vim/">Vim</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Installing-plugins"><span class="post-toc-number">1.</span> <span class="post-toc-text">Installing plugins</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Syntax"><span class="post-toc-number">2.</span> <span class="post-toc-text">Syntax</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Plugins-that-provide-better-syntax-support"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Plugins that provide better syntax support</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Plugins-that-provide-better-indentation-support"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">Plugins that provide better indentation support</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Related-syntaxes"><span class="post-toc-number">3.</span> <span class="post-toc-text">Related syntaxes</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#es-next-ES2016-ES7-support"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">es.next / ES2016 / ES7 support</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JSX-support-for-React"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">JSX support for React</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JSON"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">JSON</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JSDoc-syntax-highlighting"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">JSDoc syntax highlighting</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JSDoc-auto-snippets"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">JSDoc auto-snippets</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#jQuery-plugins"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">jQuery plugins</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JavaScript-libraries"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">JavaScript libraries</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#JavaScript-code-completion-for-Vim"><span class="post-toc-number">4.</span> <span class="post-toc-text">JavaScript code completion for Vim</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Omni-completion"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">Omni completion</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Extended-omni-completion"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">Extended omni-completion</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Code-analysis-based-completion-via-TernJS"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">Code-analysis based completion via TernJS</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Function-parameter-completion"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">Function parameter completion</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Code-navigation"><span class="post-toc-number">5.</span> <span class="post-toc-text">Code navigation</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Jumping-between-CommonJS-modules"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">Jumping between CommonJS modules</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CTags-Symbol-based-navigation"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">CTags - Symbol based navigation</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Linting"><span class="post-toc-number">6.</span> <span class="post-toc-text">Linting</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Formatting"><span class="post-toc-number">7.</span> <span class="post-toc-text">Formatting</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#My-Vim-setup"><span class="post-toc-number">8.</span> <span class="post-toc-text">My Vim setup</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-11/setting_up_vim_for_javascript_development"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-16 14:12:00" datetime="2016-11-16T06:12:00.000Z"  itemprop="datePublished">2016-11-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Vim/">Vim</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="https://davidosomething.com/blog/vim-for-javascript/" target="_blank" rel="external">Original Post</a></p>
+<h1 id="Installing-plugins"><a href="#Installing-plugins" class="headerlink" title="Installing plugins"></a>Installing plugins</h1><p>I recommend using <a href="https://github.com/junegunn/vim-plug" target="_blank" rel="external">vim-plug</a> to install plugins. It’s simple, works on both Vim and Neovim, and can perform operations asynchronously.</p>
+<ul>
+<li><a href="https://github.com/junegunn/vim-plug" target="_blank" rel="external">vim-plug</a></li>
+</ul>
+<h1 id="Syntax"><a href="#Syntax" class="headerlink" title="Syntax"></a>Syntax</h1><p>Vim comes with a JavaScript syntax file. It is automatically loaded when you open up a JavaScript file (where the value of <code>filetype</code> is <code>javascript</code>).</p>
+<p>By default Vim doesn’t automatically detect filetypes, so if you aren’t using vim-plug, you’ll need to enable it manually by adding this to your vimrc:</p>
+<pre><code>filetype plugin indent on
+</code></pre><p>This will enable filetype detection, running filetype specific plugins, and loading filetype specific indentation settings.</p>
+<p>You may also need to enable syntax highlighting in your vimrc file if you’re not using <a href="https://github.com/junegunn/vim-plug" target="_blank" rel="external">vim-plug</a>. To manually enable syntax highlighting, add the following line to your vimrc file:</p>
+<pre><code>syntax enable
+</code></pre><h2 id="Plugins-that-provide-better-syntax-support"><a href="#Plugins-that-provide-better-syntax-support" class="headerlink" title="Plugins that provide better syntax support"></a>Plugins that provide better syntax support</h2><p>The standard JavaScript syntax highlighting is typically adequate, but you may want more features such as ES2015 support, or better distinguishing of keywords.</p>
+<p>There are quite a few options:</p>
+<ul>
+<li><a href="https://github.com/pangloss/vim-javascript" target="_blank" rel="external">pangloss/vim-javascript</a><ul>
+<li>Includes custom indent settings. These indent settings are also the ones included in the Vim default runtime now, and the one in the plugin may be trailing what comes with Vim (i.e., Vim has a newer version of the same indent file!)</li>
+<li>Adds special concealing symbols so to make your code pretty at a glance</li>
+<li>Last updated April 2016 with additional ES2015 support (better arrow function and highlighting among other things) and some regex performance updates.</li>
+</ul>
+</li>
+<li><a href="https://github.com/sheerun/vim-polyglot" target="_blank" rel="external">sheerun/vim-polyglot</a><ul>
+<li>This is a plugin that bundles a bunch of language syntax plugins into one. It includes <a href="https://github.com/pangloss/vim-javascript" target="_blank" rel="external">pangloss/vim-javascript</a> at the latest version, as well as some other plugins like <a href="https://github.com/mxw/vim-jsx" target="_blank" rel="external">mxw/vim-jsx</a>. Worth checking out if you don’t want to maintain syntax plugins on your own, but you should double-check to make sure you aren’t manually adding the bundled plugins outside of the pack (resulting in having the plugin twice).</li>
+</ul>
+</li>
+<li><a href="https://github.com/jelera/vim-javascript-syntax" target="_blank" rel="external">jelera/vim-javascript-syntax</a><ul>
+<li>Does not include custom indent settings (not that you need them…)</li>
+<li>Updated about once a month according to the GitHub contributors graph</li>
+</ul>
+</li>
+<li><a href="https://github.com/othree/yajs.vim" target="_blank" rel="external">othree/yajs.vim</a><ul>
+<li>This is a fork of <a href="jelera/vim-javascript-syntax">jelera/vim-javascript-syntax</a></li>
+<li>Does not include custom indent settings (again, you might not need one)</li>
+<li>Updated very often to keep in line with ES specifications</li>
+</ul>
+</li>
+<li><a href="https://github.com/bigfish/vim-js-context-coloring" target="_blank" rel="external">bigfish/vim-js-context-coloring</a><ul>
+<li>This is an interesting new method of syntax highlighting. It picks out function scopes from your program by runningg it through a node.js binary that runs a JavaScript parser and assigns a color to the scope. Things within that scope are assigned a color. Because it requires in-depth parsing of your code, it may not color your code when it is incomplete (i.e., the syntax is not yet valid).</li>
+<li>This syntax plugin can be used in combination with any of the above, and you can toggle it on and off.</li>
+</ul>
+</li>
+</ul>
+<p>With the exception of vim-js-context-coloring, <strong>all of these provide ES2015 (ES6) and JSDoc support to varying degrees</strong>, which Vim lacks by default. I personally use and recommend <a href="https://github.com/pangloss/vim-javascript" target="_blank" rel="external">pangloss/vim-javascript</a> purely because it has started active development again. I have not experienced any issues since switching to this from <a href="https://github.com/othree/yajs.vim" target="_blank" rel="external">othree/yajs.vim</a>.</p>
+<p><a href="https://github.com/othree/yajs.vim" target="_blank" rel="external">othree/yajs.vim</a> with <a href="https://github.com/othree/es.next.syntax.vim" target="_blank" rel="external">es.next.syntax.vim</a> might better suit your needs if you use ES2016 (ES7). The author also writes a few other plugins that can be used in conjunction with it (although they may work with the other syntaxes, too, depending on the syntax groups provided). I’ve used this plugin extensively in place of the default syntax and haven’t had any problems.</p>
+<p>Using <a href="https://github.com/junegunn/vim-plug" target="_blank" rel="external">vim-plug</a>, I recommend installing the plugin like this:</p>
+<pre><code>Plug &#39;othree/yajs.vim&#39;, { &#39;for&#39;: &#39;javascript&#39; }
+</code></pre><p>The additional requirement at the end makes sure the syntax plugin is loaded in a Vim autocommand based on filetype detection (as opposed to relying on Vim’s <code>runtimepath</code> based sourcing mechanism. This way the main Vim syntax plugin will have already run, and the plugin’s syntax will override it.</p>
+<h3 id="Plugins-that-provide-better-indentation-support"><a href="#Plugins-that-provide-better-indentation-support" class="headerlink" title="Plugins that provide better indentation support"></a>Plugins that provide better indentation support</h3><p>Vim’s bundled JavaScript indent may be enough for you, especially if you use a strictly C-style whitespace (Vim’s C-style indent options is even called <code>cindent</code>). Vim, as of August 26, 2016, comes with a modified version of the <a href="https://github.com/pangloss/vim-javascript" target="_blank" rel="external">pangloss/vim-javascript</a> indent rules that does not include the reformatting <code>gq</code> action. This means 99% of people probably won’t need to change their indent file.</p>
+<p>Some notable options in this case are:</p>
+<ul>
+<li><a href="https://github.com/pangloss/vim-javascript" target="_blank" rel="external">pangloss/vim-javascript</a><ul>
+<li>Using this entire syntax plugin will provide you with a more JavaScript-y indent for things like switch/case and multi-line var declarations.</li>
+<li>This indent plugin has a side-effect in that it also changes the format expression – that is, if you highlight a block and use <code>gq</code> to reformat it, it will re-indent the code using this plugin as well.</li>
+<li>The Vim runtime (stuff that comes with Vim) may include a newer version of this indent file that does not have the modified <code>gq</code>.</li>
+</ul>
+</li>
+<li><a href="https://github.com/gavocanov/vim-js-indent" target="_blank" rel="external">gavocanov/vim-js-indent</a><ul>
+<li>I don’t recommend this one, but I’ve listed it here because you’ll probably find it and have questions. The author no longer uses it, so it should not be considered.</li>
+<li>This is the indent portion of <a href="https://github.com/pangloss/vim-javascript" target="_blank" rel="external">pangloss/vim-javascript</a>, ripped out into its own plugin.</li>
+<li>There are modifications to it, diverging it from <a href="https://github.com/pangloss/vim-javascript" target="_blank" rel="external">pangloss/vim-javascript</a>, notably support for the syntax group names in <a href="https://github.com/othree/yajs.vim" target="_blank" rel="external">othree/yajs.vim</a>. That helps it pick out keywords and when you are inside comments if you are using othree/yajs.vim.</li>
+<li>The format expression from the pangloss plugin has been removed.</li>
+</ul>
+</li>
+<li><a href="https://github.com/itspriddle/vim-javascript-indent" target="_blank" rel="external">itspriddle/vim-javascript-indent</a><ul>
+<li>This is a git mirror of <a href="http://www.vim.org/scripts/script.php?script_id=1936" target="_blank" rel="external">Ryan Fabella’s indent script</a></li>
+<li>It mostly detects closing brackets and parentheses and indents based on what it finds.</li>
+</ul>
+</li>
+<li><a href="https://github.com/jiangmiao/simple-javascript-indenter" target="_blank" rel="external">jiangmiao/simple-javascript-indenter</a><ul>
+<li>An indent plugin with an option for alignment under functions.</li>
+</ul>
+</li>
+<li><a href="https://github.com/jason0x43/vim-js-indent" target="_blank" rel="external">jason0x43/vim-js-indent</a><ul>
+<li>This is a somewhat new (last updated 2014, as of this writing) indent script that also has some TypeScript support. It is based on an <a href="http://www.vim.org/scripts/script.php?script_id=1840" target="_blank" rel="external">older indent script by Tye Zdrojewski</a> and the default JS-in-HTML indent logic that comes with Vim.</li>
+<li>The indent logic starts with normal <code>cindent</code> styles and adds special cases for comments, JSDoc, arrays, and switch/case.</li>
+</ul>
+</li>
+</ul>
+<p>Your best bet is to stick with what comes with Vim by default, and only try out the others if your coding style does not match what the rest of the JavaScript community is converging towards. If there’s a quirk, it is probably better to submit an issue with the <a href="https://github.com/pangloss/vim-javascript" target="_blank" rel="external">pangloss/vim-javascript</a> repo.</p>
+<h1 id="Related-syntaxes"><a href="#Related-syntaxes" class="headerlink" title="Related syntaxes"></a>Related syntaxes</h1><p>During JavaScript development you may find yourself editing a lot of other filetypes that plain JavaScript.</p>
+<h2 id="es-next-ES2016-ES7-support"><a href="#es-next-ES2016-ES7-support" class="headerlink" title="es.next / ES2016 / ES7 support"></a>es.next / ES2016 / ES7 support</h2><p>othree has a syntax plugin that provides support for planned, but not-yet-final EcmaScript features: <a href="https://github.com/othree/es.next.syntax.vim" target="_blank" rel="external">othree/es.next.syntax.vim</a>. I personally don’t use it since I currently stick to the ES2015 feature set at most.</p>
+<ul>
+<li><a href="https://github.com/othree/es.next.syntax.vim" target="_blank" rel="external">othree/es.next.syntax.vim</a></li>
+</ul>
+<h2 id="JSX-support-for-React"><a href="#JSX-support-for-React" class="headerlink" title="JSX support for React"></a>JSX support for React</h2><p>If you write React and use its optional JSX syntax, adding the following plugin will provide you with syntax highlighting for those inline XML-nodes:</p>
+<pre><code>Plug &#39;mxw/vim-jsx&#39;
+</code></pre><p>This plugin requires a JavaScript syntax plugin from above to define certain JavaScript regions. It specifically mentions pangloss’ extension in the docs but <a href="https://github.com/mxw/vim-jsx/commit/80dbab7588c615126f47e50fa4d9c329d080ff95#diff-604ad63592f45d351d97cdc9eeae21a3R28" target="_blank" rel="external">actually supports any of them</a>.</p>
+<ul>
+<li><a href="https://github.com/mxw/vim-jsx" target="_blank" rel="external">mxw/vim-jsx</a></li>
+</ul>
+<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><p>A lot of things use JSON for configuration, so I recommend <a href="https://github.com/elzr/vim-json" target="_blank" rel="external">elzr/vim-json</a> for that. Check out its options, though; I don’t like some of the defaults so I turn them off, but you might want them. Install with:</p>
+<pre><code>Plug &#39;elzr/vim-json&#39;
+</code></pre><ul>
+<li><a href="https://github.com/elzr/vim-json" target="_blank" rel="external">elzr/vim-json</a></li>
+</ul>
+<h2 id="JSDoc-syntax-highlighting"><a href="#JSDoc-syntax-highlighting" class="headerlink" title="JSDoc syntax highlighting"></a>JSDoc syntax highlighting</h2><p>If you document using JSDoc, all of the syntax plugins above support JSDoc highlighting already. There’s a plugin called <a href="https://github.com/othree/jsdoc-syntax.vim" target="_blank" rel="external">othree/jsdoc-syntax.vim</a> that pulls that support out of <a href="https://github.com/othree/yajs.vim" target="_blank" rel="external">othree/yajs.vim</a>, but it is only for adding JSDoc support to other languages like TypeScript.</p>
+<ul>
+<li><a href="https://github.com/othree/jsdoc-syntax.vim" target="_blank" rel="external">othree/jsdoc-syntax.vim</a></li>
+</ul>
+<h2 id="JSDoc-auto-snippets"><a href="#JSDoc-auto-snippets" class="headerlink" title="JSDoc auto-snippets"></a>JSDoc auto-snippets</h2><p>The plugin <a href="https://github.com/heavenshell/vim-jsdoc" target="_blank" rel="external">heavenshell/vim-jsdoc</a> can automatically insert JSDoc comments for you if your cursor is on a function definition. It’ll check for the function name, arguments, and add the doc-block comment for you.<br>I use this plugin quite often (I actually have a fork of it with some additions but hopefully they get merged into the upstream).</p>
+<ul>
+<li><a href="https://github.com/heavenshell/vim-jsdoc" target="_blank" rel="external">heavenshell/vim-jsdoc</a></li>
+</ul>
+<h2 id="jQuery-plugins"><a href="#jQuery-plugins" class="headerlink" title="jQuery plugins"></a>jQuery plugins</h2><p>Files named <code>jquery.*.js</code> are typically jQuery plugins. There’s a specific syntax highlighting plugin for such files: <a href="https://github.com/itspriddle/vim-jquery" target="_blank" rel="external">itspriddle/vim-jquery</a>, but it’s pretty old and you’ll have better support combining an up-to-date syntax plugin with the JavaScript libraries plugin in the next section.</p>
+<ul>
+<li><a href="https://github.com/itspriddle/vim-jquery" target="_blank" rel="external">itspriddle/vim-jquery</a></li>
+</ul>
+<h2 id="JavaScript-libraries"><a href="#JavaScript-libraries" class="headerlink" title="JavaScript libraries"></a>JavaScript libraries</h2><p>othree has a syntax plugin, <a href="https://github.com/othree/javascript-libraries-syntax.vim" target="_blank" rel="external">othree/javascript-libraries-syntax.vim</a>, that supports special highlighting of functions and keywords for various libraries such as jQuery, lodash, React, Handlebars, Chai, etc. For an extensive list, see the README at the plugin’s homepage.</p>
+<p>I personally do use this plugin.</p>
+<ul>
+<li><a href="https://github.com/othree/javascript-libraries-syntax.vim" target="_blank" rel="external">othree/javascript-libraries-syntax.vim</a></li>
+</ul>
+<h1 id="JavaScript-code-completion-for-Vim"><a href="#JavaScript-code-completion-for-Vim" class="headerlink" title="JavaScript code completion for Vim"></a>JavaScript code completion for Vim</h1><h2 id="Omni-completion"><a href="#Omni-completion" class="headerlink" title="Omni completion"></a>Omni completion</h2><p>I won’t go into too much detail about this since it isn’t JavaScript specific.</p>
+<p>Vim includes basic code completion built in. See <a href="http://vim.wikia.com/wiki/Omni_completion" target="_blank" rel="external">this wikia article</a> for information on how to use that. The gist is that the completion system will run a function, the <code>omnifunc</code>, to populate autocompletion pop-up with results.</p>
+<p>To use the default completion function, add this to your vimrc:</p>
+<pre><code>autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+</code></pre><p>For even better completion, consider using a plugin like <a href="https://github.com/Shougo/neocomplete.vim" target="_blank" rel="external">Shougo/neocomplete.vim</a> or <a href="https://github.com/Valloric/YouCompleteMe" target="_blank" rel="external">Valloric/YouCompleteMe</a>. On Neovim, an option is <a href="https://github.com/Shougo/deoplete.nvim" target="_blank" rel="external">Shougo/deoplete.nvim</a>.</p>
+<p>These plugins will add features like automatically popping up the completion menu, caching of keywords, and integration with other sources of completion than what’s in the current Vim buffer (allowing for multiple <code>omnifunc</code>s).</p>
+<p>For portability across my systems without needing a recompile, I use <a href="https://github.com/Shougo/neocomplete.vim" target="_blank" rel="external">Shougo/neocomplete.vim</a>. Shougo’s plugins and YouCompleteMe both offer roughly the same feature set, though, so whatever might be missing in one can probably be configured into it.</p>
+<p>With <a href="https://github.com/Shougo/neocomplete.vim" target="_blank" rel="external">Shougo/neocomplete.vim</a>, using multiple sources of completion can be done by providing a list of function names like so:</p>
+<pre><code>let g:neocomplete#sources#omni#functions.javascript = [
+    \   &#39;jspc#omni&#39;,
+    \   &#39;tern#Complete&#39;,
+    \ ]
+</code></pre><h2 id="Extended-omni-completion"><a href="#Extended-omni-completion" class="headerlink" title="Extended omni-completion"></a>Extended omni-completion</h2><p>The plugin <a href="https://github.com/1995eaton/vim-better-javascript-completion" target="_blank" rel="external">1995eaton/vim-better-javascript-completion</a> provides a somewhat up-to-date JavaScript with HTML5 methods (e.g. <code>localStorage</code> and <code>canvas</code> methods).</p>
+<p>This plugin creates a new omni-completion function, <code>js#CompleteJS</code>, and replaces your current JS <code>omnifunc</code> with that. That means you’ll have to use a completion plugin or write some VimL yourself if you want to use it in conjunction with another <code>omnifunc</code> like TernJS in the next section.</p>
+<ul>
+<li><a href="https://github.com/1995eaton/vim-better-javascript-completion" target="_blank" rel="external">1995eaton/vim-better-javascript-completion</a></li>
+</ul>
+<h2 id="Code-analysis-based-completion-via-TernJS"><a href="#Code-analysis-based-completion-via-TernJS" class="headerlink" title="Code-analysis based completion via TernJS"></a>Code-analysis based completion via TernJS</h2><p>TernJS is kind of like IntelliSense if you’ve ever used Visual Studio, or like the autocompletion for many very robust IDEs. It parses your code and extracts various symbols, like function names, variable names, and values.</p>
+<p>The official vim plugin can also show you function signatures (what parameters parameters it expects) and can extract values from related files (e.g. CommonJS <code>require()</code>‘d files) if you configure it to do so (via a <code>.tern-project</code>).</p>
+<p>The completion is provided to Vim’s auto-completion engine via an <code>omnifunc</code>, <code>tern#Complete</code>. Again, you’ll have to setup your <code>omnifunc</code> appropriately to use TernJS results instead of the default omni-completion results.</p>
+<p>Installing via <a href="https://github.com/junegunn/vim-plug" target="_blank" rel="external">vim-plug</a>, which can run additional commands before plugin installation, is done like this:</p>
+<pre><code>Plug &#39;marijnh/tern_for_vim&#39;, { &#39;do&#39;: &#39;npm install&#39; }
+</code></pre><p>This will install its npm dependencies for you (Tern runs a node-based analyzer in the background while you’re editing).</p>
+<p>I use this plugin with many of its extra features turned off, just keeping the completion.</p>
+<ul>
+<li><a href="https://github.com/marijnh/tern_for_vim" target="_blank" rel="external">marijnh/tern_for_vim</a></li>
+</ul>
+<h2 id="Function-parameter-completion"><a href="#Function-parameter-completion" class="headerlink" title="Function parameter completion"></a>Function parameter completion</h2><p>othree has a plugin called JavaScript Parameter Complete that detects when you’re inside a function argument and provides some common autocomplete suggestions for it. This is not a feature that TernJS provides, since Tern only adds existing symbols. For example, if you’re writing an event listener, it’ll suggest things like <code>click</code>, and <code>mouseover</code> for you. You can see all the suggestions it provides in its GitHub source. Install the plugin via:</p>
+<pre><code>Plug &#39;othree/jspc.vim&#39;
+</code></pre><p>On load, the jspc.vim plugin automatically detects whatever <code>omnifunc</code> you already have set as your default. It wraps it with the parameter completion, and falls back to your default if you are not in a parameter completion. Because of this you should specify <code>jspc#omni</code> instead of whatever your default completion is (typically <code>javascriptcomplete#CompleteJS</code>).</p>
+<ul>
+<li><a href="https://github.com/othree/jspc.vim" target="_blank" rel="external">othree/jspc.vim</a></li>
+</ul>
+<h1 id="Code-navigation"><a href="#Code-navigation" class="headerlink" title="Code navigation"></a>Code navigation</h1><h2 id="Jumping-between-CommonJS-modules"><a href="#Jumping-between-CommonJS-modules" class="headerlink" title="Jumping between CommonJS modules"></a>Jumping between CommonJS modules</h2><p>The plugin <a href="https://github.com/moll/vim-node" target="_blank" rel="external">moll/vim-node</a> adds keybindings like for jumping to files in your CommonJS <code>require</code> statements.</p>
+<pre><code>Plug &#39;moll/vim-node&#39;
+</code></pre><ul>
+<li><a href="https://github.com/moll/vim-node" target="_blank" rel="external">moll/vim-node</a></li>
+</ul>
+<h2 id="CTags-Symbol-based-navigation"><a href="#CTags-Symbol-based-navigation" class="headerlink" title="CTags - Symbol based navigation"></a>CTags - Symbol based navigation</h2><p>CTags are lists of all symbols in your projects (function names, variable names, filenames, etc.). Vim provides ctag support by default, with keybindings to jump to declarations and definitions, and there are a slew of plugins (e.g. <a href="https://github.com/ludovicchabant/vim-gutentags" target="_blank" rel="external">ludovicchabant/vim-gutentags</a>) that can auto-generate the tags file for you. Using <a href="https://github.com/majutsushi/tagbar" target="_blank" rel="external">majutsushi/tagbar</a>, <a href="https://github.com/Shougo/unite.vim" target="_blank" rel="external">Shougo/unite.vim</a>, <a href="https://github.com/ctrlpvim/ctrlp.vim" target="_blank" rel="external">ctrlpvim/ctrlp.vim</a>, or a bunch of other plugins (and plugins that work with them – plugin-plugins), you can browse through those tags.</p>
+<p>Of particular note on the generation side is <a href="https://github.com/ramitos/jsctags" target="_blank" rel="external">ramitos/jsctags</a>, which will generate ctags using TernJS.</p>
+<p>Personally, I find ctags too annoying to use since the files need to be regenerated to search them (except with <a href="https://github.com/majutsushi/tagbar" target="_blank" rel="external">majutsushi/tagbar</a> which runs ctags on every open, but only for the current file). Usually just using <code>git grep</code> or <a href="https://github.com/ggreer/the_silver_searcher" target="_blank" rel="external">the_silver_searcher</a> is adequate, and there are plugins for those, too (out of scope for this article).</p>
+<ul>
+<li><a href="https://github.com/ramitos/jsctags" target="_blank" rel="external">ramitos/jsctags</a></li>
+</ul>
+<h1 id="Linting"><a href="#Linting" class="headerlink" title="Linting"></a>Linting</h1><p>While there are actually JSHint, JSLint, eslint, etc. runners for Vim, for your own sanity just use <a href="https://github.com/scrooloose/syntastic" target="_blank" rel="external">scrooloose/syntastic</a>. It supports a variety of syntax checkers, but you may need to install them first. For example, for eslint support, which is the standard these days, <code>npm install -g eslint</code> first. Refer to syntastic’s <a href="https://github.com/scrooloose/syntastic/wiki/JavaScript" target="_blank" rel="external">wiki page on configuring various JavaScript linters</a>.</p>
+<p>Syntastic’s pitfalls are that it is large (it is essentially a linter framework for Vim) and it doesn’t run asynchronously (doesn’t mean it is slow though – depends on the speed of the lint program).</p>
+<p>You could alternatively use Vim’s built-in <code>makeprg</code>, which can run any program and output the results to Vim, but you miss out on things like using multiple <code>makeprg</code>s at a time (e.g. JSCS, eslint, and the flow type checker at once) and grouping results. Syntastic actually uses makeprg under the covers, so besides the minimal overhead of configuring some variables it really isn’t any slower.</p>
+<p>There’s <a href="https://github.com/osyo-manga/vim-watchdogs" target="_blank" rel="external">osyo-manga/vim-watchdogs</a>, which runs linters asynchronously, but the docs are only in Japanese. The plugins <a href="https://github.com/Shougo/vimproc.vim" target="_blank" rel="external">Shougo/vimproc.vim</a> and <a href="https://github.com/tpope/vim-dispatch" target="_blank" rel="external">tpope/vim-dispatch</a> can run any tool async, but they aren’t easily configurable as lint-runners. If you follow modern JS design patterns, your JavaScript files should ideally be small modules so running linters asynchronously won’t provide noticeable benefit.</p>
+<p>If you’re running Neovim, <a href="https://github.com/benekastah/neomake" target="_blank" rel="external">neomake</a> is an option that’s gaining popularity. It makes full use of Neovim’s asynchronous job support.</p>
+<ul>
+<li><a href="https://github.com/scrooloose/syntastic" target="_blank" rel="external">scrooloose/syntastic</a></li>
+<li><a href="https://github.com/osyo-manga/vim-watchdogs" target="_blank" rel="external">osyo-manga/vim-watchdogs</a></li>
+<li><a href="https://github.com/benekastah/neomake" target="_blank" rel="external">neomake</a></li>
+</ul>
+<h1 id="Formatting"><a href="#Formatting" class="headerlink" title="Formatting"></a>Formatting</h1><p>Vim has a built-in re-formatter for whitespace. Visually select some text and use the <code>=</code> key to re-indent all of it.</p>
+<p>For minified JS, there’s a vim plugin, <a href="https://github.com/maksimr/vim-jsbeautify" target="_blank" rel="external">vim-jsbeautify</a>, that can run your code through jsbeautifier for you. I personally don’t use this and prefer to go to the jsbeautifier website, copying and pasting it there if I need to un-minify something.</p>
+<p>There’s also <a href="https://github.com/Chiel92/vim-autoformat" target="_blank" rel="external">Chiel92/vim-autoformat</a>, which supports formatters for many different languages. Of note is <a href="http://jscs.info/" target="_blank" rel="external">jscs</a> and <a href="https://github.com/einars/js-beautify" target="_blank" rel="external">js-beautifier</a> support.</p>
+<ul>
+<li><a href="https://github.com/maksimr/vim-jsbeautify" target="_blank" rel="external">vim-jsbeautify</a></li>
+<li><a href="https://github.com/Chiel92/vim-autoformat" target="_blank" rel="external">Chiel92/vim-autoformat</a></li>
+</ul>
+<h1 id="My-Vim-setup"><a href="#My-Vim-setup" class="headerlink" title="My Vim setup"></a>My Vim setup</h1><p>You can dig through <a href="https://github.com/davidosomething/dotfiles/tree/master/vim" target="_blank" rel="external">my Vim configuration on GitHub</a>. The plugins I use are all in the main vimrc file, and their configurations are interspersed into <code>plugin/</code>, <code>ftplugin/</code>, and <code>after/*/</code> to cope with the order in which Vim loads files.</p>
+<ul>
+<li><a href="https://github.com/davidosomething/dotfiles/tree/master/vim" target="_blank" rel="external">my Vim configuration on GitHub</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.498Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/11/16/2016-11/setting_up_vim_for_javascript_development/&title=《(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/11/16/2016-11/setting_up_vim_for_javascript_development/&title=《(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/11/16/2016-11/setting_up_vim_for_javascript_development/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/11/16/2016-11/setting_up_vim_for_javascript_development/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/11/16/2016-11/setting_up_vim_for_javascript_development/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/11/21/2016-11/lessons_learned_from_a_connection_leak_in_production/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) Lessons learned from a connection leak in production</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/11/16/2016-11/vim_and_python_a_match_made_in_heaven/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) VIM and Python - a Match Made in Heaven</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/11/16/2016-11/setting_up_vim_for_javascript_development/&title=《(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/11/16/2016-11/setting_up_vim_for_javascript_development/&title=《(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/11/16/2016-11/setting_up_vim_for_javascript_development/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Setting up Vim for JavaScript development - Comparisons and information for useful JavaScript-specific plugins》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/11/16/2016-11/setting_up_vim_for_javascript_development/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/11/16/2016-11/setting_up_vim_for_javascript_development/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADLElEQVR42u3aQY7bMAwF0Nz/0inQVYt2nP8pG4jlp9XAcWw9ZsEhqdcrXu/fK7+efHp8//uPNdvbCQsbGxv7Juz34Tre0L+vbL97HNDj/STXf3wLNjY29nbsPJ0kaSYPRxvQ/O8PRmxsbOxHso9JefppE1UbSmxsbGzssxJYUpAkLaQ86NjY2NhPZudNnDY0STrMy4x2Dyf00rCxsbG/nj0bwX7n3xfOt7GxsbG/kv0u13oqaofEeflRKLCxsbE3Yuft/vao5SxYebu/HR5HZzaxsbGxb8tu/29fH9DOgnXuj4SNjY29N3s2uM1HtvkQYn1UUAQCGxsb+7bs2YA2TxhtC2m9REmej42Njb0TO7+pTTBtA6gtJPKgROeVsLGxsW/LPr6pTW/tGDh/e1s4ffgxsLGxsTditwlspUmU9+cT9qzIwcbGxt6JvdKamZUlbZI7610fMjY2Njb2bdlnFQDtdts780/r8QY2Njb2zdl5Y312LCYPYluitD/DX1ewsbGxH8ZeSXJ5IPInJ9/9sBNsbGzs7djt6Z6VYzfrRUVbftT5EBsbG/u27JzRvjJnrBwGKsokbGxs7E3Zx0VCst1zwzF75rBHhY2NjX1zdt7KmR3HmTWPkmHA7OgPNjY29q7sK1o87RPyjJPs4ccnY2NjY2/Nbps4szFAXkhcMiTAxsbG3pqdD3HzUmHWqGqHx3mjChsbG3s/9gx8RQOobVG178LGxsZ+Grs9prPyhJVxQl2QYGNjY2/EThJPe3An+e4VJU29E2xsbOwt2LN/6/PiISkh2tTYJsj/XMfGxsbeiL0+uG2P1OTfzUM/bJNhY2Njb8FuWzwrKWd2VCgpYNofCRsbG3s/dtsMmqWiWWrMrxSHe7CxsbG3Y+er3frKkCBPnMP5NjY2NvYW7Hy17LYVlY8NVobKdQiwsbGxb8JeSVorR2fylDkrgT60qLCxsbG3YydJK8e0AZ2VOq+VhY2Njf1IdnL/WQHKB8CztIeNjY2NPRvrJiXQLIkWRQg2Njb2puy8YFgZx7YNqZUjRFECw8bGxt6CPevA5OOE2SB2JQSzt2NjY2PfkP0LlGKWulrUEWUAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

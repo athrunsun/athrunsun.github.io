@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) DNS (UDP) tunneling by SSH with socat | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="DNS,SSH">
+    <meta name="description" content="Original Post IntroIn China, many “ISP” sucks. Their DNS servers often return incorrect ip address results,  is known as DNS poisoning! DNS poisoning is a common and simple way to stop people reaching">
+<meta name="keywords" content="DNS,SSH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) DNS (UDP) tunneling by SSH with socat">
+<meta property="og:url" content="https://athrunsun.github.io/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post IntroIn China, many “ISP” sucks. Their DNS servers often return incorrect ip address results,  is known as DNS poisoning! DNS poisoning is a common and simple way to stop people reaching">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) DNS (UDP) tunneling by SSH with socat">
+<meta name="twitter:description" content="Original Post IntroIn China, many “ISP” sucks. Their DNS servers often return incorrect ip address results,  is known as DNS poisoning! DNS poisoning is a common and simple way to stop people reaching">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) DNS (UDP) tunneling by SSH with socat</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) DNS (UDP) tunneling by SSH with socat</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-10-05T14:34:00.000Z" itemprop="datePublished" class="page-time">
+  2016-10-05
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/DNS/">DNS</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Intro"><span class="post-toc-number">1.</span> <span class="post-toc-text">Intro</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Dependent-tools"><span class="post-toc-number">2.</span> <span class="post-toc-text">Dependent tools</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Samples-and-Steps"><span class="post-toc-number">3.</span> <span class="post-toc-text">Samples and Steps</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-10/dns_tunneling_by_ssh_with_socat"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) DNS (UDP) tunneling by SSH with socat</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-10-05 22:34:00" datetime="2016-10-05T14:34:00.000Z"  itemprop="datePublished">2016-10-05</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/DNS/">DNS</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="http://gihnius.net/2014/08/60-ssh-dns-tunnel-by-socat/" target="_blank" rel="external">Original Post</a></p>
+<h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><p>In China, many “ISP” sucks. Their DNS servers often return incorrect ip address results,  is known as DNS poisoning! DNS poisoning is a common and simple way to stop people reaching correct web pages.</p>
+<p>Here is a solution to get the correct DNS queries results.</p>
+<h1 id="Dependent-tools"><a href="#Dependent-tools" class="headerlink" title="Dependent tools"></a>Dependent tools</h1><ul>
+<li>Server<ul>
+<li>A VPS server that can access famous public DNS servers correctly, eg. <code>8.8.8.8</code> (google dns) or <code>208.67.222.222</code> (opendns).</li>
+<li>SSH server running on that VPS. (Please google: how to setup ssh server)</li>
+<li>socat (Socket Cat). (Please google: how to setup or install socat)</li>
+<li>dnsmasq (Optional, for caching).</li>
+</ul>
+</li>
+<li>Local<ul>
+<li>SSH client</li>
+<li>socat (Socket Cat)</li>
+<li>dnsmasq (Optional, for caching).</li>
+</ul>
+</li>
+</ul>
+<p>ssh, socat, dnsmasq are open source softwares which can be found and installed easily.</p>
+<h1 id="Samples-and-Steps"><a href="#Samples-and-Steps" class="headerlink" title="Samples and Steps"></a>Samples and Steps</h1><ul>
+<li>Server<ul>
+<li>Setup a DNS caching server using dnsmasq. (Optional)<ul>
+<li>install dnsmasq</li>
+<li>configure example using google dns and opendns servers. please check out: Setup a DNS cache server using dnsmasq</li>
+<li>start dnsmasq</li>
+</ul>
+</li>
+<li>If no local dns server, just use a public dns server instead, eg. <code>8.8.8.8:53</code></li>
+<li>Forwarding <strong>UDP</strong> to <strong>TCP</strong> by socat (listen on port: <code>15353</code>)<ul>
+<li>install socat</li>
+<li>start socat:<ul>
+<li>if use a public dns server, eg. <code>8.8.8.8:53</code><br><code>socat tcp4-listen:15353,reuseaddr,fork,bind=127.0.0.1 UDP:8.8.8.8:53</code></li>
+<li>if use local dns caching server: <code>127.0.0.1:5353</code><br><code>socat tcp4-listen:15353,reuseaddr,fork,bind=127.0.0.1 UDP:127.0.0.1:53</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>You can check the forwarding dns server using command line:<br><code>dig +tcp google.com @127.0.0.1 -p 15353</code></li>
+</ul>
+</li>
+<li>Local<ul>
+<li>Setup SSH tunnel<br><code>ssh -N -L 15353:localhost:15353 username@vps.ip</code></li>
+<li>Forwarding TCP to UDP by socat<ul>
+<li>if no local dns caching server, you can forward to port <code>53</code><br><code>socat udp-recvfrom:53,reuseaddr,bind=127.0.0.1,fork tcp:127.0.0.1:15353</code></li>
+<li>of cause can forward to any port that can be used.<br><code>socat udp-recvfrom:15353,reuseaddr,bind=127.0.0.1,fork tcp:127.0.0.1:15353</code></li>
+</ul>
+</li>
+<li>Setup local dns caching server (Optional but recommend). See the server instruction above.</li>
+</ul>
+</li>
+</ul>
+<p>OK!</p>
+<p>Oh not yet!</p>
+<p>ssh (tunnel) is not always working well! WTF!</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.498Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DNS/">DNS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSH/">SSH</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/&title=《(Reproduce) DNS (UDP) tunneling by SSH with socat》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/&title=《(Reproduce) DNS (UDP) tunneling by SSH with socat》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) DNS (UDP) tunneling by SSH with socat》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/&title=《(Reproduce) DNS (UDP) tunneling by SSH with socat》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/&title=《(Reproduce) DNS (UDP) tunneling by SSH with socat》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) DNS (UDP) tunneling by SSH with socat》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACr0lEQVR42u3awXKjQAwE0Pz/T3uvW+VAuiXG5cPj5LIJ8DiMlNb8/MTH6+34//ur89tzro776zxw4OHh4a0f/erS79/PrpN/3rwOPDw8vNO82eL+frP7R2l/zc+5/B4PDw/va3hJkdi8sn3xwMPDw/se3j0sX/rzBh0PDw/vO3mbCHUfOsyKxMNZCx4eHl7My6dI3/P5yHwPDw8Pbz1Vz4vE1aI8W7JfDx14eHh4J3htO7sZU7VDrzwy/uNMPDw8vI/w2n/yN2UjD3+HzTceHh7eMV5+oaQYzNrx/C5F2cDDw8N7lJdfuh07beLX2SjrspnGw8PD+wgvX4hnI/xNNFy8Pjw8PLxjvKceYl82Zn97+Zx4eHh4B3gtrG2v2+0ISRl4oBHHw8PDW/M2A7Bku0D7cNFYq02p8fDw8B7izcb8swAijz9mscgvT4uHh4f3QV6+6LfhxSzsGG66wsPDwzvAy2Gz259ovu9fVvQzHh4e3pr3Gh3ta9oUjLxoXZYEPDw8vId47YAqX3Vn+HwAFpUfPDw8vAO8++W7/XXWQOdNdrtNAQ8PD+80b0ZtY9/8Bc3CiCLAxcPDw1vw9tHtLNpIxlotLEpc8PDw8Ba8/JazAGK2+aCd3RWjLzw8PLw1bxYr5ID2oWctez3lw8PDw1vz8jZ6FlUkhSF/ie1GBDw8PLxzvNk2gpbR9r3t9oVfzsTDw8M7xnuqMOSkdpNWG+zi4eHhneC9yqMtDJslvthWdXV9PDw8vAO8h3cflI+el6IkyNgUEjw8PLyW1xaDpwLZPArZbHTAw8PDO8e7/z5vlzdR7z5ZuSwMeHh4eF/DS5D5Oe2oLLoCHh4e3hfw7pfydjPWic0KeHh4eJ/h5UHAZsluR2WzOAMPDw/vNG/Twg4X60XDvWLg4eHhbXn/AGQ3K/APrW5gAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

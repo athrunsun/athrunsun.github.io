@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) Reset, Checkout, and Revert | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Git">
+    <meta name="description" content="Original Post The git reset, git checkout, and git revert command are some of the most useful tools in your Git toolbox. They all let you undo some kind of change in your repository, and the first two">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) Reset, Checkout, and Revert">
+<meta property="og:url" content="https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post The git reset, git checkout, and git revert command are some of the most useful tools in your Git toolbox. They all let you undo some kind of change in your repository, and the first two">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/1.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/2.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/3.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/4.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/5.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/6.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/7.svg">
+<meta property="og:image" content="https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/8.svg">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) Reset, Checkout, and Revert">
+<meta name="twitter:description" content="Original Post The git reset, git checkout, and git revert command are some of the most useful tools in your Git toolbox. They all let you undo some kind of change in your repository, and the first two">
+<meta name="twitter:image" content="https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/1.svg">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) Reset, Checkout, and Revert</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) Reset, Checkout, and Revert</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-10-03T15:11:00.000Z" itemprop="datePublished" class="page-time">
+  2016-10-03
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Git/">Git</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Commit-level-Operation"><span class="post-toc-number">1.</span> <span class="post-toc-text">Commit-level Operation</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Reset"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">Reset</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Checkout"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Checkout</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Revert"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">Revert</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#File-level-Operations"><span class="post-toc-number">2.</span> <span class="post-toc-text">File-level Operations</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Reset-1"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Reset</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Checkout-1"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Checkout</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Summary"><span class="post-toc-number">3.</span> <span class="post-toc-text">Summary</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-10/git_reset_checkout_revert"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) Reset, Checkout, and Revert</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-10-03 23:11:00" datetime="2016-10-03T15:11:00.000Z"  itemprop="datePublished">2016-10-03</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Git/">Git</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting" target="_blank" rel="external">Original Post</a></p>
+<p>The <code>git reset</code>, <code>git checkout</code>, and <code>git revert</code> command are some of the most useful tools in your Git toolbox. They all let you undo some kind of change in your repository, and the first two commands can be used to manipulate either commits or individual files.</p>
+<p>Because they’re so similar, it’s very easy to mix up which command should be used in any given development scenario. In this article, we’ll compare the most common configurations of <code>git reset</code>, <code>git checkout</code>, and <code>git revert</code>. Hopefully, you’ll walk away with the confidence to navigate your repository using any of these commands.</p>
+<img src="/2016/10/03/2016-10/git_reset_checkout_revert/1.svg" alt="The main components of a Git repository" title="The main components of a Git repository">
+<p>It helps to think about each command in terms of their effect on the three main components of a Git repository: the working directory, the staged snapshot, and the commit history. Keep these components in mind as you read through this article.</p>
+<h1 id="Commit-level-Operation"><a href="#Commit-level-Operation" class="headerlink" title="Commit-level Operation"></a>Commit-level Operation</h1><p>The parameters that you pass to <code>git reset</code> and <code>git checkout</code> determine their scope. When you don’t include a file path as a parameter, they operate on whole commits. That’s what we’ll be exploring in this section. Note that <code>git revert</code> has no file-level counterpart.</p>
+<h2 id="Reset"><a href="#Reset" class="headerlink" title="Reset"></a>Reset</h2><p>On the commit-level, resetting is a way to move the tip of a branch to a different commit. This can be used to remove commits from the current branch. For example, the following command moves the <code>hotfix</code> branch backwards by two commits.</p>
+<pre><code class="shell">git checkout hotfix
+git reset HEAD~2
+</code></pre>
+<p>The two commits that were on the end of <code>hotfix</code> are now dangling commits, which means they will be deleted the next time Git performs a garbage collection. In other words, you’re saying that you want to throw away these commits. This can be visualized as the following:</p>
+<img src="/2016/10/03/2016-10/git_reset_checkout_revert/2.svg" alt="Resetting the hotfix branch to HEAD~2" title="Resetting the hotfix branch to HEAD~2">
+<p>This usage of <code>git reset</code> is a simple way to undo changes that haven’t been shared with anyone else. It’s your go-to command when you’ve started working on a feature and find yourself thinking, “Oh crap, what am I doing? I should just start over.”</p>
+<p>In addition to moving the current branch, you can also get <code>git reset</code> to alter the staged snapshot and/or the working directory by passing it one of the following flags:</p>
+<ul>
+<li><code>--soft</code> – The staged snapshot and working directory are not altered in any way.</li>
+<li><code>--mixed</code> – The staged snapshot is updated to match the specified commit, but the working directory is not affected. This is the default option.</li>
+<li><code>--hard</code> – The staged snapshot and the working directory are both updated to match the specified commit.</li>
+</ul>
+<p>It’s easier to think of these modes as defining the scope of a <code>git reset</code> operation:</p>
+<img src="/2016/10/03/2016-10/git_reset_checkout_revert/3.svg" alt="The scope of git reset's modes" title="The scope of git reset's modes">
+<p>These flags are often used with HEAD as the parameter. For instance, <code>git reset --mixed HEAD</code> has the affect of unstaging all changes, but leaves them in the working directory. On the other hand, if you want to completely throw away all your uncommitted changes, you would use <code>git reset --hard HEAD</code>. These are two of the most common uses of git reset.</p>
+<p>Be careful when passing a commit other than <code>HEAD</code> to <code>git reset</code>, since this re-writes the current branch’s history. As discussed in <a href="https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting/commit-level-operations" target="_blank" rel="external">The Golden Rule of Rebasing</a>, this a big problem when working on a public branch.</p>
+<h2 id="Checkout"><a href="#Checkout" class="headerlink" title="Checkout"></a>Checkout</h2><p>By now, you should be very familiar with the commit-level version of <code>git checkout</code>. When passed a branch name, it lets you switch between branches.</p>
+<pre><code class="shell">git checkout hotfix
+</code></pre>
+<p>Internally, all the above command does is move <code>HEAD</code> to a different branch and update the working directory to match. Since this has the potential to overwrite local changes, Git forces you to commit or stash any changes in the working directory that will be lost during the checkout operation. Unlike <code>git reset</code>, <code>git checkout</code> doesn’t move any branches around.</p>
+<img src="/2016/10/03/2016-10/git_reset_checkout_revert/4.svg" alt="Moving HEAD from master to hotfix" title="Moving HEAD from master to hotfix">
+<p>You can also check out arbitrary commits by passing in the commit reference instead of a branch. This does the exact same thing as checking out a branch: it moves the <code>HEAD</code> reference to the specified commit. For example, the following command will check out out the grandparent of the current commit:</p>
+<pre><code class="shell">git checkout HEAD~2
+</code></pre>
+<img src="/2016/10/03/2016-10/git_reset_checkout_revert/5.svg" alt="Moving HEAD to an arbitary commit" title="Moving HEAD to an arbitary commit">
+<p>This is useful for quickly inspecting an old version of your project. However, since there is no branch reference to the current <code>HEAD</code>, this puts you in a <code>detached HEAD state</code>. This can be dangerous if you start adding new commits because there will be no way to get back to them after you switch to another branch. For this reason, you should always create a new branch before adding commits to a detached <code>HEAD</code>.</p>
+<h2 id="Revert"><a href="#Revert" class="headerlink" title="Revert"></a>Revert</h2><p>Reverting undoes a commit by creating a new commit. This is a safe way to undo changes, as it has no chance of re-writing the commit history. For example, the following command will figure out the changes contained in the 2nd to last commit, create a new commit undoing those changes, and tack the new commit onto the existing project.</p>
+<pre><code class="shell">git checkout hotfix
+git revert HEAD~2
+</code></pre>
+<p>This can be visualized as the following:</p>
+<img src="/2016/10/03/2016-10/git_reset_checkout_revert/6.svg" alt="Reverting the 2nd to last commit" title="Reverting the 2nd to last commit">
+<p>Contrast this with <code>git reset</code>, which does alter the existing commit history. For this reason, <code>git revert</code> should be used to undo changes on a public branch, and <code>git reset</code> should be reserved for undoing changes on a private branch.</p>
+<p>You can also think of <code>git revert</code> as a tool for undoing <em>committed</em> changes, while <code>git reset HEAD</code> is for undoing <em>uncommitted</em> changes.</p>
+<p>Like <code>git checkout</code>, <code>git revert</code> has the potential to overwrite files in the working directory, so it will ask you to commit or stash changes that would be lost during the revert operation.</p>
+<h1 id="File-level-Operations"><a href="#File-level-Operations" class="headerlink" title="File-level Operations"></a>File-level Operations</h1><p>The <code>git reset</code> and <code>git checkout</code> commands also accept an optional file path as a parameter. This dramatically alters their behavior. Instead of operating on entire snapshots, this forces them to limit their operations to a single file.</p>
+<h2 id="Reset-1"><a href="#Reset-1" class="headerlink" title="Reset"></a>Reset</h2><p>When invoked with a file path, <code>git reset</code> updates the staged snapshot to match the version from the specified commit. For example, this command will fetch the version of foo.py in the 2nd-to-last commit and stage it for the next commit:</p>
+<pre><code class="shell">git reset HEAD~2 foo.py
+</code></pre>
+<p>As with the commit-level version of <code>git reset</code>, this is more commonly used with <code>HEAD</code> rather than an arbitrary commit. Running <code>git reset HEAD foo.py</code> will unstage <code>foo.py</code>. The changes it contains will still be present in the working directory.</p>
+<img src="/2016/10/03/2016-10/git_reset_checkout_revert/7.svg" alt="Moving a file from the commit history into the staged snapshot" title="Moving a file from the commit history into the staged snapshot">
+<p>The <code>--soft</code>, <code>--mixed</code>, and <code>--hard</code> flags do not have any effect on the file-level version of <code>git reset</code>, as the staged snapshot is <em>always</em> updated, and the working directory is <em>never</em> updated.</p>
+<h2 id="Checkout-1"><a href="#Checkout-1" class="headerlink" title="Checkout"></a>Checkout</h2><p>Checking out a file is similar to using <code>git reset</code> with a file path, except it updates the working directory instead of the stage. Unlike the commit-level version of this command, this does not move the <code>HEAD</code> reference, which means that you won’t switch branches.</p>
+<img src="/2016/10/03/2016-10/git_reset_checkout_revert/8.svg" alt="Moving a file from the commit history into the working directory" title="Moving a file from the commit history into the working directory">
+<p>For example, the following command makes <code>foo.py</code> in the working directory match the one from the 2nd-to-last commit:</p>
+<pre><code class="shell">git checkout HEAD~2 foo.py
+</code></pre>
+<p>Just like the commit-level invocation of <code>git checkout</code>, this can be used to inspect old versions of a project—but the scope is limited to the specified file.</p>
+<p>If you stage and commit the checked-out file, this has the effect of “reverting” to the old version of that file. Note that this removes <em>all</em> of the subsequent changes to the file, whereas the <code>git revert</code> command undoes only the changes introduced by the specified commit.</p>
+<p>Like <code>git reset</code>, this is commonly used with <code>HEAD</code> as the commit reference. For instance, <code>git checkout HEAD foo.py</code> has the effect of discarding unstaged changes to <code>foo.py</code>. This is similar behavior to <code>git reset HEAD --hard</code>, but it operates only on the specified file.</p>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><p>You should now have all the tools you could ever need to undo changes in a Git repository. The <code>git reset</code>, <code>git checkout</code>, and <code>git revert</code> commands can be confusing, but when you think about their effects on the working directory, staged snapshot, and commit history, it should be easier to discern which command fits the development task at hand.</p>
+<p>The table below sums up the most common use cases for all of these commands. Be sure to keep this reference handy, as you’ll undoubtedly need to use at least some them during your Git career.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Scope</th>
+<th>Common use cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>git reset</td>
+<td>Commit-level</td>
+<td>Discard commits in a private branch or throw away uncommited changes</td>
+</tr>
+<tr>
+<td>git reset</td>
+<td>File-level</td>
+<td>Unstage a file</td>
+</tr>
+<tr>
+<td>git checkout</td>
+<td>Commit-level</td>
+<td>Switch between branches or inspect old snapshots</td>
+</tr>
+<tr>
+<td>git checkout</td>
+<td>File-level</td>
+<td>Discard changes in the working directory</td>
+</tr>
+<tr>
+<td>git revert</td>
+<td>Commit-level</td>
+<td>Undo commits in a public branch</td>
+</tr>
+<tr>
+<td>git revert</td>
+<td>File-level</td>
+<td>(N/A)</td>
+</tr>
+</tbody>
+</table>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.498Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/&title=《(Reproduce) Reset, Checkout, and Revert》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/&title=《(Reproduce) Reset, Checkout, and Revert》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Reset, Checkout, and Revert》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/10/03/2016-10/advanced_git_log/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) Advanced Git log</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/09/30/2016-9/string_vs_string_buffer_vs_string_builder/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) String、StringBuffer与StringBuilder之间区别</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/&title=《(Reproduce) Reset, Checkout, and Revert》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/&title=《(Reproduce) Reset, Checkout, and Revert》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Reset, Checkout, and Revert》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/10/03/2016-10/git_reset_checkout_revert/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtUlEQVR42u3aMW7DQAwEQP//00kbIJa8JI+GinFlOI5yo0Jklny94tfPn1fyzatP/r+/+uTqp6+NFx4eHt7g6PeXvj9KQrq/2j0juRFvfhcPDw9vjZdcLjli4Q/HhSQvEnh4eHjP5CXHrTbfp76Ph4eH93xe3lL3GuhJ242Hh4e3zetFqEnB2LvO4awFDw8Pr5YJRFOk57xfme/h4eHhjafqSZG4f3xX44neqS5Pi4eHh7fAq0aokzFYr43uRcN4eHh4e7zqulUvSM2Dg0m08eY9Hh4e3jKvPFgqNsE5PglEorKBh4eHt8ZLmuO8AJxa2JpEGHh4eHjbvF5j3XvEV8tAdSFsVK/w8PDw4pl73qpWW/Dq4SaBxeWp8PDw8I7y8mY3f9LmR0kOmp+t/B8DHh4e3oCXxwpzcDWAyEdiUUqNh4eHN+ZVkdWoN18dSM7QOzkeHh7eBq8a6SYN9KkmO190+FDM8PDw8I7yeqHAZNUgj4N71Fe1vuHh4eEd4lUf99VwtrpulZcZPDw8vD3eBJY33xNSfovfKPDw8PC+wksOkbS21bFWb73gQxHCw8PDW+ZVV6968cT80d/cKcPDw8M7ypuEC3k5yYOGCexNYcDDw8M7ysvXmM4Whjyozc/QrR54eHh4HV4SDWzcgupqQj7V+jAGw8PDw1vm5Y3vqQA3L1rRjcbDw8Nb400a4l50m4/ZRrcGDw8Pb41XXRTIS8iE1AsmPrTUeHh4eAPeT/E1b3/zBYJJBIyHh4e3x5uM56uX7i0T5EHGZISGh4eHV+Wdil+ry1j58sFo7QAPDw9vjXcqNs0B5VFWcYCHh4eH9xxedUEqf4jnvX9eMPDw8PCew+s90CfBcX5b8fDw8L7Dq7a81TFYHgFPWvxRjIuHh4cX83r/8E8a8WTENbmteHh4eGu8X5X5K/C3BmdWAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

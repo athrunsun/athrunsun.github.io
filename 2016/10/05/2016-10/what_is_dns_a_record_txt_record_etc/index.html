@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定 | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="DNS">
+    <meta name="description" content="Original Post DNSDNS，Domain Name System或者Domain Name Service（域名系统或者域名服务）。域名系统为Internet上的主机分配域名地址和IP地址。由于网络中的计算机都必须有个IP地址，来识别,互相之间才能通信,但让我们记住一大串的IP地址来访问网站显然是不可能的,所以用户使用域名地址，而DNS系统的功能就是自动把域名地址翻译为IP地址。域名">
+<meta name="keywords" content="DNS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定">
+<meta property="og:url" content="https://athrunsun.github.io/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post DNSDNS，Domain Name System或者Domain Name Service（域名系统或者域名服务）。域名系统为Internet上的主机分配域名地址和IP地址。由于网络中的计算机都必须有个IP地址，来识别,互相之间才能通信,但让我们记住一大串的IP地址来访问网站显然是不可能的,所以用户使用域名地址，而DNS系统的功能就是自动把域名地址翻译为IP地址。域名">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定">
+<meta name="twitter:description" content="Original Post DNSDNS，Domain Name System或者Domain Name Service（域名系统或者域名服务）。域名系统为Internet上的主机分配域名地址和IP地址。由于网络中的计算机都必须有个IP地址，来识别,互相之间才能通信,但让我们记住一大串的IP地址来访问网站显然是不可能的,所以用户使用域名地址，而DNS系统的功能就是自动把域名地址翻译为IP地址。域名">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-10-05T13:37:00.000Z" itemprop="datePublished" class="page-time">
+  2016-10-05
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/DNS/">DNS</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#DNS"><span class="post-toc-number">1.</span> <span class="post-toc-text">DNS</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#A记录"><span class="post-toc-number">2.</span> <span class="post-toc-text">A记录</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#子域名"><span class="post-toc-number">3.</span> <span class="post-toc-text">子域名</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#CNAME别名指向记录"><span class="post-toc-number">4.</span> <span class="post-toc-text">CNAME别名指向记录</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MX记录"><span class="post-toc-number">5.</span> <span class="post-toc-text">MX记录</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#TXT记录"><span class="post-toc-number">6.</span> <span class="post-toc-text">TXT记录</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#SRV记录"><span class="post-toc-number">7.</span> <span class="post-toc-text">SRV记录</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#TTL值"><span class="post-toc-number">8.</span> <span class="post-toc-text">TTL值</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#泛域名与泛解析"><span class="post-toc-number">9.</span> <span class="post-toc-text">泛域名与泛解析</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#域名绑定"><span class="post-toc-number">10.</span> <span class="post-toc-text">域名绑定</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#域名转向"><span class="post-toc-number">11.</span> <span class="post-toc-text">域名转向</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#IIS连接数"><span class="post-toc-number">12.</span> <span class="post-toc-text">IIS连接数</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-10/what_is_dns_a_record_txt_record_etc"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-10-05 21:37:00" datetime="2016-10-05T13:37:00.000Z"  itemprop="datePublished">2016-10-05</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/DNS/">DNS</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="http://it815.blog.51cto.com/526819/136414" target="_blank" rel="external">Original Post</a></p>
+<h1 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h1><p>DNS，Domain Name System或者Domain Name Service（域名系统或者域名服务）。域名系统为Internet上的主机分配域名地址和IP地址。由于网络中的计算机都必须有个IP地址，来识别,互相之间才能通信,但让我们记住一大串的IP地址来访问网站显然是不可能的,所以用户使用域名地址，而DNS系统的功能就是自动把域名地址翻译为IP地址。域名服务是运行域名系统的Internet工具。执行域名服务的服务器称之为DNS服务器，通过DNS服务器来应答域名服务的查询。</p>
+<ol>
+<li>DNS就是域名服务器，他的任务就是确定域名的解析，比如A记录MX记录等等。 </li>
+<li>任何域名都至少有一个DNS，一般是2个。但为什么要2个以上呢？因为DNS可以轮回处理，这样第一个解析失败可以找第二个。这样只要有一个DNS解析正常，就不会影响域名的正常使用。 </li>
+<li>如何确定域名的DNS。很简单到<a href="http://www.internic.net/whois.html" target="_blank" rel="external">http://www.internic.net/whois.html</a>输入你要查询的域名就可以看到了。这个是国际域名管理中心。唯一的权威。只要这里能查到某个域名，就表示域名是生效的。它说你什么时候到期，就是什么时候到期。 </li>
+<li>有效的DNS表示当前正在起作用的DNS服务器是谁，比如查询结果是<code>NS.XINNETDNS.COM</code>、<code>NS.XINNET.CN</code>(新网信海)就表示当前域名是由<code>NS.XINNETDNS.COM</code>、<code>NS.XINNET.CN</code>(新网信海)负责解析。其他未显示的DNS的设置，都是无效的。 </li>
+<li>DNS是可以修改的。修改以后需要24-72小时以后，全世界范围的所有DNS服务器才能刷新过来。internic的信息一般在24小时以后可以看到。另外，修改的过程，并不表示域名会停止解析，只要你在2边都做好了解析。如果生效了就是新的DNS在起作用。如果没生效。就是旧的DNS在起作用。要么生效，要么不生效。不存在2个都不起作用的时间。所以域名解析，不会中断。前提是两边都做了解析。 </li>
+</ol>
+<h1 id="A记录"><a href="#A记录" class="headerlink" title="A记录"></a>A记录</h1><p>A = Address，记录是用来指定主机名（或域名）对应的IP地址记录。用户可以将该域名下的网站服务器指向到自己的web server上。同时也可以设置您域名的子域名。<strong>通俗来说A记录就是服务器的IP</strong>,域名绑定A记录就是告诉DNS,当你输入域名的时候给你引导向设置在DNS的A记录所对应的服务器 </p>
+<h1 id="子域名"><a href="#子域名" class="headerlink" title="子域名"></a>子域名</h1><p>子域名道理等同二级域名，不过比二级域名更加延伸，比如我们继续扩展该域名的主机名，设置主机名为<code>bbs.at</code>,那么就可以建立一个三级域名：<code>bbs.at.abc.com</code>，当然也可以建立四级域名<code>bbs.at.go.abc.com</code>，五级域名<code>bbs.at.go.home.abc.com</code>……，依次类推，可以建立无限级别的域名，我们统称这些域名为顶级域名<code>abc.com</code>的子域名。</p>
+<h1 id="CNAME别名指向记录"><a href="#CNAME别名指向记录" class="headerlink" title="CNAME别名指向记录"></a>CNAME别名指向记录</h1><p>CNAME = Canonical Name，通常称别名指向。在这里，您可以定义一个主机别名，比如设置<code>ftp.***.com</code>，用来指向一个主机<code>www.***.com</code>,那么以后就可以用<code>FTP.***.com</code>来代替访问<code>www.***.com</code>了。</p>
+<h1 id="MX记录"><a href="#MX记录" class="headerlink" title="MX记录"></a>MX记录</h1><p>MX记录也叫做邮件路由记录，用户可以将该域名下的邮件服务器指向到自己的mail server上，然后即可自行操控所有的邮箱设置。您只需在线填写您服务器的IP地址，即可将您域名下的邮件全部转到您自己设定相应的邮件服务器上。简单的说，通过操作MX记录，您才可以得到以您域名结尾的邮局。</p>
+<h1 id="TXT记录"><a href="#TXT记录" class="headerlink" title="TXT记录"></a>TXT记录</h1><p>TXT记录，一般指为某个主机名或域名设置的说明，如：</p>
+<pre><code>admin IN TXT &quot;管理员, 电话： 13901234567&quot;
+mail IN TXT &quot;邮件主机, 存放在xxx , 管理人：AAA&quot;
+Jim IN TXT &quot;contact: abc@mailserver.com&quot;
+</code></pre><p>也就是您可以设置TXT，以便使别人联系到您。</p>
+<h1 id="SRV记录"><a href="#SRV记录" class="headerlink" title="SRV记录"></a>SRV记录</h1><p>SRV记录：一般是为Microsoft的活动目录设置时的应用。DNS可以独立于活动目录，但是活动目录必须有DNS的帮助才能工作。为了活动目录能够正常的工作，DNS服务器必须支持服务定位（SRV）资源记录，资源记录把服务名字映射为提供服务的服务器名字。活动目录客户和域控制器使用SRV资源记录决定域控制器的IP地址。（此技术细节请参考相应网站）</p>
+<h1 id="TTL值"><a href="#TTL值" class="headerlink" title="TTL值"></a>TTL值</h1><p>TTL值全称是“生存时间”(Time To Live)，简单的说它表示DNS记录在DNS服务器上缓存时间。要理解TTL值，请先看下面的一个例子：</p>
+<p>假设，有这样一个域名<code>myhost.abc.com</code>（其实，这就是一条DNS记录，通常表示在<code>abc.com</code>域中有一台名为myhost的主机）对应IP地址为<code>1.1.1.1</code>，它的TTL为10分钟。这个域名或称这条记录存储在一台名为<code>dns.abc.com</code>的DNS服务器上。</p>
+<p>现在有一个用户在浏览器中键入一下地址（又称URL）：<code>http://myhost.abc.com/</code>这时会发生什么呢？ </p>
+<p>该访问者指定的DNS服务器（或是他的ISP,互联网服务商, 动态分配给他的）<code>8.8.8.8</code>就会试图为他解释<code>myhost.abc.com</code>，当然<code>8.8.8.8</code>这台DNS服务器由于没有包含<code>myhost.abc.com</code>这条信息，因此无法立即解析，但是通过全球DNS的递归查询后，最终定位到<code>dns.abc.com</code>这台DNS服务器，<code>dns.abc.com</code>这台DNS服务器将<code>myhost.abc.com</code>对应的IP地址<code>1.1.1.1</code>告诉<code>8.8.8.8</code>这台DNS服务器，然有再由<code>8.8.8.8</code>告诉用户结果。<code>8.8.8.8</code>为了以后加快对<code>myhost.abc.com</code>这条记录的解析，就将刚才的<code>1.1.1.1</code>结果保留一段时间，这就是TTL时间，在这段时间内如果用户又有对<code>myhost.abc.com</code>这条记录的解析请求，它就直接告诉用户<code>1.1.1.1</code>，当TTL到期则又会重复上面的过程</p>
+<h1 id="泛域名与泛解析"><a href="#泛域名与泛解析" class="headerlink" title="泛域名与泛解析"></a>泛域名与泛解析</h1><p>泛域名是指在一个域名根下，以<code>*.Domain.com</code>的形式表示这个域名根所有未建立的子域名。 </p>
+<p>泛解析是把<code>*.Domain.com</code>的A 记录解析到某个IP地址上,然后别人通过任意的前缀<code>.domain.com</code>访问都能访问到你解析的站点上。例： </p>
+<p>域名根<code>name.com</code>只建立了<code>www.name.com</code>和<code>name.com</code>这两个域名记录，那么<code>ftp.name.com</code>、<code>mail.name.com</code>、<code>bbs.name.com</code>等域名记录是不存在的，但为域名根<code>name.com</code>建立泛域名记录 <code>*.name.com</code>后，<code>*.name.com</code>就涵盖了<code>ftp.name.com</code>、<code>mail.name.com</code>、<code>bbs.name.com</code> 等所有不存在的子域名记录。</p>
+<p>您可以定义<code>*.name.com</code>指向一个IP，那么当访问者无论是输入<code>ftp.name.com</code>、<code>mail.name.com</code>或 <code>bbs.name.com</code>的时候，访问者都将直接访问您定义<code>*.name.com</code>的那个IP。</p>
+<h1 id="域名绑定"><a href="#域名绑定" class="headerlink" title="域名绑定"></a>域名绑定</h1><p>什么是域名绑定：域名绑定是指，域名绑定是指域名和主机(即某个服务器)的空间进行关联绑定,其实就是在虚拟服务器上设置或者WEB服务器上设置，使一个域名被引导向服务器上的某一特定空间（某一个特定站点），访问者访问你的域名的时候就会打开你存放在该空间上的网页，简单来说其实就是把域名解析到服务器IP,然后在服务器上设置该域名有权限访问的过程。一般虚拟主机有控制面板给进行绑定域名，如果没有面板就需要自己在服务器上的IIS里面设置</p>
+<h1 id="域名转向"><a href="#域名转向" class="headerlink" title="域名转向"></a>域名转向</h1><p>域名转向我们又称为域名(URL)指向或域名转发，当用户地址栏中输入您的域名时，将会自动跳转到您所指定的另一个网络地址（URL）。 </p>
+<p>假设<code>abc.com</code>是您注册的域名，则通过URL转发服务可以实现当用户访问<code>http://www.abc.com/</code>时，自动转向访问另外一个URL，如:我的空间不支持绑定到目录功能,所以为了方便访问者,我就设置:<code>http://bbs.bnxb.com</code>来访问,这个是设置了通过URL转发服务转发到<code>http://www.bnxb.com/bbs</code>上面来实现的，这样您就可以轻松实现多个域名指向一个网站或网站子目录；另外，通过URL转发服务，可以方便的实现将您的中文域名，设置自动转发到您的英文域名主站点。域名转发的另外一个好处就是可以把长域名压缩,用短域名的转向代替,让你的访客不需输入那么长的域名。</p>
+<h1 id="IIS连接数"><a href="#IIS连接数" class="headerlink" title="IIS连接数"></a>IIS连接数</h1><p>IIS连接数指并发连接数，什么意思呢？</p>
+<p>要分几种情况：（以100M空间50人在线为例）</p>
+<ol>
+<li>用户单点下载你的文件，结束后正常断开，这些连接是按照瞬间计算的，就是说你50人的网站瞬间可以接受同时50个点下载。</li>
+<li>用户打开你的页面，就算停留在该页面，这时候网页已经加载完了没有对服务器再发出任何请求，那么在用户完全打开这个页面的时间内算一个在线，在页面完全打开后IIS连接数就释放。</li>
+<li>上面B的情况用户继续打开同一个网站的其他页面，那么在线人数按照用户最后一次点击（发出请求）计算，在这个时间内不管用户怎么点击（包括新窗口打开）都还是一人在线。</li>
+<li>当你的页面内存在框架(Iframe)，那么每多一个框架就要多一倍的在线！因为这相当于用户同一时间向服务器请求了多个页面。</li>
+<li>当用户打开页面然后正常关闭浏览器，用户的在线人数也会马上清除。</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.498Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DNS/">DNS</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/&title=《(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/&title=《(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) DNS (UDP) tunneling by SSH with socat</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/10/03/2016-10/advanced_git_log/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) Advanced Git log</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/&title=《(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/&title=《(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) 什么是DNS,A记录,子域名,CNAME别名,MX记录,TXT记录,SRV 记录,TTL值,泛域名(泛解析),域名转向,域名绑定》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_dns_a_record_txt_record_etc/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvElEQVR42u3a0W7jMAwEwPz/T7evBzS2l6TY5oDxk5EmikYFLGap1yu+vn5c/75+9Z6rTyWfvZrDa+PCw8PDG0/9ipFgrka+It3f58txuTR4eHh4a7xkuPunbrJk+XM735AeLHh4eHgfwKtuHve1bl4u4+Hh4f2/vN6v/l70MCm78fDw8LZ5yYQmMUQvgPjVrAUPDw8v5uVdpM+5X+nv4eHh4Y276nlBXN02Tm0AD7PFw8PDW+D1gobqVO7f2SupC/PEw8PDW+D1Hs35cHnkOhm5sFh4eHh4Y17emqoGu8kGkDOahTseHh7eUd6kxdVrdCX7Uh5kPGwkeHh4eAu8SQ1+/4hPlmOyYTQbY3h4eHhjXnJkqjrRjdK8+gPgTX8PDw8P7xCvWp5GrfrW+6vNs3LrCw8PD2+B10POv7IX+5ZheHh4eEd51UI2L2erjbFTRxPeZNV4eHh4h3jVODVnTILgfKN6uMfDw8Nb5uXFdH4IIC/E83ZXoQ2Gh4eHt8ZLJlGNCZIRek21ZJ54eHh4e7zqQavqwYJqTJyPVgiO8fDw8I7yei3/XuurF17kR7LevI6Hh4e3wKuWvJPtIT+IkMcZ0V/x8PDw1njV7aH6+K6O8Iqvh6MPeHh4eAu8XoZRPQ5VmEQxjCgsBx4eHt4hXm+KZwvufJM40OXDw8PDWztAcGCfKQa41YMF0XLj4eHhrfGqTalTx6eS5UjuL/8BeHh4eGu8pE11qtSelN35cuDh4eFt8L6KVzXenRzVKhyrukLi4eHhLfB67fleXFstspPi/gAMDw8Pr8WrPspPbRV53TsKOPDw8PDWeNU4tVdGT0KHA1kLHh4e3p/yenHtaKK98fHw8PA+hpe3zU4V03m0gYeHh/c7vElB3IuAJ02vwhEEPDw8vAVe9Qd//gVJWZyEs6cWGg8PD2/M+wZhy3OoXjMVvwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

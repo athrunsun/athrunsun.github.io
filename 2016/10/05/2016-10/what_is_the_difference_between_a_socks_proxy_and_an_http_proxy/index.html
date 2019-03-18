@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy? | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Proxy,SOCKS">
+    <meta name="description" content="Original Post A SOCKS server is a general purpose proxy server that establishes a TCP connection to another server on behalf of a client, then routes all the traffic back and forth between the client">
+<meta name="keywords" content="Proxy,SOCKS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?">
+<meta property="og:url" content="https://athrunsun.github.io/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post A SOCKS server is a general purpose proxy server that establishes a TCP connection to another server on behalf of a client, then routes all the traffic back and forth between the client">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?">
+<meta name="twitter:description" content="Original Post A SOCKS server is a general purpose proxy server that establishes a TCP connection to another server on behalf of a client, then routes all the traffic back and forth between the client">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-10-05T14:43:00.000Z" itemprop="datePublished" class="page-time">
+  2016-10-05
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Proxy/">Proxy</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+
+<article id="post-2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-10-05 22:43:00" datetime="2016-10-05T14:43:00.000Z"  itemprop="datePublished">2016-10-05</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Proxy/">Proxy</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="http://www.jguru.com/faq/view.jsp?EID=227532" target="_blank" rel="external">Original Post</a></p>
+<p>A SOCKS server is a <strong>general purpose</strong> proxy server that establishes a TCP connection to another server on behalf of a client, then routes all the traffic back and forth between the client and the server. It works for any kind of network protocol on any port. SOCKS Version 5 adds additional support for security and UDP.</p>
+<p>The SOCKS server does not interpret the network traffic between client and server in any way, and is often used because clients are behind a firewall and are not permitted to establish TCP connections to servers outside the firewall unless they do it through the SOCKS server.</p>
+<p>Most web browsers for example can be configured to talk to a web server via a SOCKS server. Because the client must first make a connection to the SOCKS server and tell it the host it wants to connect to, the client must be “SOCKS enabled.”</p>
+<p>On Windows, it is possible to “shim” the TCP stack so that all client software is SOCKS enabled. A free SOCKS shim is available from Hummingbird at <a href="http://www.hummingbird.com/products/nc/socks/index.html" target="_blank" rel="external">http://www.hummingbird.com/products/nc/socks/index.html</a>.</p>
+<p>An HTTP proxy is similar, and may be used for the same purpose when clients are behind a firewall and are prevented from making outgoing TCP connections to servers outside the firewall.</p>
+<p>However, unlike the SOCKS server, an HTTP proxy does understand and interpret the network traffic that passes between the client and downstream server, namely the HTTP protocol.</p>
+<p>Because of this the HTTP proxy can <strong>ONLY</strong> be used to handle HTTP traffic, but it can be very smart about how it does it. In particular, it can recognize often repeated requests and cache the replies to improve performance.</p>
+<p>Many ISPs use HTTP proxies regardless of how the browser is configured because they simply route all traffic on port 80 through the proxy server.</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.498Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Proxy/">Proxy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SOCKS/">SOCKS</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/&title=《(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/&title=《(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/10/09/2016-10/update_github_pages_with_travis_ci/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Update personal blog hosted on github pages automatically with Travis CI</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/10/05/2016-10/dns_tunneling_by_ssh_with_socat/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) DNS (UDP) tunneling by SSH with socat</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/&title=《(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/&title=《(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) What is the difference between a SOCKS proxy and an HTTP proxy?》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/10/05/2016-10/what_is_the_difference_between_a_socks_proxy_and_an_http_proxy/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD80lEQVR42u3aS3LjMAwFQN//0p4DTEl6D6CSLForVyKLYnMB4/P5xNf34vr/nuT+2V+u1rp/wueNCwcOHDhwjLY6216+satXz+9MDiPfIw4cOHDgOMuRLJC/xMOSwf33gTMP8/n748CBAweO3+VIlrxPovLn56Cb48SBAwcOHL/F0YbApNg3SynP/lDAgQMHDhxnOdrlZ42i5Dn5YbTp3+FaKQ4cOHDgSCPdpw26f//zK/MdOHDgwIFj0fhJynz3ITMv/+VpXvKXYnc4cODAgWPN0S7fJnt5C6olbt8qWQUHDhw4cOw58kQoKQKeBTob4KPDwIEDBw4ca4720e3m86SuDaXJ8/M9Rr04HDhw4MARvHM+prAZRJslWm0zKS8vXoLiwIEDB45DHHmKlYTVWSNq9t3Zmz80nHDgwIEDx5ojD5Zt8pYnY7M2VV7EjJI9HDhw4MCx5mgToVkx7jO62jLl4VopDhw4cOBY9FnaULpJ+TZbTY5qdgw4cODAgeMsR5u/tIW/WUBty5H5QV6mdjhw4MCB4xBHPui2aTu1hbm8gJiDPvxowIEDBw4ca45kk+2rt4izAuW+VXb5HBw4cODAseBIQmC+1VnaNmNqI2P0TBw4cODAcYhjNmqQFwp/5vmbcmRUK8WBAwcOHHEkShpI7yVgbRGwLT62PwJw4MCBA8eeIx9iKNKheFghaXclQwmzvTxg4cCBAweOkmMTCGfNqn36lxco20COAwcOHDj2HPvWURto84CdhNXiF0Tc+sKBAwcOHBuOWTsnT5z2lJtzzsN8VCXFgQMHDhxxJMqTqNkoW9s6OjU8N/uMAwcOHDg2HHlAnRX+ZqlgntS14TYaksOBAwcOHAuOdvNt2Ns3hJIgnZDVKSIOHDhw4BhxtK87C1qbtlZegkw4HlBw4MCBA8eao23J7F+xZW1bR5sDw4EDBw4ce449Qf7dvEWUlALfmEDAgQMHDhxvcMwW2CRUm6LkN76GvzVw4MCBA8eII0+EZq2dNuVrxym+5TWsleLAgQMHjhFHUkqbpV6zQuHmSOrhBhw4cODAcYgjH57L06029dqE5/bworYTDhw4cOBY/HeWJuWDbnnwnlXq8vZYXSLEgQMHDhwlx6ysNhtNaO+Z0bfjFMMuFg4cOHDgWF95SpZH+LxlNWtuvReeceDAgQPHPce+nXO/QFsi3JT52kCLAwcOHDje40hSsjZozSJ8WxBsmR6wcODAgQPHj3O0Sdd+q6fKmtEqOHDgwIHjVzk2wxCzVz8VvB/GGnDgwIEDx5ojL/nlIbAt7W2aW3nAPtZ2woEDBw4c64GGfKQgCZ+z7c1aX2cLizhw4MCB4+LzPxYQC200U5VaAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>(Reproduce) Android Rooting: A Developer&#39;s Guide | DO IT THE GEEK WAY | GEEK OR DIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="Original Post By Chuan Ji Nov 21, 2012 First things first — this is not about how to apply a rooting method, e.g., a one-click-root, to an Android device. Rather, it is about how one could go about de">
+<meta name="keywords" content="geek">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Reproduce) Android Rooting: A Developer&#39;s Guide">
+<meta property="og:url" content="https://athrunsun.github.io/2016/02/13/2016-2/android_rooting_a_developers_guide/index.html">
+<meta property="og:site_name" content="DO IT THE GEEK WAY">
+<meta property="og:description" content="Original Post By Chuan Ji Nov 21, 2012 First things first — this is not about how to apply a rooting method, e.g., a one-click-root, to an Android device. Rather, it is about how one could go about de">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-18T08:00:19.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(Reproduce) Android Rooting: A Developer&#39;s Guide">
+<meta name="twitter:description" content="Original Post By Chuan Ji Nov 21, 2012 First things first — this is not about how to apply a rooting method, e.g., a one-click-root, to an Android device. Rather, it is about how one could go about de">
+    
+        <link rel="alternate" type="application/atom+xml" title="DO IT THE GEEK WAY" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/athrun-logo.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/athrun-logo.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bruce Sun</h5>
+          <a href="mailto:okampfer@gmail.com" title="okampfer@gmail.com" class="mail">okampfer@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/athrunsun" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://www.weibo.com/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://stackoverflow.com/users/1239295/bruce-sun" target="_blank" >
+                <i class="icon icon-lg icon-stack-overflow"></i>
+                StackOverflow
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.linkedin.com/in/okampfer" target="_blank" >
+                <i class="icon icon-lg icon-linkedin-square"></i>
+                LinkedIn
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/designs"  >
+                <i class="icon icon-lg icon-paint-brush"></i>
+                My Designs
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">(Reproduce) Android Rooting: A Developer&#39;s Guide</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">(Reproduce) Android Rooting: A Developer&#39;s Guide</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-02-13T09:30:00.000Z" itemprop="datePublished" class="page-time">
+  2016-02-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#The-Plan"><span class="post-toc-number">1.</span> <span class="post-toc-text">The Plan</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#The-Process"><span class="post-toc-number">2.</span> <span class="post-toc-text">The Process</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Final-words"><span class="post-toc-number">3.</span> <span class="post-toc-text">Final words</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2016-2/android_rooting_a_developers_guide"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">(Reproduce) Android Rooting: A Developer's Guide</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-02-13 17:30:00" datetime="2016-02-13T09:30:00.000Z"  itemprop="datePublished">2016-02-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="http://seasonofcode.com/posts/android-rooting-a-developers-guide.html" target="_blank" rel="external">Original Post</a></p>
+<p>By Chuan Ji</p>
+<p>Nov 21, 2012</p>
+<p>First things first — this is not about how to apply a rooting method, e.g., a one-click-root, to an Android device. Rather, it is about how one could go about developing a rooting method for a device that no one has rooted before, and is told through my experiences with rooting a particular device — the Barnes &amp; Noble Nook Tablet 8GB. For context, you can read my original thread “<a href="http://forum.xda-developers.com/showthread.php?t=1529553" target="_blank" rel="external">Root for Nook Tablet 8GB (w/ Android Market)</a> on XDA-Developers where I published my rooting method, which has reached a download count of — wait for it — OVER NINE THOUSAND!!!</p>
+<p>For an overview of how rooting works behind the scenes, you may want to read my previous article <a href="http://seasonofcode.com/posts/how-rooting-works-a-technical-explanation-of-the-android-rooting-process.html" target="_blank" rel="external">How Rooting Works - A Technical Explanation of the Android Rooting Process</a> as background.</p>
+<p>Sometime in late February (2012), on a visit to to a Barnes &amp; Noble store in Boston, I bought the then freshly released Nook Tablet 8GB entirely on impulse for $199. Being the hax0r that I am, the first thing I did when I got home was to try to root the device. It came as a nasty surprise, therefore, when I discovered that no one had yet succeeded in rooting the device. All I could find was a <a href="http://www.youtube.com/watch?v=x8e0OLWQYc4" target="_blank" rel="external">YouTube video</a> showing that the existing rooting method for its cousin, the Nook Tablet 16GB, did not work. After waiting for a few days, the absolutely pathetic app store and handicaps instituted by B&amp;N finally motivated me to develop a rooting method for the device myself.</p>
+<h3 id="The-Plan"><a href="#The-Plan" class="headerlink" title="The Plan"></a>The Plan</h3><p>So, how do you go about rooting an Android device? As I explain in <a href="http://seasonofcode.com/posts/how-rooting-works-a-technical-explanation-of-the-android-rooting-process.html" target="_blank" rel="external">my previous article</a>, rooting is basically a two-step process:</p>
+<ol>
+<li>Find exploit that allows execution of arbitrary code as root</li>
+<li>Use exploit to install <code>su</code> (with SUID bit set) and <code>Superuser.apk</code> as root</li>
+</ol>
+<p>After su and Superuser.apk are installed correctly, apps that require root (such as <a href="http://matrixrewriter.com/android/" target="_blank" rel="external">Titanium Backup</a> or <a href="https://play.google.com/store/apps/details?id=org.adaway&amp;hl=en" target="_blank" rel="external">AdAway</a>) will invoke su to run code as the privileged user.</p>
+<h3 id="The-Process"><a href="#The-Process" class="headerlink" title="The Process"></a>The Process</h3><p>There are many generic or device-specific exploits that a hax0r may leverage to achieve privileged execution of arbitrary code. I would again refer you to <a href="http://jon.oberheide.org/files/bsides11-dontrootrobots.pdf" target="_blank" rel="external">this excellent presentation on various Android root exploits</a> that have been or may still be used for this purpose.</p>
+<p>However, none of these methods that I knew of could work on the Nook Tablet, which is probably one of the most locked-down Android ROMs out there:</p>
+<ul>
+<li>Bootloader is locked.</li>
+<li>ADB is disabled, and cannot be enabled from the UI.</li>
+<li>Installing non-market apps (raw APKs) is disabled, and cannot be enabled from the UI.</li>
+<li>No access to Google Play / Android Market (or any Google Apps).</li>
+</ul>
+<p>This rules out</p>
+<p>1) root APKs and<br>2) the majority of exploits out there that require executing commands over ADB. It means that one cannot run any code on the device that does not come from B&amp;N period.</p>
+<p>But of course there was another way in. Somebody on XDA-Developers had discovered that the bootloader of the Nook Tablet supported booting off an Android system located in partition images stored on an external microSD card. This mechanism is probably used to repair corrupted system partitions by B&amp;N customer support.</p>
+<p>The solution, then, is clear: we create dummy system partition images that, instead of booting an Android system, installs <code>su</code> and <code>Superuser.apk</code> into the “normal” Android system in internal flash memory. More concretely, I modified the system initialization file inside the initrd inside the boot partition image to invoke a custom script that copied the relevant files into the system partition in the internal flash memory.</p>
+<p>I based my work on <a href="http://forum.xda-developers.com/showthread.php?t=1517513" target="_blank" rel="external">bauwks’s 2nduboot images</a> and used <a href="https://gitorious.org/ac100/abootimg" target="_blank" rel="external">abootimg</a> to unpack files in the boot partition image <code>boot.img</code>:</p>
+<pre><code class="shell"># Extracts files in the boot partition image into the current directory.
+abootimg -x ./boot.img
+# Extract files in the initrd cpio archive into the folder ./ramdisk/
+aboot-unpack-initrd ./initrd.img
+</code></pre>
+<p>I changed the system initialization file <code>init.omap4430.rc</code> in the initrd to mount the system partition of the internal flash memory at <code>/foo</code> rather than <code>/system</code>, because later system initialization steps attempt to remount <code>/system</code> as read-only and so on, and for some reason I could not disable that behavior:</p>
+<pre><code class="shell">on fs
+    mkdir /foo
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /foo wait
+</code></pre>
+<p>I added the following to the system initialization file init.rc in the initrd to start my rooting script:</p>
+<pre><code class="shell">service root_script /sbin/busybox ash /assets/run.sh
+    oneshot
+</code></pre>
+<p>My rooting script, which I place in the directory <code>assets</code> in the initrd, installs not only <code>su</code>, but also Google Play and other Google apps which are missing from the Nook Tablet ROM:</p>
+<pre><code class="shell"># Install su and Superuser.apk
+/sbin/busybox cp /assets/su /foo/bin/
+/sbin/busybox cp /assets/su /foo/xbin/
+/sbin/busybox chmod 06755 /foo/xbin/su
+/sbin/busybox chmod 06755 /foo/bin/su
+/sbin/busybox cp /assets/Superuser.apk /foo/app/
+
+# Install Busybox.
+/sbin/busybox cp /sbin/busybox /foo/xbin/
+/sbin/busybox chmod 06755 /foo/xbin/busybox
+
+# Install Google Play and other Google apps.
+/sbin/busybox cp /assets/*.apk /foo/app/
+/sbin/busybox cp /assets/com.google.android.maps..xml /foo/etc/permissions/
+/sbin/busybox cp /assets/com.google.android.maps.jar /foo/framework/
+/sbin/busybox cp /assets/libvoicesearch.so /foo/lib/
+
+# Done.
+/sbin/busybox mount -o ro,remount /foo
+</code></pre>
+<p>In accordance with the above script, I had placed all <code>assets</code> in the assets directory inside the initrd, and the Busybox binary in <code>sbin</code> inside the initrd. With all changes done, I pack everything back into a new boot.img:</p>
+<pre><code class="shell"># Build initrd cpio archive
+abootimg-pack-initrd initrd.img.new
+# Build new boot.img using previously extracted components
+abootimg --create boot.img.new -f ./bootimg.cfg -k ./zImage -r ./initrd.img.new
+</code></pre>
+<p>Then I replace the <code>boot.img</code> on the SD card image with my <code>boot.img.new</code>, and the rooting method is done.</p>
+<h3 id="Final-words"><a href="#Final-words" class="headerlink" title="Final words"></a>Final words</h3><p>The actual process, of course, was much, much more painful. The Nook Tablet’s bootloader is very picky; some microSD cards just won’t work, there is a file size limit on <code>boot.img</code>, etc.. It was also after much frustration that I discovered the mount-to-<code>/foo</code> trick. And I could not even keep track of how many factory restores I had to perform on the device to undo bad modifications. But it was still a lot of fun, and the euphoria at the end and the feeling of accomplishment when reply posts started rolling in and random people were donating $5 as a token of their appreciation could not be overstated.</p>
+<p>Good luck rooting!</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-18T08:00:19.502Z" itemprop="dateUpdated">2019-03-18 16:00:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://athrunsun.github.io">
+            <img src="/img/athrun-logo.png" alt="Bruce Sun">
+            Bruce Sun
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/02/13/2016-2/android_rooting_a_developers_guide/&title=《(Reproduce) Android Rooting: A Developer's Guide》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/02/13/2016-2/android_rooting_a_developers_guide/&title=《(Reproduce) Android Rooting: A Developer's Guide》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/02/13/2016-2/android_rooting_a_developers_guide/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Android Rooting: A Developer's Guide》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/02/13/2016-2/android_rooting_a_developers_guide/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/02/13/2016-2/android_rooting_a_developers_guide/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/02/16/2016-2/system_testing_vs_end_to_end_testing/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">(Reproduce) Difference between system testing and end to end testing?</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/02/13/2016-2/how_rooting_works_a_technical_explanation_of_the_android_rooting_process/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">(Reproduce) How Rooting Works -- A Technical Explanation of the Android Rooting Process</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'athrunsun',
+            repo: 'blog-gitment',
+            oauth: {
+                client_id: 'b05a32301186bd4a7faa',
+                client_secret: '311c6355cd4a5e302f377e9f756eb7109a09b54e',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Bruce Sun &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://athrunsun.github.io/2016/02/13/2016-2/android_rooting_a_developers_guide/&title=《(Reproduce) Android Rooting: A Developer's Guide》 — DO IT THE GEEK WAY&pic=https://athrunsun.github.io/img/athrun-logo.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://athrunsun.github.io/2016/02/13/2016-2/android_rooting_a_developers_guide/&title=《(Reproduce) Android Rooting: A Developer's Guide》 — DO IT THE GEEK WAY&source=某无可救药的声优控" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://athrunsun.github.io/2016/02/13/2016-2/android_rooting_a_developers_guide/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《(Reproduce) Android Rooting: A Developer's Guide》 — DO IT THE GEEK WAY&url=https://athrunsun.github.io/2016/02/13/2016-2/android_rooting_a_developers_guide/&via=https://athrunsun.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://athrunsun.github.io/2016/02/13/2016-2/android_rooting_a_developers_guide/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsklEQVR42u3aQW4bMRAEQP//0841gCKpe4aUjaD2JBjSLosGyNkefn3F1/df1+Pfn33z8Xp9z9e/erzDsQsPDw9vMfTXt3420MfHJ0NMPrcT8Y+x4eHh4V3jJcNtF+jX0/F6UvLxvLHg4eHh/UrejW/i4eHh/U+8PJ5oC+ukjMbDw8P7Pbw2Qm2D2lmQkU/cgawFDw8PL+blscLv+Xylv4eHh4e37qq3zbC8OG6ncnbh4eHh3eC1EerrJbsNbfPW12aceHh4eDd4myW4Xeg3UzY7woWHh4d3ltceS90cMM3j4M3GEM0fHh4e3pqXt/zbpHRWCm+2n6fvCnh4eHhHeRtYUuy2xXQST0RsPDw8vMu89uV/UyInW8js6NXTMAIPDw/vMu/Aolw2umbTUZTUeHh4eId47RBnE9F+pw0jhjA8PDy8Ba9duNuItm38t420N4U+Hh4e3gXejW0gefCpQ1d4eHh4n+Stau1yUZ5tDHn77fSrBB4eHt779/S8vdQ2otqDAm177Ok48fDw8C7w2gU3Ac+OarX3HLbB8PDw8Na85HazsDU/zrX51Zt74uHh4V3gtW/uCTIplPdhxGrHw8PDw1vz8nZXWwTPOnL59EWjwsPDw7vGa+OGWTm+2WDyJlyRf+Dh4eEtePlSPmO3JXgLq/c9PDw8vKO8evEdrcNJqZ0X/W9SFjw8PLxrvNkhqiT2PdVIa/8xeHh4ePd4ecGaPGBzz30bDA8PD+8e77u82hDhLL7elvDw8PAu8GZHmmaD3sQQs894eHh493inNoPNJpE8d9Zmw8PDw7vHmy3K+QbQRr2zAGKVteDh4eF9hJcAkoNT++NWTXCNh4eH9zO8WcKRFNObwhoPDw/vk7w2MphNRx5ebJpteHh4eLd5s7Na+7A1Dy9uH9XCw8PDi3l/AIiZ5CmwgPk4AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
